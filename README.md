@@ -1,5 +1,10 @@
-# Vue 3 + TypeScript + Vite
+<div align="center">
+<!-- LOGO -->
+<a href="https://github.com/RSoraM/mima-kit"><img src="./public/logo.svg" alt="logo" width="150"/></a>
+</div>
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# mima-live
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+mima-live is an online cryptography tool using [mima-kit](https://github.com/RSoraM/mima-kit). Deployed on GitHub Pages.
+
+Take a try -> [https://rsoram.github.io/mima-live/](https://rsoram.github.io/mima-live/)
