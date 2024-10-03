@@ -14,8 +14,6 @@ declare module 'vue' {
     KitMenu: typeof import('./src/components/KitMenu/KitMenu.vue')['default']
     KitMenuGroup: typeof import('./src/components/KitMenu/KitMenuGroup.vue')['default']
     KitMenuItem: typeof import('./src/components/KitMenu/KitMenuItem.vue')['default']
-    Md5: typeof import('./src/components/Hash/md5.vue')['default']
-    MD5: typeof import('./src/components/Hash/MD5.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheKitMenu: typeof import('./src/components/TheKitMenu.vue')['default']
