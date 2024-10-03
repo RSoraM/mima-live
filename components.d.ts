@@ -18,5 +18,6 @@ declare module 'vue' {
     MD5: typeof import('./src/components/Hash/MD5.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TheKitMenu: typeof import('./src/components/TheKitMenu.vue')['default']
   }
 }
