@@ -8,8 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     KitFormCodecSelect: typeof import('./src/components/KitForm/KitFormCodecSelect.vue')['default']
+    KitFormInput: typeof import('./src/components/KitForm/KitFormInput.vue')['default']
+    KitFormInputWithCodec: typeof import('./src/components/KitForm/KitFormInputWithCodec.vue')['default']
     KitFormModeSelect: typeof import('./src/components/KitForm/KitFormModeSelect.vue')['default']
     KitFormOutput: typeof import('./src/components/KitForm/KitFormOutput.vue')['default']
+    KitFormSelect: typeof import('./src/components/KitForm/KitFormSelect.vue')['default']
     KitFormTextArea: typeof import('./src/components/KitForm/KitFormTextArea.vue')['default']
     KitMenu: typeof import('./src/components/KitMenu/KitMenu.vue')['default']
     KitMenuGroup: typeof import('./src/components/KitMenu/KitMenuGroup.vue')['default']

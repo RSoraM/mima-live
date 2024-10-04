@@ -1,13 +1,16 @@
 <template>
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">{{ title || 'Codec' }}</span>
+      <span class="label-text">{{ title }}</span>
     </div>
-    <select v-model="codec" class="select select-bordered">
-      <option v-for="option in options" :key="option.name" :value="option.value">
-        {{ option.name }}
-      </option>
-    </select>
+    <div class="join">
+      <select v-model="codec" class="select select-bordered join-item">
+        <option v-for="option in options" :key="option.name" :value="option.value">
+          {{ option.name }}
+        </option>
+      </select>
+      <input type="text" v-model="text" class="input input-bordered join-item w-full" />
+    </div>
   </label>
 </template>
 
@@ -16,12 +19,13 @@ import type { Codec } from 'mima-kit';
 import { UTF8, HEX, B64, B64URL, CSV } from 'mima-kit'
 
 defineOptions({
-  name: 'KitFormCodecSelect'
+  name: 'KitFormInputWithCodec',
 })
 defineProps<{
   title?: string
 }>()
-const codec = defineModel()
+const text = defineModel<string>('text')
+const codec = defineModel<Codec>('codec')
 
 interface Option {
   name: string

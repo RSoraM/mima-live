@@ -9,11 +9,12 @@ const Hash = [
   { name: 'SHA-1', path: './pages/tools/Hash/SHA-1.vue' },
   { name: 'SHA-2', path: './pages/tools/Hash/SHA-2.vue' },
   { name: 'SHA-3', path: './pages/tools/Hash/SHA-3.vue' },
+  { name: 'SHAKE', path: './pages/tools/Hash/SHAKE.vue' },
   { name: 'cSHAKE', path: './pages/tools/Hash/cSHAKE.vue' },
   { name: 'TupleHash', path: './pages/tools/Hash/TupleHash.vue' },
   { name: 'ParallelHash', path: './pages/tools/Hash/ParallelHash.vue' },
   { name: 'KMAC', path: './pages/tools/Hash/KMAC.vue' },
-  { name: 'HMac', path: './pages/tools/Hash/HMac.vue' },
+  { name: 'HMAC', path: './pages/tools/Hash/HMAC.vue' },
 ]
 const BlockCipher = [
   { name: 'SM4', path: './pages/tools/BlockCipher/SM4.vue' },

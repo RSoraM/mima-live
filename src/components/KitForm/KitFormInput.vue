@@ -3,13 +3,13 @@
     <div class="label">
       <span class="label-text">{{ title }}</span>
     </div>
-    <textarea v-model="model" class="textarea textarea-bordered h-24"></textarea>
+    <input type="text" v-model="model" class="input input-bordered" />
   </label>
 </template>
 
 <script setup lang="ts">
 defineOptions({
-  name: 'KitFormTextArea',
+  name: 'KitFormInput',
 })
 defineProps<{
   title: string
