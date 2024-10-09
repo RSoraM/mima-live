@@ -31,7 +31,7 @@ const hex = ref('');
 const b64 = ref('');
 const b64url = ref('');
 
-const alg = computed(() => {
+const alg = computed(catchNotifySync(() => {
   let c: HMACScheme | undefined;
   switch (params.hash) {
     case 'MD5':
@@ -132,7 +132,7 @@ const alg = computed(() => {
       break;
   }
   return c ? hmac(c) : undefined;
-});
+}));
 
 watchEffect(() => {
   if (!alg.value)

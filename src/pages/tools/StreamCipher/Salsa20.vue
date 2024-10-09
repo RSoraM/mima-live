@@ -4,12 +4,12 @@ import { B64, B64URL, HEX, salsa20, UTF8 } from 'mima-kit';
 defineOptions({ name: 'Salsa20' });
 
 const params = reactive({
-  K: 'password',
-  K_CODE: UTF8,
-  IV: '',
-  IV_CODE: UTF8,
-  codec: UTF8,
-  input: '',
+  K: '8000000000000000000000000000000000000000000000000000000000000000',
+  K_CODE: HEX,
+  IV: '0000000000000000',
+  IV_CODE: HEX,
+  codec: HEX,
+  input: '0000000000000000000000000000000000000000000000000000000000000000',
 });
 const utf8 = ref('');
 const hex = ref('');
@@ -21,7 +21,7 @@ function createCipher() {
   return salsa20(K_CODE.parse(K), params.IV_CODE.parse(params.IV));
 }
 
-function encrypt() {
+const encrypt = catchNotify(() => {
   const { codec, input } = params;
   const cipher = createCipher();
   const res = cipher._encrypt(codec.parse(input));
@@ -29,8 +29,8 @@ function encrypt() {
   hex.value = HEX.stringify(res);
   b64.value = B64.stringify(res);
   b64url.value = B64URL.stringify(res);
-}
-function decrypt() {
+});
+const decrypt = catchNotify(() => {
   const { codec, input } = params;
   const cipher = createCipher();
   const res = cipher._decrypt(codec.parse(input));
@@ -38,7 +38,7 @@ function decrypt() {
   hex.value = HEX.stringify(res);
   b64.value = B64.stringify(res);
   b64url.value = B64URL.stringify(res);
-}
+});
 </script>
 
 <template>

@@ -4,6 +4,7 @@ import App from './App.vue';
 import './style.css';
 
 const routes = [
+  { path: '/:pathMatch(.*)*', name: 'NotFound', redirect: '/' },
   {
     path: '/',
     component: () => import('./pages/index.vue'),

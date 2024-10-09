@@ -6,10 +6,10 @@ defineOptions({ name: 'Rabbit' });
 const params = reactive({
   K: '00000000000000000000000000000000',
   K_CODE: HEX,
-  IV: '',
+  IV: '0000000000000000',
   IV_CODE: HEX,
-  codec: UTF8,
-  input: '',
+  codec: HEX,
+  input: '0000000000000000000000000000000000000000000000000000000000000000',
 });
 const utf8 = ref('');
 const hex = ref('');
@@ -21,7 +21,7 @@ function createCipher() {
   return rabbit(K_CODE.parse(K), IV_CODE.parse(IV));
 }
 
-function encrypt() {
+const encrypt = catchNotify(() => {
   const { codec, input } = params;
   const cipher = createCipher();
   const res = cipher._encrypt(codec.parse(input));
@@ -29,8 +29,8 @@ function encrypt() {
   hex.value = HEX.stringify(res);
   b64.value = B64.stringify(res);
   b64url.value = B64URL.stringify(res);
-}
-function decrypt() {
+});
+const decrypt = catchNotify(() => {
   const { codec, input } = params;
   const cipher = createCipher();
   const res = cipher._decrypt(codec.parse(input));
@@ -38,7 +38,7 @@ function decrypt() {
   hex.value = HEX.stringify(res);
   b64.value = B64.stringify(res);
   b64url.value = B64URL.stringify(res);
-}
+});
 </script>
 
 <template>
@@ -97,10 +97,19 @@ function decrypt() {
 
       <div class="stat">
         <div class="stat-title">
-          Structure
+          Key Size
         </div>
         <div class="stat-value">
-          ARX
+          16 bytes
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-title">
+          IV Size
+        </div>
+        <div class="stat-value">
+          0 or 8 bytes
         </div>
       </div>
     </div>

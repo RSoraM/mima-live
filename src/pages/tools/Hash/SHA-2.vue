@@ -21,7 +21,7 @@ const hex = ref('');
 const b64 = ref('');
 const b64url = ref('');
 
-const alg = computed(() => {
+const alg = computed(catchNotifySync(() => {
   switch (params.variants) {
     case 'SHA-224':
       return sha224;
@@ -36,7 +36,7 @@ const alg = computed(() => {
     default:
       return undefined;
   }
-});
+}));
 
 watchEffect(() => {
   if (!alg.value)

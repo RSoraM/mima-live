@@ -19,7 +19,7 @@ function createCipher() {
   return arc4(K_CODE.parse(K));
 }
 
-function encrypt() {
+const encrypt = catchNotify(() => {
   const { codec, input } = params;
   const cipher = createCipher();
   const res = cipher._encrypt(codec.parse(input));
@@ -27,8 +27,8 @@ function encrypt() {
   hex.value = HEX.stringify(res);
   b64.value = B64.stringify(res);
   b64url.value = B64URL.stringify(res);
-}
-function decrypt() {
+});
+const decrypt = catchNotify(() => {
   const { codec, input } = params;
   const cipher = createCipher();
   const res = cipher._decrypt(codec.parse(input));
@@ -36,7 +36,7 @@ function decrypt() {
   hex.value = HEX.stringify(res);
   b64.value = B64.stringify(res);
   b64url.value = B64URL.stringify(res);
-}
+});
 </script>
 
 <template>

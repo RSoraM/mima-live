@@ -1,5 +1,6 @@
 import { resolve } from 'node:path';
 import vue from '@vitejs/plugin-vue';
+import vueJSX from '@vitejs/plugin-vue-jsx';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
@@ -14,10 +15,18 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vueJSX(),
     AutoImport({
+      // targets to transform
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/,
+        /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],
       imports: ['vue', '@vueuse/core', 'vue-router'],
       dirs: [
-        './composables/**',
+        './src/composables/**',
       ],
       vueTemplate: true,
     }),
