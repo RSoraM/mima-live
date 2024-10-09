@@ -1,27 +1,31 @@
+<script setup lang="ts">
+const theKitMenu = ref<HTMLDialogElement>();
+onBeforeRouteUpdate(() => {
+  theKitMenu.value?.close();
+});
+</script>
+
 <template>
-  <div class="w-dvw h-dvh flex">
-    <div class="hidden md:flex flex-col min-w-56 overflow-y-auto bg-base-200">
+  <div class="flex h-dvh w-dvw">
+    <div class="hidden min-w-56 flex-col overflow-y-auto bg-base-200 md:flex">
       <TheKitMenu />
     </div>
-    <div class="flex flex-col h-dvh overflow-y-scroll w-full">
+    <div class="flex h-dvh w-full flex-col overflow-y-scroll">
       <!-- Open the modal using ID.showModal() method -->
-      <button class="md:hidden btn btn-lg btn-primary mx-8 my-8" onclick="theKitMenu.showModal()">Menu</button>
+      <button class="btn btn-primary btn-lg m-8 md:hidden" onclick="theKitMenu.showModal()">
+        Menu
+      </button>
       <dialog id="theKitMenu" ref="theKitMenu" class="modal">
         <div class="modal-box h-full">
           <form method="dialog" class="flex items-center">
-            <button class="btn mx-auto">Close</button>
+            <button class="btn mx-auto">
+              Close
+            </button>
           </form>
           <TheKitMenu />
         </div>
       </dialog>
-      <RouterView class="flex flex-col max-w-md w-full mx-auto p-4"></RouterView>
+      <RouterView class="mx-auto flex w-full max-w-md flex-col p-4" />
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const theKitMenu = ref<HTMLDialogElement>()
-onBeforeRouteUpdate(() => {
-  theKitMenu.value?.close()
-})
-</script>

@@ -1,45 +1,12 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './style.css'
-import { createWebHistory, createRouter, } from 'vue-router'
-
-const Hash = [
-  { name: 'SM3', path: './pages/tools/Hash/SM3.vue' },
-  { name: 'MD5', path: './pages/tools/Hash/MD5.vue' },
-  { name: 'SHA-1', path: './pages/tools/Hash/SHA-1.vue' },
-  { name: 'SHA-2', path: './pages/tools/Hash/SHA-2.vue' },
-  { name: 'SHA-3', path: './pages/tools/Hash/SHA-3.vue' },
-  { name: 'SHAKE', path: './pages/tools/Hash/SHAKE.vue' },
-  { name: 'cSHAKE', path: './pages/tools/Hash/cSHAKE.vue' },
-  { name: 'TupleHash', path: './pages/tools/Hash/TupleHash.vue' },
-  { name: 'ParallelHash', path: './pages/tools/Hash/ParallelHash.vue' },
-  { name: 'KMAC', path: './pages/tools/Hash/KMAC.vue' },
-  { name: 'HMAC', path: './pages/tools/Hash/HMAC.vue' },
-]
-const BlockCipher = [
-  { name: 'SM4', path: './pages/tools/BlockCipher/SM4.vue' },
-  { name: 'AES', path: './pages/tools/BlockCipher/AES.vue' },
-  { name: 'ARIA', path: './pages/tools/BlockCipher/ARIA.vue' },
-  { name: 'Camellia', path: './pages/tools/BlockCipher/Camellia.vue' },
-  { name: 'DES', path: './pages/tools/BlockCipher/DES.vue' },
-  { name: '3DES', path: './pages/tools/BlockCipher/3DES.vue' },
-  { name: 'ARC5', path: './pages/tools/BlockCipher/ARC5.vue' },
-  { name: 'Blowfish', path: './pages/tools/BlockCipher/Blowfish.vue' },
-  { name: 'Twofish', path: './pages/tools/BlockCipher/Twofish.vue' },
-  { name: 'TEA', path: './pages/tools/BlockCipher/TEA.vue' },
-  { name: 'XTEA', path: './pages/tools/BlockCipher/XTEA.vue' },
-]
-const StreamCipher = [
-  { name: 'ZUC', path: './pages/tools/StreamCipher/ZUC.vue' },
-  { name: 'ARC4', path: './pages/tools/StreamCipher/ARC4.vue' },
-  { name: 'Salsa20', path: './pages/tools/StreamCipher/Salsa20.vue' },
-  { name: 'Rabbit', path: './pages/tools/StreamCipher/Rabbit.vue' },
-]
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import App from './App.vue';
+import './style.css';
 
 const routes = [
   {
     path: '/',
-    component: () => import('./pages/index.vue')
+    component: () => import('./pages/index.vue'),
   },
   {
     path: '/tools',
@@ -47,24 +14,53 @@ const routes = [
     children: [
       {
         path: 'Hash',
-        children: Hash.map(({ name, path }) => ({ path: name, component: () => import(path) })),
+        children: [
+          { name: 'SM3', path: 'SM3', component: () => import('./pages/tools/Hash/SM3.vue') },
+          { name: 'MD5', path: 'MD5', component: () => import('./pages/tools/Hash/MD5.vue') },
+          { name: 'SHA-1', path: 'SHA-1', component: () => import('./pages/tools/Hash/SHA-1.vue') },
+          { name: 'SHA-2', path: 'SHA-2', component: () => import('./pages/tools/Hash/SHA-2.vue') },
+          { name: 'SHA-3', path: 'SHA-3', component: () => import('./pages/tools/Hash/SHA-3.vue') },
+          { name: 'SHAKE', path: 'SHAKE', component: () => import('./pages/tools/Hash/SHAKE.vue') },
+          { name: 'cSHAKE', path: 'cSHAKE', component: () => import('./pages/tools/Hash/cSHAKE.vue') },
+          { name: 'TupleHash', path: 'TupleHash', component: () => import('./pages/tools/Hash/TupleHash.vue') },
+          { name: 'ParallelHash', path: 'ParallelHash', component: () => import('./pages/tools/Hash/ParallelHash.vue') },
+          { name: 'KMAC', path: 'KMAC', component: () => import('./pages/tools/Hash/KMAC.vue') },
+          { name: 'HMAC', path: 'HMAC', component: () => import('./pages/tools/Hash/HMAC.vue') },
+        ],
       },
       {
         path: 'BlockCipher',
-        children: BlockCipher.map(({ name, path }) => ({ path: name, component: () => import(path) })),
+        children: [
+          { name: 'SM4', path: 'SM4', component: () => import('./pages/tools/BlockCipher/SM4.vue') },
+          { name: 'AES', path: 'AES', component: () => import('./pages/tools/BlockCipher/AES.vue') },
+          { name: 'ARIA', path: 'ARIA', component: () => import('./pages/tools/BlockCipher/ARIA.vue') },
+          { name: 'Camellia', path: 'Camellia', component: () => import('./pages/tools/BlockCipher/Camellia.vue') },
+          { name: 'DES', path: 'DES', component: () => import('./pages/tools/BlockCipher/DES.vue') },
+          { name: '3DES', path: '3DES', component: () => import('./pages/tools/BlockCipher/3DES.vue') },
+          { name: 'ARC5', path: 'ARC5', component: () => import('./pages/tools/BlockCipher/ARC5.vue') },
+          { name: 'Blowfish', path: 'Blowfish', component: () => import('./pages/tools/BlockCipher/Blowfish.vue') },
+          { name: 'Twofish', path: 'Twofish', component: () => import('./pages/tools/BlockCipher/Twofish.vue') },
+          { name: 'TEA', path: 'TEA', component: () => import('./pages/tools/BlockCipher/TEA.vue') },
+          { name: 'XTEA', path: 'XTEA', component: () => import('./pages/tools/BlockCipher/XTEA.vue') },
+        ],
       },
       {
         path: 'StreamCipher',
-        children: StreamCipher.map(({ name, path }) => ({ path: name, component: () => import(path) })),
+        children: [
+          { name: 'ZUC', path: 'ZUC', component: () => import('./pages/tools/StreamCipher/ZUC.vue') },
+          { name: 'ARC4', path: 'ARC4', component: () => import('./pages/tools/StreamCipher/ARC4.vue') },
+          { name: 'Salsa20', path: 'Salsa20', component: () => import('./pages/tools/StreamCipher/Salsa20.vue') },
+          { name: 'Rabbit', path: 'Rabbit', component: () => import('./pages/tools/StreamCipher/Rabbit.vue') },
+        ],
       },
-    ]
+    ],
   },
-]
+];
 const router = createRouter({
   history: createWebHistory('/mima-live'),
   routes,
-})
+});
 
 createApp(App)
   .use(router)
-  .mount('#app')
+  .mount('#app');

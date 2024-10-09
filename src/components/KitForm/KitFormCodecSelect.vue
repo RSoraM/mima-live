@@ -1,52 +1,20 @@
-<template>
-  <label class="form-control w-full">
-    <div class="label">
-      <span class="label-text">{{ title || 'Codec' }}</span>
-    </div>
-    <select v-model="codec" class="select select-bordered">
-      <option v-for="option in options" :key="option.name" :value="option.value">
-        {{ option.name }}
-      </option>
-    </select>
-  </label>
-</template>
-
 <script setup lang="ts">
 import type { Codec } from 'mima-kit';
-import { UTF8, HEX, B64, B64URL, CSV } from 'mima-kit'
+import { B64, B64URL, CSV, HEX, UTF8 } from 'mima-kit';
 
-defineOptions({
-  name: 'KitFormCodecSelect'
-})
-defineProps<{
-  title?: string
-}>()
-const codec = defineModel()
+defineOptions({ name: 'KitFormCodecSelect' });
+defineProps<{ title?: string }>();
+const codec = defineModel();
 
-interface Option {
-  name: string
-  value: Codec
-}
-const options: Option[] = [
-  {
-    name: 'UTF-8',
-    value: UTF8,
-  },
-  {
-    name: 'HEX',
-    value: HEX,
-  },
-  {
-    name: 'Base64',
-    value: B64,
-  },
-  {
-    name: 'Base64URL',
-    value: B64URL,
-  },
-  {
-    name: 'Core Values',
-    value: CSV,
-  }
-]
+const options: SelectOption<Codec>[] = [
+  { label: 'UTF-8', value: UTF8 },
+  { label: 'HEX', value: HEX },
+  { label: 'Base64', value: B64 },
+  { label: 'Base64URL', value: B64URL },
+  { label: 'Core Values', value: CSV },
+];
 </script>
+
+<template>
+  <KitFormSelect v-model="codec" :options="options" :title="title || 'Codec'" />
+</template>
