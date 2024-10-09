@@ -17,17 +17,5 @@ const options: SelectOption[] = [
 </script>
 
 <template>
-  <label class="form-control w-full">
-    <div class="label">
-      <span class="label-text">{{ title || 'Mode' }}</span>
-    </div>
-    <select v-model="mode" class="select select-bordered">
-      <option
-        v-for="option in options" :key="option.label"
-        :value="option.value"
-      >
-        {{ option.label }}
-      </option>
-    </select>
-  </label>
+  <KitFormSelect v-model="mode" :options="options" :title="title || 'Mode'" />
 </template>

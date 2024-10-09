@@ -72,7 +72,7 @@ function decrypt() {
     <div class="stats stats-vertical my-6 shadow">
       <div class="stat">
         <div class="stat-title">
-          Specification
+          Designer
         </div>
         <div class="stat-value">
           Ronald Linn Rivest
@@ -90,19 +90,10 @@ function decrypt() {
 
       <div class="stat">
         <div class="stat-title">
-          Structure
+          Key Size
         </div>
         <div class="stat-value">
-          SBox
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-title">
-          Round
-        </div>
-        <div class="stat-value">
-          1
+          5-256 bytes
         </div>
       </div>
     </div>

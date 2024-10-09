@@ -12,7 +12,7 @@ const model = defineModel();
     <div class="label">
       <span class="label-text">{{ title }}</span>
     </div>
-    <select v-model="model" class="select select-bordered">
+    <select v-model="model" class="select select-bordered text-xs">
       <option
         v-for="option in options" :key="option.label"
         :value="option.value"

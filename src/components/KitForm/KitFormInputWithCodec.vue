@@ -22,7 +22,7 @@ const options: SelectOption<Codec>[] = [
       <span class="label-text">{{ title }}</span>
     </div>
     <div class="join">
-      <select v-model="codec" class="join-item select select-bordered">
+      <select v-model="codec" class="join-item select select-bordered text-xs">
         <option
           v-for="option in options" :key="option.label"
           :value="option.value"
@@ -30,7 +30,7 @@ const options: SelectOption<Codec>[] = [
           {{ option.label }}
         </option>
       </select>
-      <input v-model="text" type="text" class="input join-item input-bordered w-full">
+      <input v-model="text" type="text" class="input join-item input-bordered w-full text-xs">
     </div>
   </label>
 </template>

@@ -78,7 +78,11 @@ function decrypt() {
           Specification
         </div>
         <div class="stat-value">
-          RFC 4503
+          <KitRefLink
+            :texts="['RFC 4503']"
+            icon="icon-[carbon--txt-reference]"
+            href="https://www.rfc-editor.org/rfc/rfc4503.txt"
+          />
         </div>
       </div>
 

@@ -9,6 +9,6 @@ const output = defineModel();
     <div class="label">
       <span class="label-text">{{ title }}</span>
     </div>
-    <input v-model="output" type="text" class="input w-full" disabled>
+    <input v-model="output" type="text" class="input w-full text-xs" disabled>
   </label>
 </template>

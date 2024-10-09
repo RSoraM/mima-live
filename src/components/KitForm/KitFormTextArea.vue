@@ -9,6 +9,6 @@ const model = defineModel<string>();
     <div class="label">
       <span class="label-text">{{ title }}</span>
     </div>
-    <textarea v-model="model" class="textarea textarea-bordered h-24" />
+    <textarea v-model="model" class="textarea textarea-bordered h-24 text-xs" />
   </label>
 </template>

@@ -92,7 +92,21 @@ function cipher() {
           Specification
         </div>
         <div class="stat-value">
-          RFC 4503
+          <KitRefLink
+            :texts="['GB/T', '33133.1-2016']"
+            icon="icon-[carbon--html-reference]"
+            href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C41A3AEECCA52B5C0011C8010CF0715"
+          />
+          <KitRefLink
+            :texts="['33133.2-2016']"
+            icon="icon-[carbon--html-reference]"
+            href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=5D3CBA3ADEC7989344BD1E63006EF2B3"
+          />
+          <KitRefLink
+            :texts="['33133.3-2016']"
+            icon="icon-[carbon--html-reference]"
+            href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=C6D60AE0A7578E970EF2280ABD49F4F0"
+          />
         </div>
       </div>
 
@@ -107,10 +121,10 @@ function cipher() {
 
       <div class="stat">
         <div class="stat-title">
-          Structure
+          Key Size
         </div>
         <div class="stat-value">
-          ARX
+          16 bytes
         </div>
       </div>
     </div>

@@ -78,7 +78,11 @@ function decrypt() {
           Specification
         </div>
         <div class="stat-value">
-          Daniel Julius Bernstein
+          <KitRefLink
+            :texts="['Salsa20']"
+            icon="icon-[carbon--pdf-reference]"
+            href="https://cr.yp.to/snuffle/spec.pdf"
+          />
         </div>
       </div>
 
@@ -93,19 +97,19 @@ function decrypt() {
 
       <div class="stat">
         <div class="stat-title">
-          Structure
+          Key Size
         </div>
         <div class="stat-value">
-          ARX
+          16 or 32 bytes
         </div>
       </div>
 
       <div class="stat">
         <div class="stat-title">
-          Round
+          IV Size
         </div>
         <div class="stat-value">
-          20
+          8 bytes
         </div>
       </div>
     </div>

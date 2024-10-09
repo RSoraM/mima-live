@@ -22,7 +22,7 @@ function del(index: number) {
     </div>
     <div class="flex flex-col gap-2">
       <div v-for="(m, i) in model" :key="i" class="join">
-        <input v-model="m.value" type="text" class="input join-item input-bordered w-full">
+        <input v-model="m.value" type="text" class="input join-item input-bordered w-full text-xs">
         <button class="btn join-item" @click="del(i)">Delete</button>
       </div>
       <button class="btn btn-primary" @click="add">ADD</button>

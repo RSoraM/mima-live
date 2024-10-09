@@ -9,6 +9,6 @@ const model = defineModel<string | number>();
     <div class="label">
       <span class="label-text">{{ title }}</span>
     </div>
-    <input v-model="model" :type="type" class="input input-bordered">
+    <input v-model="model" :type="type" class="input input-bordered text-xs">
   </label>
 </template>
