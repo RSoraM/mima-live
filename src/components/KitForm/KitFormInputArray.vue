@@ -17,14 +17,14 @@ function del(index: number) {
 
 <template>
   <KitFormControl :title="title">
-    <div class="flex flex-col gap-2">
-      <div v-for="(m, i) in model" :key="i" class="join">
+    <div class="join join-vertical flex flex-col">
+      <div v-for="(m, i) in model" :key="i" class="join join-item join-horizontal">
         <input v-model="m.value" type="text" class="input join-item input-bordered w-full text-xs">
-        <button class="btn join-item" @click="del(i)">
+        <button class="btn btn-outline join-item" @click="del(i)">
           Delete
         </button>
       </div>
-      <button class="btn btn-primary" @click="add">
+      <button class="btn btn-outline join-item" @click="add">
         ADD
       </button>
     </div>

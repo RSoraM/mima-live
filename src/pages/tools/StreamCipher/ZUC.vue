@@ -57,7 +57,7 @@ const cipher = catchNotify(() => {
     </div>
     <KitFormInputWithCodec v-model:text="counter" v-model:codec="counter_codec" title="Counter" />
     <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
-    <KitFormInput v-model="i_length" type="number" title="Input length" />
+    <KitFormInput v-model="i_length" type="number" title="Input Length (bits)" />
     <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
     <div class="divider my-8">
       <button
@@ -74,7 +74,7 @@ const cipher = catchNotify(() => {
       <span class="icon-[carbon--warning-alt-filled] size-6" />
       <span class="text-sm">
         In the original specification,
-        the <b>Input length</b> is calculated using the <b>sizeof</b> operator in C.
+        the <b>Input Length</b> is calculated using the <b>sizeof</b> operator in C.
         However, in JavaScript, there is no equivalent operation to <b>sizeof</b>,
         so it needs to be specified manually.
       </span>

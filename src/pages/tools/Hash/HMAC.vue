@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { HMACScheme } from 'mima-kit';
-import { B64, B64URL, HEX, hmac, md5, sha1, sha3_224, sha3_256, sha3_384, sha3_512, sha224, sha256, sha384, sha512, sha512t, sm3, UTF8 } from 'mima-kit';
+import { HEX, hmac, md5, sha1, sha3_224, sha3_256, sha3_384, sha3_512, sha224, sha256, sha384, sha512, sha512t, shake128, shake256, sm3, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'HMAC' });
 
+const t = ref(256);
+const hash = ref('SM3');
 const hashOptions: SelectOption[] = [
   { label: 'SM3', value: 'SM3' },
   { label: 'MD5', value: 'MD5' },
@@ -17,192 +19,172 @@ const hashOptions: SelectOption[] = [
   { label: 'SHA3-256', value: 'SHA3-256' },
   { label: 'SHA3-384', value: 'SHA3-384' },
   { label: 'SHA3-512', value: 'SHA3-512' },
+  { label: 'SHAKE-128', value: 'SHAKE-128' },
+  { label: 'SHAKE-256', value: 'SHAKE-256' },
 ];
+const t_able = ['SHA-512/t', 'SHAKE-128', 'SHAKE-256'];
 
-const params = reactive({
-  hash: 'SM3',
-  t: '256',
-  K: '',
-  KCodec: UTF8,
-  codec: UTF8,
-  input: '',
-});
-const hex = ref('');
-const b64 = ref('');
-const b64url = ref('');
+const k = ref('');
+const k_codec = ref(UTF8);
 
 const alg = computed(catchNotifySync(() => {
   let c: HMACScheme | undefined;
-  switch (params.hash) {
+  switch (hash.value) {
     case 'MD5':
       c = {
         hash: md5,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA-1':
       c = {
         hash: sha1,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA-224':
       c = {
         hash: sha224,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA-256':
       c = {
         hash: sha256,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA-384':
       c = {
         hash: sha384,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA-512':
       c = {
         hash: sha512,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA-512/t':
       c = {
-        hash: sha512t(Number(params.t)),
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        hash: sha512t(t.value),
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA3-224':
       c = {
         hash: sha3_224,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA3-256':
       c = {
         hash: sha3_256,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA3-384':
       c = {
         hash: sha3_384,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SHA3-512':
       c = {
         hash: sha3_512,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
+      };
+      break;
+    case 'SHAKE-128':
+      c = {
+        hash: shake128(t.value),
+        key: k.value,
+        KEY_CODEC: k_codec.value,
+      };
+      break;
+    case 'SHAKE-256':
+      c = {
+        hash: shake256(t.value),
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
     case 'SM3':
       c = {
         hash: sm3,
-        key: params.K,
-        KEY_CODEC: params.KCodec,
-        INPUT_CODEC: params.codec,
+        key: k.value,
+        KEY_CODEC: k_codec.value,
       };
       break;
   }
   return c ? hmac(c) : undefined;
 }));
 
+const i = ref('mima-kit');
+const i_codec = ref(UTF8);
+const o = ref('');
+const o_codec = ref(HEX);
+
 watchEffect(() => {
   if (!alg.value)
     return;
-  const res = alg.value.digest(params.codec.parse(params.input));
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
+  const I = i_codec.value.parse(i.value);
+  const res = alg.value.digest(I);
+  o.value = o_codec.value.stringify(res);
 });
 </script>
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-4xl font-bold">
+    <h1 class="mx-auto text-4xl font-bold md:my-8">
       HMAC
     </h1>
     <div class="flex gap-2">
-      <KitFormSelect v-model="params.hash" title="Hash" :options="hashOptions" />
-      <KitFormInput v-show="params.hash === 'SHA-512/t'" v-model="params.t" title="output bits" />
+      <KitFormControl title="Hash">
+        <KitBaseFormSelect v-model="hash" :options="hashOptions" />
+      </KitFormControl>
+      <KitFormInput
+        v-show="t_able.includes(hash)"
+        v-model="t" type="number"
+        title="output (bits)"
+      />
     </div>
-    <KitFormInputWithCodec v-model:text="params.K" v-model:codec="params.KCodec" title="key" />
-    <KitFormCodecSelect v-model="params.codec" title="Input Codec" />
-    <KitFormTextArea v-model="params.input" title="Input" />
-    <div class="divider">
-      OUTPUT
-    </div>
-    <KitFormOutput v-model="hex" title="Hex" />
-    <KitFormOutput v-model="b64" title="Base64" />
-    <KitFormOutput v-model="b64url" title="Base64URL" />
+    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
+    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
+    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
 
     <div class="stats stats-vertical my-6 shadow">
-      <div class="stat">
-        <div class="stat-title">
-          Specification
-        </div>
-        <div class="stat-value">
-          <KitRefLink
-            :texts="['RFC 2104']"
-            icon="icon-[carbon--txt-reference]"
-            href="https://www.rfc-editor.org/rfc/rfc2104.txt"
-          />
-        </div>
-      </div>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['RFC 2104']"
+          icon="icon-[carbon--txt-reference]"
+          href="https://www.rfc-editor.org/rfc/rfc2104.txt"
+        />
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          First published
-        </div>
-        <div class="stat-value">
-          1996
-        </div>
-      </div>
+      <KitStat title="First published">
+        1996
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Digest Size
-        </div>
-        <div class="stat-value">
-          {{ alg?.DIGEST_SIZE }}-byte
-        </div>
-      </div>
+      <KitStat title="Digest Size (bytes)">
+        {{ alg?.DIGEST_SIZE }}
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Block Size
-        </div>
-        <div class="stat-value">
-          {{ alg?.BLOCK_SIZE }}-byte
-        </div>
-      </div>
+      <KitStat title="Block Size (bytes)">
+        {{ alg?.BLOCK_SIZE }}
+      </KitStat>
     </div>
   </div>
 </template>

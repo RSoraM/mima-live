@@ -1,97 +1,56 @@
 <script setup lang="ts">
-import { B64, B64URL, HEX, md5, UTF8 } from 'mima-kit';
+import { HEX, md5, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'MD5' });
 
-const params = reactive({
-  codec: UTF8,
-  input: '',
-});
-const hex = ref('');
-const b64 = ref('');
-const b64url = ref('');
+const i = ref('mima-kit');
+const i_codec = ref(UTF8);
+const o = ref('');
+const o_codec = ref(HEX);
 
 watchEffect(() => {
-  const { codec, input } = params;
-  const res = md5.digest(codec.parse(input));
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
+  const I = i_codec.value.parse(i.value);
+  const res = md5.digest(I);
+  o.value = o_codec.value.stringify(res);
 });
 </script>
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-4xl font-bold">
+    <h1 class="mx-auto text-4xl font-bold md:my-8">
       MD5
     </h1>
-    <KitFormCodecSelect v-model="params.codec" title="Input Codec" />
-    <KitFormTextArea v-model="params.input" title="Input" />
-    <div class="divider">
-      OUTPUT
-    </div>
-    <KitFormOutput v-model="hex" title="Hex" />
-    <KitFormOutput v-model="b64" title="Base64" />
-    <KitFormOutput v-model="b64url" title="Base64URL" />
+    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
+    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
 
     <div class="stats stats-vertical my-6 shadow">
-      <div class="stat">
-        <div class="stat-title">
-          Specification
-        </div>
-        <div class="stat-value">
-          <KitRefLink
-            :texts="['RFC 1321']"
-            icon="icon-[carbon--txt-reference]"
-            href="https://www.rfc-editor.org/rfc/rfc1321.txt"
-          />
-        </div>
-      </div>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['RFC 1321']"
+          icon="icon-[carbon--txt-reference]"
+          href="https://www.rfc-editor.org/rfc/rfc1321.txt"
+        />
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          First published
-        </div>
-        <div class="stat-value">
-          1992
-        </div>
-      </div>
+      <KitStat title="First published">
+        1992
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Digest Size
-        </div>
-        <div class="stat-value">
-          {{ md5.DIGEST_SIZE }}-byte
-        </div>
-      </div>
+      <KitStat title="Digest Size (bytes)">
+        {{ md5.DIGEST_SIZE }}
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Block Size
-        </div>
-        <div class="stat-value">
-          {{ md5.BLOCK_SIZE }}-byte
-        </div>
-      </div>
+      <KitStat title="Block Size (bytes)">
+        {{ md5.BLOCK_SIZE }}
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Structure
-        </div>
-        <div class="stat-value">
-          Merkle-Damgård
-        </div>
-      </div>
+      <KitStat title="Structure">
+        Merkle-Damgård
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Round
-        </div>
-        <div class="stat-value">
-          4
-        </div>
-      </div>
+      <KitStat title="Round">
+        4
+      </KitStat>
     </div>
   </div>
 </template>
