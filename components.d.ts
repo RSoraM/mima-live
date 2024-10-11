@@ -7,12 +7,15 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    KitFormCipherOutput: typeof import('./src/components/KitForm/KitFormCipherOutput.vue')['default']
     KitFormCodecSelect: typeof import('./src/components/KitForm/KitFormCodecSelect.vue')['default']
+    KitFormECBConfig: typeof import('./src/components/KitForm/KitFormECBConfig.vue')['default']
     KitFormInput: typeof import('./src/components/KitForm/KitFormInput.vue')['default']
     KitFormInputArray: typeof import('./src/components/KitForm/KitFormInputArray.vue')['default']
     KitFormInputWithCodec: typeof import('./src/components/KitForm/KitFormInputWithCodec.vue')['default']
     KitFormModeSelect: typeof import('./src/components/KitForm/KitFormModeSelect.vue')['default']
     KitFormOutput: typeof import('./src/components/KitForm/KitFormOutput.vue')['default']
+    KitFormPaddingSelect: typeof import('./src/components/KitForm/KitFormPaddingSelect.vue')['default']
     KitFormSelect: typeof import('./src/components/KitForm/KitFormSelect.vue')['default']
     KitFormTextArea: typeof import('./src/components/KitForm/KitFormTextArea.vue')['default']
     KitLink: typeof import('./src/components/KitLink.vue')['default']

@@ -69,31 +69,11 @@ const cipher = catchNotify(() => {
         Cipher
       </button>
     </div>
-    <div class="divider">
-      UTF-8
-    </div>
-    <KitFormOutput v-model="utf8_cipher" title="Cipher" />
-    <KitFormOutput v-model="utf8_mac" title="MAC" />
-    <div class="divider">
-      HEX
-    </div>
-    <KitFormOutput v-model="hex_cipher" title="Cipher" />
-    <KitFormOutput v-model="hex_mac" title="MAC" />
-    <div class="divider">
-      Base64
-    </div>
-    <KitFormOutput v-model="b64_cipher" title="Cipher" />
-    <KitFormOutput v-model="b64_mac" title="MAC" />
-    <div class="divider">
-      Base64 URL
-    </div>
-    <KitFormOutput v-model="b64url_cipher" title="Cipher" />
-    <KitFormOutput v-model="b64url_mac" title="MAC" />
-    <div class="divider">
-      Core Socialist Values
-    </div>
-    <KitFormOutput v-model="csv_cipher" title="Cipher" />
-    <KitFormOutput v-model="csv_mac" title="MAC" />
+    <KitFormCipherOutput v-model:cipher="utf8_cipher" v-model:mac="utf8_mac" title="UTF8" />
+    <KitFormCipherOutput v-model:cipher="hex_cipher" v-model:mac="hex_mac" title="HEX" />
+    <KitFormCipherOutput v-model:cipher="b64_cipher" v-model:mac="b64_mac" title="Base64" />
+    <KitFormCipherOutput v-model:cipher="b64url_cipher" v-model:mac="b64url_mac" title="Base64URL" />
+    <KitFormCipherOutput v-model:cipher="csv_cipher" v-model:mac="csv_mac" title="Core Socialist Values" />
 
     <div class="stats stats-vertical my-6 shadow">
       <div class="stat">

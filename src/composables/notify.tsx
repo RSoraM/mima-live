@@ -73,9 +73,8 @@ export function $notify(options: Partial<NotifyOptions>) {
   setTimeout(handleClick, options.duration);
 }
 
-// eslint-disable-next-line ts/no-unsafe-function-type
-export function catchNotify(func: Function) {
-  return async (...args: any[]) => {
+export function catchNotify<T extends (...args: any[]) => any>(func: T) {
+  return async (...args: Parameters<T>): Promise<ReturnType<T>> => {
     try {
       return await func(...args);
     }
@@ -91,9 +90,8 @@ export function catchNotify(func: Function) {
   };
 }
 
-// eslint-disable-next-line ts/no-unsafe-function-type
-export function catchNotifySync(func: Function) {
-  return (...args: any[]) => {
+export function catchNotifySync<T extends (...args: any[]) => any>(func: T) {
+  return (...args: Parameters<T>): ReturnType<T> => {
     try {
       return func(...args);
     }

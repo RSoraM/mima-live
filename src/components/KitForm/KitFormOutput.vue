@@ -6,7 +6,7 @@ const output = defineModel();
 
 <template>
   <label class="form-control w-full">
-    <div class="label">
+    <div v-show="title" class="label">
       <span class="label-text">{{ title }}</span>
     </div>
     <input v-model="output" type="text" class="input w-full text-xs" disabled>

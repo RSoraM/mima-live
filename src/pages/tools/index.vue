@@ -6,7 +6,7 @@ onBeforeRouteUpdate(() => {
 </script>
 
 <template>
-  <div class="flex h-dvh w-dvw">
+  <div class="flex h-dvh w-dvw font-mono">
     <div class="hidden min-w-56 flex-col overflow-y-auto bg-base-200 md:flex">
       <TheKitMenu />
     </div>
