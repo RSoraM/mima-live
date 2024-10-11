@@ -1,117 +1,81 @@
 <script setup lang="ts">
-import { B64, B64URL, HEX, salsa20, UTF8 } from 'mima-kit';
+import { HEX, salsa20, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'Salsa20' });
 
-const params = reactive({
-  K: '8000000000000000000000000000000000000000000000000000000000000000',
-  K_CODE: HEX,
-  IV: '0000000000000000',
-  IV_CODE: HEX,
-  codec: HEX,
-  input: '0000000000000000000000000000000000000000000000000000000000000000',
-});
-const utf8 = ref('');
-const hex = ref('');
-const b64 = ref('');
-const b64url = ref('');
+const k = ref('0123456789abcdeffedcba9876543210');
+const k_codec = ref(HEX);
+const iv = ref('0123456789abcdef');
+const iv_codec = ref(HEX);
+const p = ref('mima-kit');
+const p_codec = ref(UTF8);
+const c = ref('8d937ab72610eeb3');
+const c_codec = ref(HEX);
 
 function createCipher() {
-  const { K, K_CODE } = params;
-  return salsa20(K_CODE.parse(K), params.IV_CODE.parse(params.IV));
+  const K = k_codec.value.parse(k.value);
+  const IV = iv_codec.value.parse(iv.value);
+  return salsa20(K, IV);
 }
-
 const encrypt = catchNotify(() => {
-  const { codec, input } = params;
   const cipher = createCipher();
-  const res = cipher._encrypt(codec.parse(input));
-  utf8.value = UTF8.stringify(res);
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
+  const P = p_codec.value.parse(p.value);
+  const res = cipher._encrypt(P);
+  c.value = c_codec.value.stringify(res);
 });
 const decrypt = catchNotify(() => {
-  const { codec, input } = params;
   const cipher = createCipher();
-  const res = cipher._decrypt(codec.parse(input));
-  utf8.value = UTF8.stringify(res);
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
+  const C = c_codec.value.parse(c.value);
+  const res = cipher._decrypt(C);
+  p.value = p_codec.value.stringify(res);
 });
 </script>
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-4xl font-bold">
+    <h1 class="mx-auto text-4xl font-bold md:my-8">
       Salsa20
     </h1>
-    <KitFormInputWithCodec v-model:text="params.K" v-model:codec="params.K_CODE" title="Key" />
-    <KitFormInputWithCodec v-model:text="params.IV" v-model:codec="params.IV_CODE" title="IV" />
-    <KitFormCodecSelect v-model="params.codec" title="Input Codec" />
-    <KitFormTextArea v-model="params.input" title="Input" />
-    <div class="my-4 flex items-center justify-center gap-2">
+    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
+    <KitFormInputWithCodec v-model:text="iv" v-model:codec="iv_codec" title="IV" />
+    <div class="divider my-8">
       <button
-        class="btn btn-primary"
+        class="btn btn-outline btn-sm"
         @click="encrypt"
       >
         Encrypt
       </button>
+      /
       <button
-        class="btn btn-primary"
+        class="btn btn-outline btn-sm"
         @click="decrypt"
       >
         Decrypt
       </button>
     </div>
-    <div class="divider">
-      OUTPUT
-    </div>
-    <KitFormOutput v-model="utf8" title="UTF-8" />
-    <KitFormOutput v-model="hex" title="Hex" />
-    <KitFormOutput v-model="b64" title="Base64" />
-    <KitFormOutput v-model="b64url" title="Base64URL" />
+    <KitFormTextAreaWithCodec v-model:text="p" v-model:codec="p_codec" title="Plain text" />
+    <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
 
     <div class="stats stats-vertical my-6 shadow">
-      <div class="stat">
-        <div class="stat-title">
-          Specification
-        </div>
-        <div class="stat-value">
-          <KitRefLink
-            :texts="['Salsa20']"
-            icon="icon-[carbon--pdf-reference]"
-            href="https://cr.yp.to/snuffle/spec.pdf"
-          />
-        </div>
-      </div>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['Salsa20']"
+          icon="icon-[carbon--pdf-reference]"
+          href="https://cr.yp.to/snuffle/spec.pdf"
+        />
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          First published
-        </div>
-        <div class="stat-value">
-          2007
-        </div>
-      </div>
+      <KitStat title="First published">
+        2007
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Key Size
-        </div>
-        <div class="stat-value">
-          16 or 32 bytes
-        </div>
-      </div>
+      <KitStat title="Key Size (bytes)">
+        16 or 32
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          IV Size
-        </div>
-        <div class="stat-value">
-          8 bytes
-        </div>
-      </div>
+      <KitStat title="IV Size (bytes)">
+        8
+      </KitStat>
     </div>
   </div>
 </template>

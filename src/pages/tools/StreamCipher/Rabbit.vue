@@ -1,117 +1,81 @@
 <script setup lang="ts">
-import { B64, B64URL, HEX, rabbit, UTF8 } from 'mima-kit';
+import { HEX, rabbit, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'Rabbit' });
 
-const params = reactive({
-  K: '00000000000000000000000000000000',
-  K_CODE: HEX,
-  IV: '0000000000000000',
-  IV_CODE: HEX,
-  codec: HEX,
-  input: '0000000000000000000000000000000000000000000000000000000000000000',
-});
-const utf8 = ref('');
-const hex = ref('');
-const b64 = ref('');
-const b64url = ref('');
+const k = ref('0123456789abcdeffedcba9876543210');
+const k_codec = ref(HEX);
+const iv = ref('0123456789abcdef');
+const iv_codec = ref(HEX);
+const p = ref('mima-kit');
+const p_codec = ref(UTF8);
+const c = ref('818c4eabd42d0e79');
+const c_codec = ref(HEX);
 
 function createCipher() {
-  const { K, K_CODE, IV, IV_CODE } = params;
-  return rabbit(K_CODE.parse(K), IV_CODE.parse(IV));
+  const K = k_codec.value.parse(k.value);
+  const IV = iv_codec.value.parse(iv.value);
+  return rabbit(K, IV);
 }
-
 const encrypt = catchNotify(() => {
-  const { codec, input } = params;
   const cipher = createCipher();
-  const res = cipher._encrypt(codec.parse(input));
-  utf8.value = UTF8.stringify(res);
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
+  const P = p_codec.value.parse(p.value);
+  const res = cipher._encrypt(P);
+  c.value = c_codec.value.stringify(res);
 });
 const decrypt = catchNotify(() => {
-  const { codec, input } = params;
   const cipher = createCipher();
-  const res = cipher._decrypt(codec.parse(input));
-  utf8.value = UTF8.stringify(res);
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
+  const C = c_codec.value.parse(c.value);
+  const res = cipher._decrypt(C);
+  p.value = p_codec.value.stringify(res);
 });
 </script>
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-4xl font-bold">
+    <h1 class="mx-auto text-4xl font-bold md:my-8">
       Rabbit
     </h1>
-    <KitFormInputWithCodec v-model:text="params.K" v-model:codec="params.K_CODE" title="Key" />
-    <KitFormInputWithCodec v-model:text="params.IV" v-model:codec="params.IV_CODE" title="IV" />
-    <KitFormCodecSelect v-model="params.codec" title="Input Codec" />
-    <KitFormTextArea v-model="params.input" title="Input" />
-    <div class="my-4 flex items-center justify-center gap-2">
+    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
+    <KitFormInputWithCodec v-model:text="iv" v-model:codec="iv_codec" title="IV" />
+    <div class="divider my-8">
       <button
-        class="btn btn-primary"
+        class="btn btn-outline btn-sm"
         @click="encrypt"
       >
         Encrypt
       </button>
+      /
       <button
-        class="btn btn-primary"
+        class="btn btn-outline btn-sm"
         @click="decrypt"
       >
         Decrypt
       </button>
     </div>
-    <div class="divider">
-      OUTPUT
-    </div>
-    <KitFormOutput v-model="utf8" title="UTF-8" />
-    <KitFormOutput v-model="hex" title="Hex" />
-    <KitFormOutput v-model="b64" title="Base64" />
-    <KitFormOutput v-model="b64url" title="Base64URL" />
+    <KitFormTextAreaWithCodec v-model:text="p" v-model:codec="p_codec" title="Plain text" />
+    <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
 
     <div class="stats stats-vertical my-6 shadow">
-      <div class="stat">
-        <div class="stat-title">
-          Specification
-        </div>
-        <div class="stat-value">
-          <KitRefLink
-            :texts="['RFC 4503']"
-            icon="icon-[carbon--txt-reference]"
-            href="https://www.rfc-editor.org/rfc/rfc4503.txt"
-          />
-        </div>
-      </div>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['RFC 4503']"
+          icon="icon-[carbon--txt-reference]"
+          href="https://www.rfc-editor.org/rfc/rfc4503.txt"
+        />
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          First published
-        </div>
-        <div class="stat-value">
-          2003
-        </div>
-      </div>
+      <KitStat title="First published">
+        2003
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Key Size
-        </div>
-        <div class="stat-value">
-          16 bytes
-        </div>
-      </div>
+      <KitStat title="Key Size (bytes)">
+        16
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          IV Size
-        </div>
-        <div class="stat-value">
-          0 or 8 bytes
-        </div>
-      </div>
+      <KitStat title="IV Size (bytes)">
+        0 or 8
+      </KitStat>
     </div>
   </div>
 </template>

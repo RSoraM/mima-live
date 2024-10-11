@@ -1,101 +1,73 @@
 <script setup lang="ts">
-import { arc4, B64, B64URL, HEX, UTF8 } from 'mima-kit';
+import { arc4, HEX, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'ARC4' });
 
-const params = reactive({
-  K: 'password',
-  K_CODE: UTF8,
-  codec: UTF8,
-  input: '',
-});
-const utf8 = ref('');
-const hex = ref('');
-const b64 = ref('');
-const b64url = ref('');
+const k = ref('0123456789abcdef');
+const k_codec = ref(HEX);
+const p = ref('mima-kit');
+const p_codec = ref(UTF8);
+const c = ref('19fdaf863d20610d');
+const c_codec = ref(HEX);
 
 function createCipher() {
-  const { K, K_CODE } = params;
-  return arc4(K_CODE.parse(K));
+  const K = k_codec.value.parse(k.value);
+  return arc4(K);
 }
-
 const encrypt = catchNotify(() => {
-  const { codec, input } = params;
   const cipher = createCipher();
-  const res = cipher._encrypt(codec.parse(input));
-  utf8.value = UTF8.stringify(res);
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
+  const P = p_codec.value.parse(p.value);
+  const res = cipher._encrypt(P);
+  c.value = c_codec.value.stringify(res);
 });
 const decrypt = catchNotify(() => {
-  const { codec, input } = params;
   const cipher = createCipher();
-  const res = cipher._decrypt(codec.parse(input));
-  utf8.value = UTF8.stringify(res);
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
+  const C = c_codec.value.parse(c.value);
+  const res = cipher._decrypt(C);
+  p.value = p_codec.value.stringify(res);
 });
 </script>
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-4xl font-bold">
+    <h1 class="mx-auto text-4xl font-bold md:my-8">
       ARC4
     </h1>
-    <KitFormInputWithCodec v-model:text="params.K" v-model:codec="params.K_CODE" title="Key" />
-    <KitFormCodecSelect v-model="params.codec" title="Input Codec" />
-    <KitFormTextArea v-model="params.input" title="Input" />
-    <div class="my-4 flex items-center justify-center gap-2">
+    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
+    <div class="divider my-8">
       <button
-        class="btn btn-primary"
+        class="btn btn-outline btn-sm"
         @click="encrypt"
       >
         Encrypt
       </button>
+      /
       <button
-        class="btn btn-primary"
+        class="btn btn-outline btn-sm"
         @click="decrypt"
       >
         Decrypt
       </button>
     </div>
-    <div class="divider">
-      OUTPUT
-    </div>
-    <KitFormOutput v-model="utf8" title="UTF-8" />
-    <KitFormOutput v-model="hex" title="Hex" />
-    <KitFormOutput v-model="b64" title="Base64" />
-    <KitFormOutput v-model="b64url" title="Base64URL" />
+    <KitFormTextAreaWithCodec v-model:text="p" v-model:codec="p_codec" title="Plain text" />
+    <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
 
     <div class="stats stats-vertical my-6 shadow">
-      <div class="stat">
-        <div class="stat-title">
-          Designer
-        </div>
-        <div class="stat-value">
-          Ronald Linn Rivest
-        </div>
-      </div>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['ARC4']"
+          icon="icon-[carbon--html-reference]"
+          href="https://en.wikipedia.org/wiki/RC4"
+        />
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          First published
-        </div>
-        <div class="stat-value">
-          1994
-        </div>
-      </div>
+      <KitStat title="First published">
+        1994
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Key Size
-        </div>
-        <div class="stat-value">
-          5-256 bytes
-        </div>
-      </div>
+      <KitStat title="Key Size (bytes)">
+        5-256
+      </KitStat>
     </div>
   </div>
 </template>

@@ -1,121 +1,111 @@
 <script setup lang="ts">
-import type { ZUCConfig } from 'mima-kit';
-import { B64, B64URL, CSV, eea3, eia3, HEX, UTF8 } from 'mima-kit';
+import type { ZUCConfig, ZUCParams } from 'mima-kit';
+import { eea3, eia3, HEX } from 'mima-kit';
 
 defineOptions({ name: 'ZUC' });
 
-const params = reactive({
-  COUNTER: '66035492',
-  BEARER: 0xF,
-  DIRECTION: 0 as 0 | 1,
-  LENGTH: 0xC1,
-  KEY: '173D14BA5003731D7A60049470F00A29',
-  M: '6CF65340735552AB0C9752FA6F9025FE0BD675D9005875B2',
-});
-const config = reactive<ZUCConfig>({
-  COUNTER_CODEC: HEX,
-  KEY_CODEC: HEX,
-  INPUT_CODEC: HEX,
-});
-const utf8_cipher = ref('');
-const hex_cipher = ref('');
-const b64_cipher = ref('');
-const b64url_cipher = ref('');
-const csv_cipher = ref('');
-const utf8_mac = ref('');
-const hex_mac = ref('');
-const b64_mac = ref('');
-const b64url_mac = ref('');
-const csv_mac = ref('');
+const bearer = ref(0xF);
+const direction = ref<0 | 1>(0);
+const counter = ref('66035492');
+const counter_codec = ref(HEX);
+const k = ref('173D14BA5003731D7A60049470F00A29');
+const k_codec = ref(HEX);
+const i = ref('6CF65340735552AB0C9752FA6F9025FE0BD675D9005875B2');
+const i_codec = ref(HEX);
+const i_length = ref(0xC1);
+const o = ref('a6c85fc66afb8533aafc2518dfe784940ee1e4b030238cc8');
+const o_codec = ref(HEX);
+const t = ref('19fe6c23');
+const t_codec = ref(HEX);
+const direction_options = [
+  { label: '0', value: 0 },
+  { label: '1', value: 1 },
+];
 
 const cipher = catchNotify(() => {
-  const res_cipher = eea3(params, config);
-  utf8_cipher.value = UTF8.stringify(res_cipher);
-  hex_cipher.value = HEX.stringify(res_cipher);
-  b64_cipher.value = B64.stringify(res_cipher);
-  b64url_cipher.value = B64URL.stringify(res_cipher);
-  csv_cipher.value = CSV.stringify(res_cipher);
+  const params: ZUCParams = {
+    COUNTER: counter.value,
+    BEARER: bearer.value,
+    DIRECTION: direction.value,
+    KEY: k.value,
+    LENGTH: i_length.value,
+    M: i.value,
+  };
+  const config: ZUCConfig = {
+    COUNTER_CODEC: counter_codec.value,
+    KEY_CODEC: k_codec.value,
+    INPUT_CODEC: i_codec.value,
+  };
 
+  const res_cipher = eea3(params, config);
+  o.value = HEX.stringify(res_cipher);
   const res_mac = eia3(params, config);
-  utf8_mac.value = UTF8.stringify(res_mac);
-  hex_mac.value = HEX.stringify(res_mac);
-  b64_mac.value = B64.stringify(res_mac);
-  b64url_mac.value = B64URL.stringify(res_mac);
-  csv_mac.value = CSV.stringify(res_mac);
+  t.value = t_codec.value.stringify(res_mac);
 });
 </script>
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-4xl font-bold">
+    <h1 class="mx-auto text-4xl font-bold md:my-8">
       ZUC
     </h1>
     <div class="flex gap-2">
-      <KitFormInput v-model="params.BEARER" type="number" title="Bearer" />
-      <KitFormInput v-model="params.DIRECTION" type="number" title="Direction" />
+      <KitFormInput v-model="bearer" type="number" title="Bearer" />
+      <KitFormControl title="Direction">
+        <KitBaseFormSelect v-model="direction" :options="direction_options" />
+      </KitFormControl>
     </div>
-    <KitFormInputWithCodec v-model:text="params.COUNTER" v-model:codec="config.COUNTER_CODEC" title="Counter" />
-    <KitFormInputWithCodec v-model:text="params.KEY" v-model:codec="config.KEY_CODEC" title="Key" />
-    <div class="flex gap-2">
-      <KitFormCodecSelect v-model="config.INPUT_CODEC" title="Input Codec" />
-      <KitFormInput v-model="params.LENGTH" type="number" title="Input Length" />
-    </div>
-    <KitFormTextArea v-model="params.M" title="Input" />
-    <div class="my-4 flex items-center justify-center gap-2">
+    <KitFormInputWithCodec v-model:text="counter" v-model:codec="counter_codec" title="Counter" />
+    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
+    <KitFormInput v-model="i_length" type="number" title="Input length" />
+    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
+    <div class="divider my-8">
       <button
-        class="btn btn-primary"
+        class="btn btn-outline btn-sm"
         @click="cipher"
       >
         Cipher
       </button>
     </div>
-    <KitFormCipherOutput v-model:cipher="utf8_cipher" v-model:mac="utf8_mac" title="UTF8" />
-    <KitFormCipherOutput v-model:cipher="hex_cipher" v-model:mac="hex_mac" title="HEX" />
-    <KitFormCipherOutput v-model:cipher="b64_cipher" v-model:mac="b64_mac" title="Base64" />
-    <KitFormCipherOutput v-model:cipher="b64url_cipher" v-model:mac="b64url_mac" title="Base64URL" />
-    <KitFormCipherOutput v-model:cipher="csv_cipher" v-model:mac="csv_mac" title="Core Socialist Values" />
+    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
+    <KitFormTextAreaWithCodec v-model:text="t" v-model:codec="t_codec" title="Mac" />
+
+    <div role="alert" class="alert alert-warning my-4">
+      <span class="icon-[carbon--warning-alt-filled] size-6" />
+      <span class="text-sm">
+        In the original specification,
+        the <b>Input length</b> is calculated using the <b>sizeof</b> operator in C.
+        However, in JavaScript, there is no equivalent operation to <b>sizeof</b>,
+        so it needs to be specified manually.
+      </span>
+    </div>
 
     <div class="stats stats-vertical my-6 shadow">
-      <div class="stat">
-        <div class="stat-title">
-          Specification
-        </div>
-        <div class="stat-value">
-          <KitRefLink
-            :texts="['GB/T', '33133.1-2016']"
-            icon="icon-[carbon--html-reference]"
-            href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C41A3AEECCA52B5C0011C8010CF0715"
-          />
-          <KitRefLink
-            :texts="['33133.2-2016']"
-            icon="icon-[carbon--html-reference]"
-            href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=5D3CBA3ADEC7989344BD1E63006EF2B3"
-          />
-          <KitRefLink
-            :texts="['33133.3-2016']"
-            icon="icon-[carbon--html-reference]"
-            href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=C6D60AE0A7578E970EF2280ABD49F4F0"
-          />
-        </div>
-      </div>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['GB/T', '33133.1-2016']"
+          icon="icon-[carbon--html-reference]"
+          href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C41A3AEECCA52B5C0011C8010CF0715"
+        />
+        <KitRefLink
+          :texts="['33133.2-2016']"
+          icon="icon-[carbon--html-reference]"
+          href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=5D3CBA3ADEC7989344BD1E63006EF2B3"
+        />
+        <KitRefLink
+          :texts="['33133.3-2016']"
+          icon="icon-[carbon--html-reference]"
+          href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=C6D60AE0A7578E970EF2280ABD49F4F0"
+        />
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          First published
-        </div>
-        <div class="stat-value">
-          2003
-        </div>
-      </div>
+      <KitStat title="First published">
+        2016
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Key Size
-        </div>
-        <div class="stat-value">
-          16 bytes
-        </div>
-      </div>
+      <KitStat title="Key Size">
+        16 bytes
+      </KitStat>
     </div>
   </div>
 </template>
