@@ -5,7 +5,6 @@ import { B64, B64URL, CSV, HEX, UTF8 } from 'mima-kit';
 defineOptions({ name: 'KitFormCodecSelect' });
 defineProps<{ title?: string }>();
 const codec = defineModel();
-
 const options: SelectOption<Codec>[] = [
   { label: 'UTF-8', value: UTF8 },
   { label: 'HEX', value: HEX },
@@ -16,5 +15,5 @@ const options: SelectOption<Codec>[] = [
 </script>
 
 <template>
-  <KitFormSelect v-model="codec" :options="options" :title="title || 'Codec'" />
+  <KitBaseFormSelect v-model="codec" :options="options" :title="title || 'Codec'" />
 </template>

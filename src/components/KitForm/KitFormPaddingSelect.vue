@@ -6,14 +6,16 @@ defineProps<{ title?: string }>();
 const padding = defineModel();
 
 const options: SelectOption[] = [
-  { label: 'PKCS7', value: PKCS7 },
-  { label: 'ZERO_PAD', value: ZERO_PAD },
-  { label: 'NoPadding', value: NoPadding },
-  { label: 'ISO7816_4', value: ISO7816_4 },
-  { label: 'ANSI_X923', value: ANSI_X923 },
+  { label: 'PKCS#7', value: PKCS7 },
+  { label: 'ANSI X9.23', value: ANSI_X923 },
+  { label: 'ISO 7816-4', value: ISO7816_4 },
+  { label: 'Zero Padding', value: ZERO_PAD },
+  { label: 'None Padding', value: NoPadding },
 ];
 </script>
 
 <template>
-  <KitFormSelect v-model="padding" :options="options" :title="title || 'Padding'" />
+  <KitFormControl :title="title || 'Padding'">
+    <KitBaseFormSelect v-model="padding" :options="options" />
+  </KitFormControl>
 </template>

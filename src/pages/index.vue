@@ -6,7 +6,7 @@
           class="mx-auto my-4 w-36"
           src="/logo.svg"
         >
-        <h1 class="text-5xl font-bold">
+        <h1 class="text-4xl font-bold">
           mima-live
         </h1>
         <p class="py-6">

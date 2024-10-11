@@ -24,7 +24,7 @@ watchEffect(() => {
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-5xl font-bold">
+    <h1 class="mx-auto my-8 text-4xl font-bold">
       SM3
     </h1>
     <KitFormCodecSelect v-model="params.codec" title="Input Codec" />

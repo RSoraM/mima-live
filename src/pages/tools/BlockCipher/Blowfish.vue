@@ -1,122 +1,49 @@
 <script setup lang="ts">
-import { B64, B64URL, blowfish, cbc, HEX, UTF8 } from 'mima-kit';
+import { blowfish } from 'mima-kit';
 
-defineOptions({ name: 'Blowfish' });
-
-const params = reactive({
-  K: '8586c1e4007b4ac8ea156616bb813986',
-  K_CODE: HEX,
-  IV: '060d358b88e62a5287b1df4dddf016b3',
-  IV_CODE: HEX,
-  mode: cbc,
-  codec: UTF8,
-  input: 'mima-kit',
-});
-const utf8 = ref('');
-const hex = ref('');
-const b64 = ref('');
-const b64url = ref('');
-
-function createCipher() {
-  const { K, K_CODE, IV, IV_CODE } = params;
-  return params.mode(blowfish)(K_CODE.parse(K), IV_CODE.parse(IV));
-}
-
-const encrypt = catchNotify(() => {
-  const { codec, input } = params;
-  const cipher = createCipher();
-  const res = cipher._encrypt(codec.parse(input));
-  utf8.value = UTF8.stringify(res);
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
-});
-const decrypt = catchNotify(() => {
-  const { codec, input } = params;
-  const cipher = createCipher();
-  const res = cipher._decrypt(codec.parse(input));
-  utf8.value = UTF8.stringify(res);
-  hex.value = HEX.stringify(res);
-  b64.value = B64.stringify(res);
-  b64url.value = B64URL.stringify(res);
-});
+defineOptions({ name: 'SM4' });
+const init = {
+  k: '0123456789ABCDEFFEDCBA9876543210',
+  iv: '0123456789ABCDEF',
+  a: '',
+  t: '',
+  p: '0123456789ABCDEF',
+  c: '4e1cb595fca184b40b62acf56e014756',
+};
 </script>
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-5xl font-bold">
+    <h1 class="mx-auto text-4xl font-bold md:mt-8">
       Blowfish
     </h1>
-    <KitFormModeSelect v-model="params.mode" />
-    <KitFormInputWithCodec v-model:text="params.K" v-model:codec="params.K_CODE" title="Key" />
-    <KitFormInputWithCodec
-      v-show="params.mode.ALGORITHM !== 'ECB'"
-      v-model:text="params.IV" v-model:codec="params.IV_CODE" title="IV"
-    />
-    <KitFormCodecSelect v-model="params.codec" title="Input Codec" />
-    <KitFormTextArea v-model="params.input" title="Input" />
-    <div class="my-4 flex items-center justify-center gap-2">
-      <button
-        class="btn btn-primary"
-        @click="encrypt"
-      >
-        Encrypt
-      </button>
-      <button
-        class="btn btn-primary"
-        @click="decrypt"
-      >
-        Decrypt
-      </button>
+
+    <div class="divider my-8">
+      Mode Config
     </div>
-    <div class="divider">
-      OUTPUT
-    </div>
-    <KitFormOutput v-model="utf8" title="UTF-8" />
-    <KitFormOutput v-model="hex" title="Hex" />
-    <KitFormOutput v-model="b64" title="Base64" />
-    <KitFormOutput v-model="b64url" title="Base64URL" />
+
+    <KitFormModeConfig :cipher="blowfish" :init="init" />
 
     <div class="stats stats-vertical my-6 shadow">
-      <div class="stat">
-        <div class="stat-title">
-          Specification
-        </div>
-        <div class="stat-value">
-          <KitRefLink
-            :texts="['Blowfish']"
-            icon="icon-[carbon--html-reference]"
-            href="https://www.schneier.com/academic/blowfish/"
-          />
-        </div>
-      </div>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['Blowfish']"
+          icon="icon-[carbon--html-reference]"
+          href="https://www.schneier.com/academic/blowfish/"
+        />
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          First published
-        </div>
-        <div class="stat-value">
-          1993
-        </div>
-      </div>
+      <KitStat title="First published">
+        1993
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Key Size (Bytes)
-        </div>
-        <div class="stat-value">
-          4 - {{ blowfish.KEY_SIZE }}
-        </div>
-      </div>
+      <KitStat title="Key Size (bytes)">
+        4 - {{ blowfish.KEY_SIZE }}
+      </KitStat>
 
-      <div class="stat">
-        <div class="stat-title">
-          Block Size (Bytes)
-        </div>
-        <div class="stat-value">
-          {{ blowfish.BLOCK_SIZE }}
-        </div>
-      </div>
+      <KitStat title="Block Size (bytes)">
+        {{ blowfish.BLOCK_SIZE }}
+      </KitStat>
     </div>
   </div>
 </template>

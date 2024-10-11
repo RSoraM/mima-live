@@ -47,7 +47,7 @@ watchEffect(() => {
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-5xl font-bold">
+    <h1 class="mx-auto my-8 text-4xl font-bold">
       SHA-3
     </h1>
     <KitFormSelect v-model="params.variants" title="Variant" :options="variantOptions" />

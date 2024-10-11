@@ -54,7 +54,7 @@ watchEffect(() => {
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-5xl font-bold">
+    <h1 class="mx-auto my-8 text-4xl font-bold">
       cSHAKE
     </h1>
     <div class="flex gap-2">

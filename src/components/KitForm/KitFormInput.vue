@@ -5,10 +5,10 @@ const model = defineModel<string | number>();
 </script>
 
 <template>
-  <label class="form-control w-full">
-    <div class="label">
-      <span class="label-text">{{ title }}</span>
-    </div>
-    <input v-model="model" :type="type" class="input input-bordered text-xs">
-  </label>
+  <KitFormControl :title="title">
+    <input
+      v-model="model" :type="type"
+      class="input input-bordered text-xs"
+    >
+  </KitFormControl>
 </template>

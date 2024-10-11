@@ -18,7 +18,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "vue": "^3.4.37"
+    "vue": "^3.5.12"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.7.3",

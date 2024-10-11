@@ -41,7 +41,7 @@ const decrypt = catchNotify(() => {
 
 <template>
   <div>
-    <h1 class="mx-auto my-8 text-5xl font-bold">
+    <h1 class="mx-auto my-8 text-4xl font-bold">
       ARC4
     </h1>
     <KitFormInputWithCodec v-model:text="params.K" v-model:codec="params.K_CODE" title="Key" />
