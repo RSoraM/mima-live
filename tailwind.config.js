@@ -10,6 +10,18 @@ export default {
   theme: {
     extend: {},
   },
+  daisyui: {
+    themes: [
+      'light',
+      'dark',
+      'synthwave',
+      'lofi',
+      'dracula',
+      'cmyk',
+      'business',
+      'acid',
+    ],
+  },
   plugins: [
     daisyui,
     addDynamicIconSelectors(),

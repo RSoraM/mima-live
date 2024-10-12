@@ -9,7 +9,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     KitBaseFormCodecSelect: typeof import('./src/components/KitForm/KitBaseFormCodecSelect.vue')['default']
     KitBaseFormSelect: typeof import('./src/components/KitForm/KitBaseFormSelect.vue')['default']
-    KitFormCodecSelect: typeof import('./src/components/KitForm/KitFormCodecSelect.vue')['default']
     KitFormControl: typeof import('./src/components/KitForm/KitFormControl.vue')['default']
     KitFormInput: typeof import('./src/components/KitForm/KitFormInput.vue')['default']
     KitFormInputArray: typeof import('./src/components/KitForm/KitFormInputArray.vue')['default']

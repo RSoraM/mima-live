@@ -28,6 +28,18 @@ const isBlockCipherGroupOpen = computed(() => route.path.startsWith('/tools/Bloc
 const isStreamCipherGroupOpen = computed(() => route.path.startsWith('/tools/StreamCipher'));
 
 const routeName = computed(() => route.path.split('/').pop());
+
+const currentTheme = useLocalStorage('theme', 'dark');
+const themes = [
+  'light',
+  'dark',
+  'synthwave',
+  'lofi',
+  'dracula',
+  'cmyk',
+  'business',
+  'acid',
+];
 </script>
 
 <template>
@@ -36,6 +48,24 @@ const routeName = computed(() => route.path.split('/').pop());
       <RouterLink to="/">
         Home
       </RouterLink>
+    </KitMenuItem>
+    <KitMenuItem class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        Theme
+        <span class="icon-[carbon--color-palette] size-4" />
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[99] w-52 rounded-box bg-base-300 p-2 shadow-2xl">
+        <li v-for="t in themes" :key="t">
+          <input
+            v-model="currentTheme"
+            type="radio"
+            name="theme-dropdown"
+            class="theme-controller btn btn-ghost btn-sm btn-block justify-start"
+            :aria-label="t"
+            :value="t"
+          >
+        </li>
+      </ul>
     </KitMenuItem>
     <!-- Hash -->
     <KitMenuGroup title="Hash" :is-open="isHashGroupOpen">
