@@ -9,7 +9,7 @@ defineProps<{ title?: string }>();
     <div class="stat-title">
       {{ title }}
     </div>
-    <div class="stat-value">
+    <div class="stat-value text-2xl">
       <slot />
     </div>
   </div>
