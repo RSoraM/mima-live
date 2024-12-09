@@ -10,6 +10,7 @@ declare module 'vue' {
     KitBaseFormCodecSelect: typeof import('./src/components/KitForm/KitBaseFormCodecSelect.vue')['default']
     KitBaseFormSelect: typeof import('./src/components/KitForm/KitBaseFormSelect.vue')['default']
     KitFormControl: typeof import('./src/components/KitForm/KitFormControl.vue')['default']
+    KitFormHashSelect: typeof import('./src/components/KitForm/KitFormHashSelect.vue')['default']
     KitFormInput: typeof import('./src/components/KitForm/KitFormInput.vue')['default']
     KitFormInputArray: typeof import('./src/components/KitForm/KitFormInputArray.vue')['default']
     KitFormInputWithCodec: typeof import('./src/components/KitForm/KitFormInputWithCodec.vue')['default']

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { cfb, Codec, ctr, ecb, ofb, pcbc, sm4 } from 'mima-kit';
-import { cbc, gcm, HEX, PKCS7 } from 'mima-kit';
+import type { Codec, ecb, sm4, U8 } from 'mima-kit';
+import { cbc, cfb, ctr, gcm, HEX, ofb, PKCS7_PAD } from 'mima-kit';
 
 defineOptions({ name: 'KitFormModeConfig' });
 
@@ -16,9 +16,9 @@ interface InitValues {
   p: string;
   c: string;
 }
-type MODE = typeof ecb | typeof cbc | typeof pcbc | typeof cfb | typeof ofb | typeof ctr | typeof gcm;
-const mode = ref<MODE>(cbc);
-const padding = ref<typeof PKCS7>(PKCS7);
+type Mode = typeof ecb | typeof cbc | typeof gcm;
+const mode = ref<Mode>(cbc);
+const padding = ref<typeof PKCS7_PAD>(PKCS7_PAD);
 // key
 const k = ref(init?.k || '');
 const k_codec = ref<Codec>(HEX);
@@ -39,57 +39,53 @@ const p_codec = ref<Codec>(HEX);
 const c = ref(init?.c || '');
 const c_codec = ref<Codec>(HEX);
 
-function createSuite(mode: MODE) {
+function createCipher(mode: Mode) {
   if (!cipher)
     throw new Error('Cipher Config Error');
-  const config = {
-    PADDING: padding.value,
-    KEY_CODEC: k_codec.value,
-    IV_CODEC: iv_codec.value,
-    ADDITIONAL_CODEC: a_codec.value,
-    AUTH_TAG_SIZE: t_size.value,
-  };
-
-  return mode(cipher, config)(k.value, iv.value);
+  return mode(cipher, padding.value, t_size.value);
 }
 
 const encrypt = catchNotify(() => {
-  const suite = createSuite(mode.value);
-  const _p = p_codec.value.parse(p.value);
-  const res = suite._encrypt(_p);
-  c.value = c_codec.value.stringify(res);
+  const cipher = createCipher(mode.value);
+  const K = k_codec.value(k.value);
+  const IV = iv_codec.value(iv.value);
+  const P = p_codec.value(p.value);
+  const C = cipher(K, IV).encrypt(P);
+  c.value = c_codec.value(C);
 });
 const decrypt = catchNotify(() => {
-  const suite = createSuite(mode.value);
-  const _c = c_codec.value.parse(c.value);
-  const res = suite._decrypt(_c);
-  p.value = p_codec.value.stringify(res);
+  const cipher = createCipher(mode.value);
+  const K = k_codec.value(k.value);
+  const IV = iv_codec.value(iv.value);
+  const C = c_codec.value(c.value);
+  const P = cipher(K, IV).decrypt(C);
+  p.value = p_codec.value(P);
 });
 const sign = catchNotify(() => {
   if (mode.value !== gcm)
     throw new Error('Only GCM mode supports signing');
-  const suite = createSuite(gcm);
-
+  const cipher = createCipher(gcm) as ReturnType<typeof gcm>;
+  const K = k_codec.value(k.value);
+  const IV = iv_codec.value(iv.value);
   // sign need to encrypt first
-  const _p = p_codec.value.parse(p.value);
-  const cipher_result = suite._encrypt(_p);
-  c.value = c_codec.value.stringify(cipher_result);
-
+  const P = p_codec.value(p.value);
+  const C = cipher(K, IV).encrypt(P);
+  c.value = c_codec.value(C);
   // then sign
-  const _c = c_codec.value.parse(c.value);
-  const _a = a_codec.value.parse(a.value);
-  const mac_result = (suite as any)._sign(_c, _a);
-  t.value = t_codec.value.stringify(mac_result);
+  const A = a_codec.value(a.value);
+  const T: U8 = cipher(K, IV).sign(C, A);
+  t.value = t_codec.value(T);
 });
 const verify = catchNotify(() => {
   if (mode.value !== gcm)
     throw new Error('Only GCM mode supports verifying');
-  const suite = createSuite(gcm);
-  const _c = c_codec.value.parse(c.value);
-  const _a = a_codec.value.parse(a.value);
-  const _t = t_codec.value.parse(t.value);
-  const res = (suite as any)._verify(_t, _c, _a);
-  if (!res) {
+  const cipher = createCipher(gcm) as ReturnType<typeof gcm>;
+  const K = k_codec.value(k.value);
+  const IV = iv_codec.value(iv.value);
+  const C = c_codec.value(c.value);
+  const A = a_codec.value(a.value);
+  const T = t_codec.value(t.value);
+  if (!cipher(K, IV).verify(T, C, A)) {
     throw new Error('Verification failed');
   }
   else {
@@ -100,12 +96,15 @@ const verify = catchNotify(() => {
     });
   }
 });
+
+const allowNoPadModes = [cfb, ofb, ctr, gcm];
+const disableNoPad = computed(() => !allowNoPadModes.includes(mode.value));
 </script>
 
 <template>
   <div class="flex gap-2">
     <KitFormModeSelect v-model="mode" :blocksize="cipher.BLOCK_SIZE" />
-    <KitFormPaddingSelect v-model="padding" />
+    <KitFormPaddingSelect v-model:padding="padding" v-model:disable-no-pad="disableNoPad" />
   </div>
   <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
   <KitFormInputWithCodec

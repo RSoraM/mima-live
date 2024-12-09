@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ZUCConfig, ZUCParams } from 'mima-kit';
+import type { ZUCParams } from 'mima-kit';
 import { eea3, eia3, HEX } from 'mima-kit';
 
 defineOptions({ name: 'ZUC' });
@@ -24,23 +24,18 @@ const direction_options = [
 
 const cipher = catchNotify(() => {
   const params: ZUCParams = {
-    COUNTER: counter.value,
+    COUNTER: counter_codec.value(counter.value),
     BEARER: bearer.value,
     DIRECTION: direction.value,
-    KEY: k.value,
+    KEY: k_codec.value(k.value),
     LENGTH: i_length.value,
-    M: i.value,
-  };
-  const config: ZUCConfig = {
-    COUNTER_CODEC: counter_codec.value,
-    KEY_CODEC: k_codec.value,
-    INPUT_CODEC: i_codec.value,
+    M: i_codec.value(i.value),
   };
 
-  const res_cipher = eea3(params, config);
-  o.value = HEX.stringify(res_cipher);
-  const res_mac = eia3(params, config);
-  t.value = t_codec.value.stringify(res_mac);
+  const res_cipher = eea3(params);
+  o.value = HEX(res_cipher);
+  const res_mac = eia3(params);
+  t.value = t_codec.value(res_mac);
 });
 </script>
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { TupleHashConfig } from 'mima-kit';
 import { HEX, tupleHash128, tupleHash128XOF, tupleHash256, tupleHash256XOF, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'TupleHash' });
@@ -17,19 +16,16 @@ const s = ref('');
 const s_codec = ref(UTF8);
 
 const alg = computed(() => {
-  const config: TupleHashConfig = {
-    S: s.value,
-    S_CODEC: s_codec.value,
-  };
+  const S = s_codec.value(s.value);
   switch (variants.value) {
     case 'TupleHash-128':
-      return tupleHash128(t.value, config);
+      return tupleHash128(t.value, S);
     case 'TupleHash-128 XOF':
-      return tupleHash128XOF(t.value, config);
+      return tupleHash128XOF(t.value, S);
     case 'TupleHash-256':
-      return tupleHash256(t.value, config);
+      return tupleHash256(t.value, S);
     case 'TupleHash-256 XOF':
-      return tupleHash256XOF(t.value, config);
+      return tupleHash256XOF(t.value, S);
     default:
       return undefined;
   }
@@ -43,9 +39,9 @@ const o_codec = ref(HEX);
 watchEffect(() => {
   if (!alg.value)
     return;
-  const I = i.value.map(i => i_codec.value.parse(i.value));
-  const res = alg.value.digest(I);
-  o.value = o_codec.value.stringify(res);
+  const I = i.value.map(i => i_codec.value(i.value));
+  const res = alg.value(I);
+  o.value = o_codec.value(res);
 });
 </script>
 
@@ -64,7 +60,7 @@ watchEffect(() => {
       />
     </div>
     <KitFormInputWithCodec v-model:text="s" v-model:codec="s_codec" title="customization" />
-    <KitFormInputArray v-model="i" title="Input" />
+    <KitFormInputArray v-model:array="i" v-model:codec="i_codec" title="Input" />
     <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
 
     <div class="stats stats-vertical my-6 shadow">

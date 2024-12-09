@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { ANSI_X923, ISO7816_4, NoPadding, PKCS7, ZERO_PAD } from 'mima-kit';
+import { ISO7816_PAD, NO_PAD, PKCS7_PAD, X923_PAD, ZERO_PAD } from 'mima-kit';
 
 defineOptions({ name: 'KitFormPaddingSelect' });
 defineProps<{ title?: string }>();
-const padding = defineModel();
+const padding = defineModel<typeof PKCS7_PAD>('padding');
+const disableNoPad = defineModel<boolean>('disableNoPad');
 
-const options: SelectOption[] = [
-  { label: 'PKCS#7', value: PKCS7 },
-  { label: 'ANSI X9.23', value: ANSI_X923 },
-  { label: 'ISO 7816-4', value: ISO7816_4 },
+const options = computed<SelectOption[]>(() => ([
+  { label: 'PKCS#7', value: PKCS7_PAD },
+  { label: 'ANSI X9.23', value: X923_PAD },
+  { label: 'ISO 7816-4', value: ISO7816_PAD },
   { label: 'Zero Padding', value: ZERO_PAD },
-  { label: 'None Padding', value: NoPadding },
-];
+  { label: 'None Padding', value: NO_PAD, disable: disableNoPad.value },
+]));
 </script>
 
 <template>

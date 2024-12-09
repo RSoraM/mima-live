@@ -13,21 +13,21 @@ const c = ref('8d937ab72610eeb3');
 const c_codec = ref(HEX);
 
 function createCipher() {
-  const K = k_codec.value.parse(k.value);
-  const IV = iv_codec.value.parse(iv.value);
+  const K = k_codec.value(k.value);
+  const IV = iv_codec.value(iv.value);
   return salsa20(K, IV);
 }
 const encrypt = catchNotify(() => {
   const cipher = createCipher();
-  const P = p_codec.value.parse(p.value);
-  const res = cipher._encrypt(P);
-  c.value = c_codec.value.stringify(res);
+  const P = p_codec.value(p.value);
+  const res = cipher.encrypt(P);
+  c.value = c_codec.value(res);
 });
 const decrypt = catchNotify(() => {
   const cipher = createCipher();
-  const C = c_codec.value.parse(c.value);
-  const res = cipher._decrypt(C);
-  p.value = p_codec.value.stringify(res);
+  const C = c_codec.value(c.value);
+  const res = cipher.decrypt(C);
+  p.value = p_codec.value(res);
 });
 </script>
 

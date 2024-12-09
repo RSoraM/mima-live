@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ParallelHashConfig } from 'mima-kit';
 import { HEX, parallelHash128, parallelHash128XOF, parallelHash256, parallelHash256XOF, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'ParallelHash' });
@@ -18,19 +17,16 @@ const s = ref('');
 const s_codec = ref(UTF8);
 
 const alg = computed(() => {
-  const config: ParallelHashConfig = {
-    S: s.value,
-    S_CODEC: s_codec.value,
-  };
+  const S = s_codec.value(s.value);
   switch (variants.value) {
     case 'ParallelHash-128':
-      return parallelHash128(b.value, t.value, config);
+      return parallelHash128(b.value, t.value, S);
     case 'ParallelHash-128 XOF':
-      return parallelHash128XOF(b.value, t.value, config);
+      return parallelHash128XOF(b.value, t.value, S);
     case 'ParallelHash-256':
-      return parallelHash256(b.value, t.value, config);
+      return parallelHash256(b.value, t.value, S);
     case 'ParallelHash-256 XOF':
-      return parallelHash256XOF(b.value, t.value, config);
+      return parallelHash256XOF(b.value, t.value, S);
     default:
       return undefined;
   }
@@ -44,9 +40,9 @@ const o_codec = ref(HEX);
 watchEffect(() => {
   if (!alg.value)
     return;
-  const I = i_codec.value.parse(i.value);
-  const res = alg.value.digest(I);
-  o.value = o_codec.value.stringify(res);
+  const I = i_codec.value(i.value);
+  const res = alg.value(I);
+  o.value = o_codec.value(res);
 });
 </script>
 

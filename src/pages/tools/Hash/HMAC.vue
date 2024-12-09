@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { HMACScheme } from 'mima-kit';
 import { HEX, hmac, md5, sha1, sha3_224, sha3_256, sha3_384, sha3_512, sha224, sha256, sha384, sha512, sha512t, shake128, shake256, sm3, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'HMAC' });
@@ -28,105 +27,49 @@ const k = ref('');
 const k_codec = ref(UTF8);
 
 const alg = computed(catchNotifySync(() => {
-  let c: HMACScheme | undefined;
+  let c: typeof sm3 | undefined;
   switch (hash.value) {
     case 'MD5':
-      c = {
-        hash: md5,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = md5;
       break;
     case 'SHA-1':
-      c = {
-        hash: sha1,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha1;
       break;
     case 'SHA-224':
-      c = {
-        hash: sha224,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha224;
       break;
     case 'SHA-256':
-      c = {
-        hash: sha256,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha256;
       break;
     case 'SHA-384':
-      c = {
-        hash: sha384,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha384;
       break;
     case 'SHA-512':
-      c = {
-        hash: sha512,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha512;
       break;
     case 'SHA-512/t':
-      c = {
-        hash: sha512t(t.value),
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha512t(t.value);
       break;
     case 'SHA3-224':
-      c = {
-        hash: sha3_224,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha3_224;
       break;
     case 'SHA3-256':
-      c = {
-        hash: sha3_256,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha3_256;
       break;
     case 'SHA3-384':
-      c = {
-        hash: sha3_384,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha3_384;
       break;
     case 'SHA3-512':
-      c = {
-        hash: sha3_512,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sha3_512;
       break;
     case 'SHAKE-128':
-      c = {
-        hash: shake128(t.value),
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = shake128(t.value);
       break;
     case 'SHAKE-256':
-      c = {
-        hash: shake256(t.value),
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = shake256(t.value);
       break;
     case 'SM3':
-      c = {
-        hash: sm3,
-        key: k.value,
-        KEY_CODEC: k_codec.value,
-      };
+      c = sm3;
       break;
   }
   return c ? hmac(c) : undefined;
@@ -140,9 +83,10 @@ const o_codec = ref(HEX);
 watchEffect(() => {
   if (!alg.value)
     return;
-  const I = i_codec.value.parse(i.value);
-  const res = alg.value.digest(I);
-  o.value = o_codec.value.stringify(res);
+  const K = k_codec.value(k.value);
+  const I = i_codec.value(i.value);
+  const res = alg.value(K)(I);
+  o.value = o_codec.value(res);
 });
 </script>
 
@@ -176,6 +120,10 @@ watchEffect(() => {
 
       <KitStat title="First published">
         1996
+      </KitStat>
+
+      <KitStat title="Recommended key size (byte)">
+        {{ alg?.KEY_SIZE }}
       </KitStat>
 
       <KitStat title="Digest Size (bytes)">

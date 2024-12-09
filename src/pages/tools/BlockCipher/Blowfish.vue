@@ -19,7 +19,7 @@ const init = {
     </h1>
 
     <div class="divider my-8">
-      Mode Config
+      Operation Mode Config
     </div>
 
     <KitFormModeConfig :cipher="blowfish" :init="init" />

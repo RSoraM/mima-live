@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { cSHAKEConfig } from 'mima-kit';
 import { cShake128, cShake256, HEX, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'CSHAKE' });
@@ -16,17 +15,13 @@ const n_codec = ref(UTF8);
 const s = ref('');
 const s_codec = ref(UTF8);
 const alg = computed(() => {
-  const config: cSHAKEConfig = {
-    N: n.value,
-    N_CODEC: n_codec.value,
-    S: s.value,
-    S_CODEC: s_codec.value,
-  };
+  const N = n_codec.value(n.value);
+  const S = s_codec.value(s.value);
   switch (variants.value) {
     case 'cSHAKE-128':
-      return cShake128(t.value, config);
+      return cShake128(t.value, N, S);
     case 'cSHAKE-256':
-      return cShake256(t.value, config);
+      return cShake256(t.value, N, S);
     default:
       return undefined;
   }
@@ -40,9 +35,9 @@ const o_codec = ref(HEX);
 watchEffect(() => {
   if (!alg.value)
     return;
-  const I = i_codec.value.parse(i.value);
-  const res = alg.value.digest(I);
-  o.value = o_codec.value.stringify(res);
+  const I = i_codec.value(i.value);
+  const res = alg.value(I);
+  o.value = o_codec.value(res);
 });
 </script>
 

@@ -14,6 +14,16 @@ const routes = [
     component: () => import('./pages/tools/index.vue'),
     children: [
       {
+        name: 'TextCodec',
+        path: 'TextCodec',
+        component: () => import('./pages/tools/TextCodec.vue'),
+      },
+      {
+        name: 'RSA',
+        path: 'RSA',
+        component: () => import('./pages/tools/RSA.vue'),
+      },
+      {
         path: 'Hash',
         children: [
           { name: 'SM3', path: 'SM3', component: () => import('./pages/tools/Hash/SM3.vue') },

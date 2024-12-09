@@ -24,7 +24,7 @@ const init = {
     <KitFormInput v-model="r" type="number" title="Rounds" />
 
     <div class="divider my-8">
-      Mode Config
+      Operation Mode Config
     </div>
 
     <KitFormModeConfig :cipher="alg" :init="init" />

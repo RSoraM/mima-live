@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { KMACConfig } from 'mima-kit';
 import { HEX, kmac128, kmac128XOF, kmac256, kmac256XOF, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'KMAC' });
@@ -19,21 +18,16 @@ const s = ref('');
 const s_codec = ref(UTF8);
 
 const alg = computed(() => {
-  const config: KMACConfig = {
-    K: k.value,
-    K_CODEC: k_codec.value,
-    S: s.value,
-    S_CODEC: s_codec.value,
-  };
+  const S = s_codec.value(s.value);
   switch (variants.value) {
     case 'KMAC-128':
-      return kmac128(t.value, config);
+      return kmac128(t.value, S);
     case 'KMAC-128 XOF':
-      return kmac128XOF(t.value, config);
+      return kmac128XOF(t.value, S);
     case 'KMAC-256':
-      return kmac256(t.value, config);
+      return kmac256(t.value, S);
     case 'KMAC-256 XOF':
-      return kmac256XOF(t.value, config);
+      return kmac256XOF(t.value, S);
     default:
       return undefined;
   }
@@ -47,9 +41,10 @@ const o_codec = ref(HEX);
 watchEffect(() => {
   if (!alg.value)
     return;
-  const I = i_codec.value.parse(i.value);
-  const res = alg.value.digest(I);
-  o.value = o_codec.value.stringify(res);
+  const K = k_codec.value(k.value);
+  const I = i_codec.value(i.value);
+  const res = alg.value(K)(I);
+  o.value = o_codec.value(res);
 });
 </script>
 

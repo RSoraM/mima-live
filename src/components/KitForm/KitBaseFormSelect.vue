@@ -13,6 +13,7 @@ const model = defineModel();
     <option
       v-for="option in options" :key="option.label"
       :value="option.value"
+      :disabled="option.disable"
     >
       {{ option.label }}
     </option>

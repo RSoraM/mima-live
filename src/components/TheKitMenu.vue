@@ -100,5 +100,23 @@ const themes = [
         </RouterLink>
       </KitMenuItem>
     </KitMenuGroup>
+    <!-- RSA -->
+    <KitMenuItem>
+      <RouterLink
+        to="/tools/RSA"
+        :class="routeName === 'RSA' ? 'active' : ''"
+      >
+        RSA
+      </RouterLink>
+    </KitMenuItem>
+    <!-- Text Codec -->
+    <KitMenuItem>
+      <RouterLink
+        to="/tools/TextCodec"
+        :class="routeName === 'TextCodec' ? 'active' : ''"
+      >
+        TextCodec
+      </RouterLink>
+    </KitMenuItem>
   </KitMenu>
 </template>

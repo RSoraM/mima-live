@@ -31,7 +31,7 @@ const init = {
     </KitFormControl>
 
     <div class="divider my-8">
-      Mode Config
+      Operation Mode Config
     </div>
 
     <KitFormModeConfig :cipher="alg" :init="init" />

@@ -29,9 +29,9 @@ const o_codec = ref(HEX);
 watchEffect(() => {
   if (!alg.value)
     return;
-  const I = i_codec.value.parse(i.value);
-  const res = alg.value.digest(I);
-  o.value = o_codec.value.stringify(res);
+  const I = i_codec.value(i.value);
+  const res = alg.value(I);
+  o.value = o_codec.value(res);
 });
 </script>
 
