@@ -1,7 +1,7 @@
 {
   "name": "mima-live",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An online cryptography tool based on mima-kit",
   "author": "RSoraM",
   "license": "MIT",
