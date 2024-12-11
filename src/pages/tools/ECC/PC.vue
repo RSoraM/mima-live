@@ -66,6 +66,8 @@ watch(codec, (new_codec, old_codec) => {
 watch(curve, () => {
   clearKey();
 });
+
+genKey();
 </script>
 
 <template>
