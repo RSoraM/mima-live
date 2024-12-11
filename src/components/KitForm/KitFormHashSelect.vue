@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { md5, sha1, sha3_224, sha3_256, sha3_384, sha3_512, sha224, sha256, sha384, sha512, sha512t, shake128, shake256, sm3 } from 'mima-kit';
 
-defineOptions({ name: 'KitFormModeSelect' });
+defineOptions({ name: 'KitFormHashSelect' });
 defineProps<{ title?: string }>();
 const hash = defineModel<typeof sha256>({ default: sha256 });
 const t = ref(256);
@@ -75,7 +75,7 @@ const show_t = computed(() => ['SHA-512/t', 'SHAKE-128', 'SHAKE-256'].includes(a
 
 <template>
   <div class="flex gap-2">
-    <KitFormControl :title="title || 'Mode'">
+    <KitFormControl :title="title || 'Hash'">
       <KitBaseFormSelect v-model="alg" :options="hash_options" />
     </KitFormControl>
     <KitFormInput v-show="show_t" v-model="t" title="t" />

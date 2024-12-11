@@ -27,12 +27,7 @@ watchEffect(() => {
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       Text Codec
     </h1>
-    <div class="form-control">
-      <label class="label cursor-pointer">
-        <span class="label-text">Auto Convert</span>
-        <input v-model="autoConvert" type="checkbox" class="toggle">
-      </label>
-    </div>
+    <KitFormToggle v-model="autoConvert" title="Auto Convert" />
     <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
     <div class="divider my-8">
       <button

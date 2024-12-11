@@ -24,6 +24,16 @@ const routes = [
         component: () => import('./pages/tools/RSA.vue'),
       },
       {
+        path: 'ECC',
+        children: [
+          { name: 'Point Compress', path: 'PC', component: () => import('./pages/tools/ECC/PC.vue') },
+          { name: 'ECDH', path: 'ECDH', component: () => import('./pages/tools/ECC/ECDH.vue') },
+          { name: 'ECMQV', path: 'ECMQV', component: () => import('./pages/tools/ECC/ECMQV.vue') },
+          { name: 'ECDSA', path: 'ECDSA', component: () => import('./pages/tools/ECC/ECDSA.vue') },
+          { name: 'ECIES', path: 'ECIES', component: () => import('./pages/tools/ECC/ECIES.vue') },
+        ],
+      },
+      {
         path: 'Hash',
         children: [
           { name: 'SM3', path: 'SM3', component: () => import('./pages/tools/Hash/SM3.vue') },

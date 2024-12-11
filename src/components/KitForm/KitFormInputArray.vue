@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Codec } from 'mima-kit';
 
-defineOptions({ name: 'KitFormInput' });
+defineOptions({ name: 'KitFormInputArray' });
 defineProps<{ title: string }>();
 const model = defineModel<{ value: string }[]>('array');
 const codec = defineModel<Codec>('codec');

@@ -2,7 +2,7 @@
 import type { Codec } from 'mima-kit';
 import KitFormControl from './KitFormControl.vue';
 
-defineOptions({ name: 'KitFormTextArea' });
+defineOptions({ name: 'KitFormTextAreaWithCodec' });
 defineProps<{ title: string }>();
 
 const text = defineModel<string>('text');

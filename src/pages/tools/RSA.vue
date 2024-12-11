@@ -77,14 +77,14 @@ const k_raw = computed(() => ({
   qInv: k.qInv ? k_codec.value(k.qInv).toBI() : 0n,
 }));
 const k_bits = computed(() => ({
-  n: k.n ? k_codec.value(k.n).toBI().toString(2).length : 0,
-  e: k.e ? k_codec.value(k.e).toBI().toString(2).length : 0,
-  d: k.d ? k_codec.value(k.d).toBI().toString(2).length : 0,
-  p: k.p ? k_codec.value(k.p).toBI().toString(2).length : 0,
-  q: k.q ? k_codec.value(k.q).toBI().toString(2).length : 0,
-  dP: k.dP ? k_codec.value(k.dP).toBI().toString(2).length : 0,
-  dQ: k.dQ ? k_codec.value(k.dQ).toBI().toString(2).length : 0,
-  qInv: k.qInv ? k_codec.value(k.qInv).toBI().toString(2).length : 0,
+  n: k.n ? k_raw.value.n.toString(2).length : 0,
+  e: k.e ? k_raw.value.e.toString(2).length : 0,
+  d: k.d ? k_raw.value.d.toString(2).length : 0,
+  p: k.p ? k_raw.value.p.toString(2).length : 0,
+  q: k.q ? k_raw.value.q.toString(2).length : 0,
+  dP: k.dP ? k_raw.value.dP.toString(2).length : 0,
+  dQ: k.dQ ? k_raw.value.dQ.toString(2).length : 0,
+  qInv: k.qInv ? k_raw.value.qInv.toString(2).length : 0,
 }));
 
 // Encryption Scheme
@@ -252,22 +252,16 @@ const mgf_options: SelectOption[] = [
     <div role="alert" class="alert alert-warning mb-4">
       <span class="icon-[carbon--warning-alt-filled] size-6" />
       <span class="text-sm">
-        The speed of Key Generation depends on the local machine.<br>
+        The speed of Key Generation depends on the local machine.
         Please enter a reasonable <b>Key Size</b> to prevent the browser from crashing.
-      </span>
-    </div>
-    <div role="alert" class="alert alert-info mb-4">
-      <span class="size-6">🍎</span>
-      <span class="text-sm">
-        Generate 4096 bit RSA key pair on MacBook Pro 13-inch 2018:
-        2.3 GHz Quad-Core Intel Core i5, 8GB RAM.<br>
-        Cost about 1.7-6s
+        Generate <b>4096 bit</b> RSA key pair on 2.3 GHz Quad-Core Intel Core i5, 8GB RAM.
+        Cost about <b>1.7-6s</b>
       </span>
     </div>
 
     <!-- Key Generation -->
-    <details class="collapse collapse-plus my-2 bg-base-200" open>
-      <summary class="collapse-title bg-primary text-lg font-bold text-primary-content">
+    <details class="collapse collapse-plus bg-base-200" open>
+      <summary class="collapse-title text-lg font-bold">
         Key Generation
       </summary>
       <div class="collapse-content pt-4">
@@ -278,31 +272,34 @@ const mgf_options: SelectOption[] = [
           </KitFormControl>
         </div>
         <div class="divider my-8">
-          <button class="btn btn-outline btn-sm" @click="genKey">
-            Generate
-          </button>
-          /
           <button class="btn btn-outline btn-sm" @click="clearKey">
             Clear
+          </button>/
+          <button class="btn btn-outline btn-sm" @click="genKey">
+            Generate
           </button>
         </div>
         <KitFormInput v-model="k.n" :title="`n: modulus (${k_bits.n} bit)`" />
         <KitFormInput v-model="k.e" :title="`e: public exponent (${k_bits.e} bit)`" />
         <KitFormInput v-model="k.d" :title="`d: private exponent (${k_bits.d} bit)`" />
-        <div class="divider my-8">
-          Extra Value
-        </div>
-        <KitFormInput v-model="k.p" :title="`p: prime1 (${k_bits.p} bit)`" />
-        <KitFormInput v-model="k.q" :title="`q: prime2 (${k_bits.q} bit)`" />
-        <KitFormInput v-model="k.dP" :title="`dP: p's CRT exponent (${k_bits.dP} bit)`" />
-        <KitFormInput v-model="k.dQ" :title="`dQ: q's CRT exponent (${k_bits.dQ} bit)`" />
-        <KitFormInput v-model="k.qInv" :title="`qInv: CRT coefficient (${k_bits.qInv} bit)`" />
+        <details class="collapse collapse-plus mt-4 bg-base-300">
+          <summary class="collapse-title  text-lg font-bold ">
+            Extra Value
+          </summary>
+          <div class="collapse-content">
+            <KitFormInput v-model="k.p" :title="`p: prime1 (${k_bits.p} bit)`" />
+            <KitFormInput v-model="k.q" :title="`q: prime2 (${k_bits.q} bit)`" />
+            <KitFormInput v-model="k.dP" :title="`dP: p's CRT exponent (${k_bits.dP} bit)`" />
+            <KitFormInput v-model="k.dQ" :title="`dQ: q's CRT exponent (${k_bits.dQ} bit)`" />
+            <KitFormInput v-model="k.qInv" :title="`qInv: CRT coefficient (${k_bits.qInv} bit)`" />
+          </div>
+        </details>
       </div>
     </details>
 
     <!-- Encryption Scheme -->
-    <details class="collapse collapse-plus my-2 bg-base-200">
-      <summary class="collapse-title bg-primary text-lg font-bold text-primary-content">
+    <details class="collapse collapse-plus mt-4 bg-base-200">
+      <summary class="collapse-title  text-lg font-bold ">
         Encryption Scheme
       </summary>
       <div class="collapse-content pt-4">
@@ -315,31 +312,12 @@ const mgf_options: SelectOption[] = [
         </KitFormControl>
         <KitFormHashSelect v-show="es === 'RSAES-OAEP'" v-model="oaep_mgf_hash" title="MGF Hash" />
         <KitFormInputWithCodec v-show="es === 'RSAES-OAEP'" v-model:text="oaep_label" v-model:codec="oaep_label_codec" title="Label" />
-        <div class="divider my-8">
-          <button
-            :disabled="!k.n || !k.e"
-            class="btn btn-outline btn-sm"
-            @click="encrypt"
-          >
-            Encrypt
-          </button>
-          /
-          <button
-            :disabled="!k.n || !k.d"
-            class="btn btn-outline btn-sm"
-            @click="decrypt"
-          >
-            Decrypt
-          </button>
-        </div>
-        <KitFormTextAreaWithCodec v-model:text="m" v-model:codec="m_codec" title="Plain text" />
-        <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
       </div>
     </details>
 
     <!-- Signature Scheme -->
-    <details class="collapse collapse-plus my-2 bg-base-200">
-      <summary class="collapse-title bg-primary text-lg font-bold text-primary-content">
+    <details class="collapse collapse-plus mt-4 bg-base-200">
+      <summary class="collapse-title  text-lg font-bold ">
         Signature Scheme
       </summary>
       <div class="collapse-content pt-4">
@@ -353,31 +331,46 @@ const mgf_options: SelectOption[] = [
         <KitFormHashSelect v-show="ssa === 'RSASSA-PSS'" v-model="pss_mgf_hash" title="MGF Hash" />
         <KitFormInput v-show="ssa === 'RSASSA-PSS'" v-model="pss_salt_length" type="number" title="Salt Length" />
         <KitFormHashSelect v-show="ssa === 'RSASSA-PKCS1-v1_5'" v-model="v15_hash" title="Hash" />
-        <div class="divider my-8">
-          <button
-            :disabled="!k.n || !k.d"
-            class="btn btn-outline btn-sm"
-            @click="sign"
-          >
-            Sign
-          </button>
-          /
-          <button
-            :disabled="!k.n || !k.e"
-            class="btn btn-outline btn-sm"
-            @click="verify"
-          >
-            Verify
-          </button>
-        </div>
-        <KitFormTextAreaWithCodec v-model:text="s" v-model:codec="s_codec" title="Signature" />
       </div>
     </details>
+
+    <!-- OP -->
+    <div class="divider my-8">
+      <button
+        :disabled="!k.n || !k.e" class="btn btn-outline btn-sm"
+        @click="encrypt"
+      >
+        Encrypt
+      </button>/
+      <button
+        :disabled="!k.n || !k.d" class="btn btn-outline btn-sm"
+        @click="decrypt"
+      >
+        Decrypt
+      </button>
+    </div>
+    <KitFormTextAreaWithCodec v-model:text="m" v-model:codec="m_codec" title="Plain text" />
+    <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
+    <div class="divider my-8">
+      <button
+        :disabled="!k.n || !k.d" class="btn btn-outline btn-sm"
+        @click="sign"
+      >
+        Sign
+      </button>/
+      <button
+        :disabled="!k.n || !k.e" class="btn btn-outline btn-sm"
+        @click="verify"
+      >
+        Verify
+      </button>
+    </div>
+    <KitFormTextAreaWithCodec v-model:text="s" v-model:codec="s_codec" title="Signature" />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">
         <KitRefLink
-          :texts="['RFC 8017 PKCS#1']"
+          :texts="['RFC 8017']"
           icon="icon-[carbon--html-reference]"
           href="https://www.rfc-editor.org/rfc/rfc8017"
         />
