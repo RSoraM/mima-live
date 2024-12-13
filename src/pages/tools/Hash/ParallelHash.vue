@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HEX, parallelHash128, parallelHash128XOF, parallelHash256, parallelHash256XOF, UTF8 } from 'mima-kit';
+import { HEX, parallelhash128, parallelhash128XOF, parallelhash256, parallelhash256XOF, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'ParallelHash' });
 
@@ -20,13 +20,13 @@ const alg = computed(() => {
   const S = s_codec.value(s.value);
   switch (variants.value) {
     case 'ParallelHash-128':
-      return parallelHash128(b.value, t.value, S);
+      return parallelhash128(b.value, t.value, S);
     case 'ParallelHash-128 XOF':
-      return parallelHash128XOF(b.value, t.value, S);
+      return parallelhash128XOF(b.value, t.value, S);
     case 'ParallelHash-256':
-      return parallelHash256(b.value, t.value, S);
+      return parallelhash256(b.value, t.value, S);
     case 'ParallelHash-256 XOF':
-      return parallelHash256XOF(b.value, t.value, S);
+      return parallelhash256XOF(b.value, t.value, S);
     default:
       return undefined;
   }

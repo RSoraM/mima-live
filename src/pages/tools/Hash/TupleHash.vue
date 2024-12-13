@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HEX, tupleHash128, tupleHash128XOF, tupleHash256, tupleHash256XOF, UTF8 } from 'mima-kit';
+import { HEX, tuplehash128, tuplehash128XOF, tuplehash256, tuplehash256XOF, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'TupleHash' });
 
@@ -19,13 +19,13 @@ const alg = computed(() => {
   const S = s_codec.value(s.value);
   switch (variants.value) {
     case 'TupleHash-128':
-      return tupleHash128(t.value, S);
+      return tuplehash128(t.value, S);
     case 'TupleHash-128 XOF':
-      return tupleHash128XOF(t.value, S);
+      return tuplehash128XOF(t.value, S);
     case 'TupleHash-256':
-      return tupleHash256(t.value, S);
+      return tuplehash256(t.value, S);
     case 'TupleHash-256 XOF':
-      return tupleHash256XOF(t.value, S);
+      return tuplehash256XOF(t.value, S);
     default:
       return undefined;
   }

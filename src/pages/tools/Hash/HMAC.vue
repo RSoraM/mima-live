@@ -85,7 +85,7 @@ watchEffect(() => {
     return;
   const K = k_codec.value(k.value);
   const I = i_codec.value(i.value);
-  const res = alg.value(K)(I);
+  const res = alg.value(K, I);
   o.value = o_codec.value(res);
 });
 </script>

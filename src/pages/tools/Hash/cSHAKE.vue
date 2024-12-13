@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cShake128, cShake256, HEX, UTF8 } from 'mima-kit';
+import { cshake128, cshake256, HEX, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'CSHAKE' });
 
@@ -19,9 +19,9 @@ const alg = computed(() => {
   const S = s_codec.value(s.value);
   switch (variants.value) {
     case 'cSHAKE-128':
-      return cShake128(t.value, N, S);
+      return cshake128(t.value, N, S);
     case 'cSHAKE-256':
-      return cShake256(t.value, N, S);
+      return cshake256(t.value, N, S);
     default:
       return undefined;
   }
