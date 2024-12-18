@@ -4,15 +4,14 @@ import { HEX, turboshake128, turboshake256, UTF8 } from 'mima-kit';
 defineOptions({ name: 'TurboSHAKE' });
 
 const t = ref(256);
-const variants = ref('TurboSHAKE-128');
-const variantOptions: SelectOption[] = [
+const d = ref(0x1F);
+const variant = ref('TurboSHAKE-128');
+const variant_options: SelectOption[] = [
   { label: 'TurboSHAKE-128', value: 'TurboSHAKE-128' },
   { label: 'TurboSHAKE-256', value: 'TurboSHAKE-256' },
 ];
-
-const d = ref(0x1F);
-const alg = computed(() => {
-  switch (variants.value) {
+const hash = computed(catchNotifySync(() => {
+  switch (variant.value) {
     case 'TurboSHAKE-128':
       return turboshake128(t.value, d.value);
     case 'TurboSHAKE-256':
@@ -20,20 +19,26 @@ const alg = computed(() => {
     default:
       return undefined;
   }
-});
+}));
 
 const i = ref('mima-kit');
 const i_codec = ref(UTF8);
 const o = ref('');
 const o_codec = ref(HEX);
 
-watchEffect(() => {
-  if (!alg.value)
-    return;
-  const I = i_codec.value(i.value);
-  const res = alg.value(I);
-  o.value = o_codec.value(res);
-});
+watch(
+  [i, hash],
+  () => {
+    if (!hash.value)
+      return;
+    const I = i_codec.value(i.value);
+    const res = hash.value(I);
+    o.value = o_codec.value(res);
+  },
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>
@@ -42,10 +47,10 @@ watchEffect(() => {
       TurboSHAKE
     </h1>
     <KitFormControl title="Variant">
-      <KitBaseFormSelect v-model="variants" :options="variantOptions" />
+      <KitBaseFormSelect v-model="variant" :options="variant_options" />
     </KitFormControl>
     <div class="flex gap-2">
-      <KitFormInput v-model="t" type="number" title="Digest Size (bits)" />
+      <KitFormInput v-model="t" type="number" title="Digest Size (bit)" />
       <KitFormInput v-model="d" type="number" title="Domain Separator" />
     </div>
     <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
@@ -61,11 +66,11 @@ watchEffect(() => {
       </KitStat>
 
       <KitStat title="Digest Size (bytes)">
-        {{ alg?.DIGEST_SIZE }}
+        {{ hash?.DIGEST_SIZE }}
       </KitStat>
 
       <KitStat title="Block Size (bytes)">
-        {{ alg?.BLOCK_SIZE }}
+        {{ hash?.BLOCK_SIZE }}
       </KitStat>
 
       <KitStat title="Structure">

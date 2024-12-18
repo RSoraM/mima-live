@@ -26,7 +26,7 @@ onBeforeRouteUpdate(() => {
           <TheKitMenu />
         </div>
       </dialog>
-      <RouterView class="mx-auto flex w-full max-w-md flex-col p-4" />
+      <RouterView class="mx-auto flex w-full max-w-lg flex-col p-4" />
     </div>
   </div>
 </template>

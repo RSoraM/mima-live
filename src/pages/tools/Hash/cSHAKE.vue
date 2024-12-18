@@ -4,41 +4,48 @@ import { cshake128, cshake256, HEX, UTF8 } from 'mima-kit';
 defineOptions({ name: 'CSHAKE' });
 
 const t = ref(256);
-const variants = ref('cSHAKE-128');
-const variantOptions: SelectOption[] = [
-  { label: 'cSHAKE-128', value: 'cSHAKE-128' },
-  { label: 'cSHAKE-256', value: 'cSHAKE-256' },
-];
-
 const n = ref('');
 const n_codec = ref(UTF8);
 const s = ref('');
 const s_codec = ref(UTF8);
+const variant = ref('cSHAKE-128');
+const variant_options: SelectOption[] = [
+  { label: 'cSHAKE-128', value: 'cSHAKE-128' },
+  { label: 'cSHAKE-256', value: 'cSHAKE-256' },
+];
 const alg = computed(() => {
-  const N = n_codec.value(n.value);
-  const S = s_codec.value(s.value);
-  switch (variants.value) {
+  switch (variant.value) {
     case 'cSHAKE-128':
-      return cshake128(t.value, N, S);
+      return cshake128;
     case 'cSHAKE-256':
-      return cshake256(t.value, N, S);
+      return cshake256;
     default:
       return undefined;
   }
 });
+const hash = ref<ReturnType<typeof cshake128>>();
 
 const i = ref('mima-kit');
 const i_codec = ref(UTF8);
 const o = ref('');
 const o_codec = ref(HEX);
 
-watchEffect(() => {
-  if (!alg.value)
-    return;
-  const I = i_codec.value(i.value);
-  const res = alg.value(I);
-  o.value = o_codec.value(res);
-});
+watch(
+  [i, alg, n, s],
+  () => {
+    if (!alg.value)
+      return;
+    const N = n_codec.value(n.value);
+    const S = s_codec.value(s.value);
+    hash.value = alg.value(t.value, N, S);
+    const I = i_codec.value(i.value);
+    const res = hash.value(I);
+    o.value = o_codec.value(res);
+  },
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>
@@ -48,15 +55,15 @@ watchEffect(() => {
     </h1>
     <div class="flex gap-2">
       <KitFormControl title="Variant">
-        <KitBaseFormSelect v-model="variants" :options="variantOptions" />
+        <KitBaseFormSelect v-model="variant" :options="variant_options" />
       </KitFormControl>
       <KitFormInput
         v-model="t" type="number"
-        title="output (bits)"
+        title="Digest Size (bit)"
       />
     </div>
-    <KitFormInputWithCodec v-model:text="n" v-model:codec="n_codec" title="function-name" />
-    <KitFormInputWithCodec v-model:text="s" v-model:codec="s_codec" title="customization" />
+    <KitFormInputWithCodec v-model:text="n" v-model:codec="n_codec" title="Function-Name" />
+    <KitFormInputWithCodec v-model:text="s" v-model:codec="s_codec" title="Customization" />
     <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
     <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
 
@@ -74,17 +81,15 @@ watchEffect(() => {
       </KitStat>
 
       <KitStat title="Digest Size (bytes)">
-        {{ alg?.DIGEST_SIZE }}
+        {{ hash?.DIGEST_SIZE }}
       </KitStat>
 
       <KitStat title="Block Size (bytes)">
-        {{ alg?.BLOCK_SIZE }}
+        {{ hash?.BLOCK_SIZE }}
       </KitStat>
 
       <KitStat title="Structure">
-        Sponge<br>
-        with<br>
-        Keccak
+        Sponge & Keccak-p
       </KitStat>
 
       <KitStat title="Round">

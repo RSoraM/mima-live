@@ -8,11 +8,17 @@ const i_codec = ref(UTF8);
 const o = ref('');
 const o_codec = ref(HEX);
 
-watchEffect(() => {
-  const I = i_codec.value(i.value);
-  const res = sm3(I);
-  o.value = o_codec.value(res);
-});
+watch(
+  i,
+  catchNotifySync(() => {
+    const I = i_codec.value(i.value);
+    const res = sm3(I);
+    o.value = o_codec.value(res);
+  }),
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>

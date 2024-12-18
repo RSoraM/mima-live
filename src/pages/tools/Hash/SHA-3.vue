@@ -3,16 +3,15 @@ import { HEX, sha3_224, sha3_256, sha3_384, sha3_512, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'SHA3' });
 
-const variants = ref('SHA-3-256');
-const variantOptions: SelectOption[] = [
+const variant = ref('SHA-3-256');
+const variant_options: SelectOption[] = [
   { label: 'SHA-3-224', value: 'SHA-3-224' },
   { label: 'SHA-3-256', value: 'SHA-3-256' },
   { label: 'SHA-3-384', value: 'SHA-3-384' },
   { label: 'SHA-3-512', value: 'SHA-3-512' },
 ];
-
-const alg = computed(() => {
-  switch (variants.value) {
+const hash = computed(() => {
+  switch (variant.value) {
     case 'SHA-3-224':
       return sha3_224;
     case 'SHA-3-256':
@@ -31,13 +30,19 @@ const i_codec = ref(UTF8);
 const o = ref('');
 const o_codec = ref(HEX);
 
-watchEffect(() => {
-  if (!alg.value)
-    return;
-  const I = i_codec.value(i.value);
-  const res = alg.value(I);
-  o.value = o_codec.value(res);
-});
+watch(
+  [i, hash],
+  catchNotifySync(() => {
+    if (!hash.value)
+      return;
+    const I = i_codec.value(i.value);
+    const res = hash.value(I);
+    o.value = o_codec.value(res);
+  }),
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>
@@ -47,7 +52,7 @@ watchEffect(() => {
     </h1>
     <div class="flex gap-2">
       <KitFormControl title="Variant">
-        <KitBaseFormSelect v-model="variants" :options="variantOptions" />
+        <KitBaseFormSelect v-model="variant" :options="variant_options" />
       </KitFormControl>
     </div>
     <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
@@ -67,17 +72,15 @@ watchEffect(() => {
       </KitStat>
 
       <KitStat title="Digest Size (bytes)">
-        {{ alg?.DIGEST_SIZE }}
+        {{ hash?.DIGEST_SIZE }}
       </KitStat>
 
       <KitStat title="Block Size (bytes)">
-        {{ alg?.BLOCK_SIZE }}
+        {{ hash?.BLOCK_SIZE }}
       </KitStat>
 
       <KitStat title="Structure">
-        Sponge<br>
-        with<br>
-        Keccak
+        Sponge & Keccak-p
       </KitStat>
 
       <KitStat title="Round">
