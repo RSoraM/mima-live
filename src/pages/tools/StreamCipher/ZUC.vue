@@ -52,7 +52,7 @@ const cipher = catchNotify(() => {
     </div>
     <KitFormInputWithCodec v-model:text="counter" v-model:codec="counter_codec" title="Counter" />
     <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
-    <KitFormInput v-model="i_length" type="number" title="Input Length (bits)" />
+    <KitFormInput v-model="i_length" type="number" title="Input Length (bit)" />
     <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
     <div class="divider my-8">
       <button
@@ -98,8 +98,8 @@ const cipher = catchNotify(() => {
         2016
       </KitStat>
 
-      <KitStat title="Key Size">
-        16 bytes
+      <KitStat title="Key Size (bytes)">
+        16
       </KitStat>
     </div>
   </div>
