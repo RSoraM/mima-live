@@ -113,19 +113,12 @@ const disableNoPad = computed(() => !allowNoPadModes.includes(mode.value));
   />
 
   <div class="divider my-8">
-    <button
-      class="btn btn-outline btn-sm"
-      @click="encrypt"
-    >
+    <KitButton @click="encrypt">
       Encrypt
-    </button>
-    /
-    <button
-      class="btn btn-outline btn-sm"
-      @click="decrypt"
-    >
+    </KitButton>/
+    <KitButton @click="decrypt">
       Decrypt
-    </button>
+    </KitButton>
   </div>
   <KitFormTextAreaWithCodec v-model:text="p" v-model:codec="p_codec" title="Plain text" />
   <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
@@ -134,19 +127,12 @@ const disableNoPad = computed(() => !allowNoPadModes.includes(mode.value));
     v-show="mode.ALGORITHM === 'GCM'"
     class="divider my-8"
   >
-    <button
-      class="btn btn-outline btn-sm"
-      @click="sign"
-    >
+    <KitButton @click="sign">
       Sign
-    </button>
-    /
-    <button
-      class="btn btn-outline btn-sm"
-      @click="verify"
-    >
+    </KitButton>/
+    <KitButton @click="verify">
       Verify
-    </button>
+    </KitButton>
   </div>
   <KitFormInputWithCodec
     v-show="mode.ALGORITHM === 'GCM'"

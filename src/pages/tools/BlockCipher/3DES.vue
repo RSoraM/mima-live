@@ -5,7 +5,7 @@ defineOptions({ name: '3DES' });
 
 const b = ref<128 | 192>(192);
 const alg = computed(catchNotifySync(() => t_des(b.value)));
-const variantOptions: SelectOption[] = [
+const variant_options: SelectOption[] = [
   { label: '128', value: 128 },
   { label: '192', value: 192 },
 ];
@@ -25,8 +25,8 @@ const init = {
       {{ b === 128 ? '2DES' : '3DES' }}
     </h1>
 
-    <KitFormControl title="Key Size (bits)">
-      <KitBaseFormSelect v-model="b" :options="variantOptions" />
+    <KitFormControl title="Key Size (bit)">
+      <KitBaseFormSelect v-model="b" :options="variant_options" />
     </KitFormControl>
 
     <div class="divider my-8">

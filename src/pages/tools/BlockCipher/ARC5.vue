@@ -6,7 +6,7 @@ defineOptions({ name: 'ARC5' });
 const b = ref<8 | 16 | 32 | 64 | 128>(64);
 const r = ref(20);
 const alg = computed(catchNotifySync(() => arc5(b.value, r.value)));
-const variantOptions: SelectOption[] = [
+const variant_options: SelectOption[] = [
   { label: '8', value: 8 },
   { label: '16', value: 16 },
   { label: '32', value: 32 },
@@ -30,8 +30,8 @@ const init = {
     </h1>
 
     <div class="flex gap-2">
-      <KitFormControl title="Word Size (bytes)">
-        <KitBaseFormSelect v-model="b" :options="variantOptions" />
+      <KitFormControl title="Word Size (byte)">
+        <KitBaseFormSelect v-model="b" :options="variant_options" />
       </KitFormControl>
       <KitFormInput v-model="r" type="number" title="Rounds" />
     </div>

@@ -5,7 +5,7 @@ defineOptions({ name: 'Twofish' });
 
 const b = ref<128 | 192 | 256>(128);
 const alg = computed(catchNotifySync(() => twofish(b.value)));
-const variantOptions: SelectOption[] = [
+const variant_options: SelectOption[] = [
   { label: '128', value: 128 },
   { label: '192', value: 192 },
   { label: '256', value: 256 },
@@ -26,8 +26,8 @@ const init = {
       Twofish-{{ b }}
     </h1>
 
-    <KitFormControl title="Key Size (bits)">
-      <KitBaseFormSelect v-model="b" :options="variantOptions" />
+    <KitFormControl title="Key Size (bit)">
+      <KitBaseFormSelect v-model="b" :options="variant_options" />
     </KitFormControl>
 
     <div class="divider my-8">
