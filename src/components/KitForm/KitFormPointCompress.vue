@@ -43,9 +43,9 @@ const compressed_p_codec = ref<Codec>(HEX);
 const uncompressed_p = ref('');
 const uncompressed_p_codec = ref<Codec>(HEX);
 function convert() {
-  const compressed = ec.value.PointToU8(p_raw.value);
+  const compressed = ec.value.PointToU8(p_raw.value, true);
   compressed_p.value = compressed_p_codec.value(compressed);
-  const uncompressed = ec.value.PointToU8(p_raw.value, true);
+  const uncompressed = ec.value.PointToU8(p_raw.value);
   uncompressed_p.value = uncompressed_p_codec.value(uncompressed);
 }
 function recover() {
@@ -74,28 +74,12 @@ convert();
 
 <template>
   <div>
-    <KitFormInput v-model="p.x" :title="`${title}.x (${getBIBits(p_raw.x)} byte)`" />
-    <KitFormInput v-model="p.y" :title="`${title}.y (${getBIBits(p_raw.y)} byte)`" />
-    <details v-if="fold" class="collapse collapse-plus my-2 bg-base-300">
-      <summary class="collapse-title text-lg font-bold">
+    <KitFormInputWithCodec v-model:codec="p_codec" v-model:text="p.x" :title="`${title}.x (${getBIBits(p_raw.x)} byte)`" />
+    <KitFormInputWithCodec v-model:codec="p_codec" v-model:text="p.y" :title="`${title}.y (${getBIBits(p_raw.y)} byte)`" />
+    <KitCollapse v-if="fold" class="my-2 bg-base-300">
+      <template #header>
         Point Compression
-      </summary>
-      <div class="collapse-content">
-        <KitFormToggle v-model="p.isInfinity" :title="`${title}.isInfinity`" />
-        <!-- Compression -->
-        <div class="divider my-6">
-          <button class="btn btn-outline btn-sm" @click="recover()">
-            Recover
-          </button>/
-          <button class="btn btn-outline btn-sm" @click="convert()">
-            Convert
-          </button>
-        </div>
-        <KitFormInput v-model="compressed_p" :title="`Compressed ${title}`" />
-        <KitFormInput v-model="uncompressed_p" :title="`Uncompressed ${title}`" />
-      </div>
-    </details>
-    <div v-else>
+      </template>
       <KitFormToggle v-model="p.isInfinity" :title="`${title}.isInfinity`" />
       <!-- Compression -->
       <div class="divider my-6">
@@ -106,8 +90,22 @@ convert();
           Convert
         </button>
       </div>
-      <KitFormInput v-model="compressed_p" :title="`Compressed ${title}`" />
-      <KitFormInput v-model="uncompressed_p" :title="`Uncompressed ${title}`" />
+      <KitFormInputWithCodec v-model:codec="compressed_p_codec" v-model:text="compressed_p" :title="`Compressed ${title}`" />
+      <KitFormInputWithCodec v-model:codec="uncompressed_p_codec" v-model:text="uncompressed_p" :title="`Uncompressed ${title}`" />
+    </KitCollapse>
+    <div v-else>
+      <KitFormToggle v-model="p.isInfinity" :title="`${title}.isInfinity`" />
+      <!-- Compression -->
+      <div class="divider my-6">
+        <KitButton @click="recover()">
+          Recover
+        </KitButton>/
+        <KitButton @click="convert()">
+          Convert
+        </KitButton>
+      </div>
+      <KitFormInputWithCodec v-model:codec="compressed_p_codec" v-model:text="compressed_p" :title="`Compressed ${title}`" />
+      <KitFormInputWithCodec v-model:codec="uncompressed_p_codec" v-model:text="uncompressed_p" :title="`Uncompressed ${title}`" />
     </div>
   </div>
 </template>

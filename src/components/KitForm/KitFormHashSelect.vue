@@ -1,83 +1,189 @@
 <script setup lang="ts">
-import { md5, sha1, sha3_224, sha3_256, sha3_384, sha3_512, sha224, sha256, sha384, sha512, sha512t, shake128, shake256, sm3 } from 'mima-kit';
+import { cshake128, cshake256, kt128, kt256, md5, parallelhash128, parallelhash128XOF, parallelhash256, parallelhash256XOF, sha1, sha3_224, sha3_256, sha3_384, sha3_512, sha224, sha256, sha384, sha512, sha512t, shake128, shake256, sm3, turboshake128, turboshake256, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'KitFormHashSelect' });
-defineProps<{ title?: string }>();
+const {
+  options: hash_options = [
+    { label: 'SM3', value: sm3.ALGORITHM },
+    { label: 'MD5', value: md5.ALGORITHM },
+    { label: 'SHA-1', value: sha1.ALGORITHM },
+    { label: 'SHA-224', value: sha224.ALGORITHM },
+    { label: 'SHA-256', value: sha256.ALGORITHM },
+    { label: 'SHA-384', value: sha384.ALGORITHM },
+    { label: 'SHA-512', value: sha512.ALGORITHM },
+    { label: 'SHA-512/t', value: 'SHA-512/t' },
+    { label: 'SHA3-224', value: sha3_224.ALGORITHM },
+    { label: 'SHA3-256', value: sha3_256.ALGORITHM },
+    { label: 'SHA3-384', value: sha3_384.ALGORITHM },
+    { label: 'SHA3-512', value: sha3_512.ALGORITHM },
+    { label: 'SHAKE-128', value: 'SHAKE-128' },
+    { label: 'SHAKE-256', value: 'SHAKE-256' },
+    { label: 'cSHAKE-128', value: 'cSHAKE-128' },
+    { label: 'cSHAKE-256', value: 'cSHAKE-256' },
+    { label: 'ParallelHash-128', value: 'ParallelHash-128' },
+    { label: 'ParallelHash-256', value: 'ParallelHash-256' },
+    { label: 'ParallelHash-128XOF', value: 'ParallelHash-128XOF' },
+    { label: 'ParallelHash-256XOF', value: 'ParallelHash-256XOF' },
+    { label: 'TurboSHAKE-128', value: 'TurboSHAKE-128' },
+    { label: 'TurboSHAKE-256', value: 'TurboSHAKE-256' },
+    { label: 'KangarooTwelve-128', value: 'KangarooTwelve-128' },
+    { label: 'KangarooTwelve-256', value: 'KangarooTwelve-256' },
+  ],
+} = defineProps<{ title?: string; options?: SelectOption[] }>();
 const hash = defineModel<typeof sha256>({ default: sha256 });
-const t = ref(256);
 const alg = ref(hash.value.ALGORITHM);
-const hash_options: SelectOption[] = [
-  { label: 'SM3', value: sm3.ALGORITHM },
-  { label: 'MD5', value: md5.ALGORITHM },
-  { label: 'SHA-1', value: sha1.ALGORITHM },
-  { label: 'SHA-224', value: sha224.ALGORITHM },
-  { label: 'SHA-256', value: sha256.ALGORITHM },
-  { label: 'SHA-384', value: sha384.ALGORITHM },
-  { label: 'SHA-512', value: sha512.ALGORITHM },
-  { label: 'SHA-512/t', value: 'SHA-512/t' },
-  { label: 'SHA3-224', value: sha3_224.ALGORITHM },
-  { label: 'SHA3-256', value: sha3_256.ALGORITHM },
-  { label: 'SHA3-384', value: sha3_384.ALGORITHM },
-  { label: 'SHA3-512', value: sha3_512.ALGORITHM },
-  { label: 'SHAKE-128', value: 'SHAKE-128' },
-  { label: 'SHAKE-256', value: 'SHAKE-256' },
-];
-watch(alg, () => {
-  switch (alg.value) {
-    case md5.ALGORITHM:
-      hash.value = md5;
-      break;
-    case sha1.ALGORITHM:
-      hash.value = sha1;
-      break;
-    case sha224.ALGORITHM:
-      hash.value = sha224;
-      break;
-    case sha256.ALGORITHM:
-      hash.value = sha256;
-      break;
-    case sha384.ALGORITHM:
-      hash.value = sha384;
-      break;
-    case sha512.ALGORITHM:
-      hash.value = sha512;
-      break;
-    case 'SHA-512/t':
-      hash.value = sha512t(t.value);
-      break;
-    case sha3_224.ALGORITHM:
-      hash.value = sha3_224;
-      break;
-    case sha3_256.ALGORITHM:
-      hash.value = sha3_256;
-      break;
-    case sha3_384.ALGORITHM:
-      hash.value = sha3_384;
-      break;
-    case sha3_512.ALGORITHM:
-      hash.value = sha3_512;
-      break;
-    case 'SHAKE-128':
-      hash.value = shake128(t.value);
-      break;
-    case 'SHAKE-256':
-      hash.value = shake256(t.value);
-      break;
-    case sm3.ALGORITHM:
+
+// DIGEST SIZE
+const t = ref(256);
+const show_t = computed(() => [
+  'SHA-512/t',
+  'SHAKE-128',
+  'SHAKE-256',
+  'cSHAKE-128',
+  'cSHAKE-256',
+  'ParallelHash-128',
+  'ParallelHash-256',
+  'ParallelHash-128XOF',
+  'ParallelHash-256XOF',
+  'TurboSHAKE-128',
+  'TurboSHAKE-256',
+  'KangarooTwelve-128',
+  'KangarooTwelve-256',
+].includes(alg.value));
+
+// Function name
+const fn = ref('');
+const fn_codec = ref(UTF8);
+const show_fn = computed(() => [
+  'cSHAKE-128',
+  'cSHAKE-256',
+].includes(alg.value));
+
+// Customization
+const ct = ref('');
+const ct_codec = ref(UTF8);
+const show_ct = computed(() => [
+  'cSHAKE-128',
+  'cSHAKE-256',
+  'ParallelHash-128',
+  'ParallelHash-256',
+  'ParallelHash-128XOF',
+  'ParallelHash-256XOF',
+  'KangarooTwelve-128',
+  'KangarooTwelve-256',
+].includes(alg.value));
+
+// Block size
+const block_size = ref(1024);
+const show_block_size = computed(() => [
+  'ParallelHash-128',
+  'ParallelHash-256',
+  'ParallelHash-128XOF',
+  'ParallelHash-256XOF',
+].includes(alg.value));
+
+// Domain Separator
+const ds = ref(0x1F);
+const show_ds = computed(() => [
+  'TurboSHAKE-128',
+  'TurboSHAKE-256',
+].includes(alg.value));
+
+watch(
+  [alg, t, fn, ct, block_size, ds],
+  catchNotifySync(() => {
+    const S = ct_codec.value(ct.value);
+    const N = fn_codec.value(fn.value);
+    if (alg.value === sm3.ALGORITHM) {
       hash.value = sm3;
-      break;
-    default:
-      break;
-  }
-});
-const show_t = computed(() => ['SHA-512/t', 'SHAKE-128', 'SHAKE-256'].includes(alg.value));
+    }
+    else if (alg.value === md5.ALGORITHM) {
+      hash.value = md5;
+    }
+    else if (alg.value === sha1.ALGORITHM) {
+      hash.value = sha1;
+    }
+    else if (alg.value === sha224.ALGORITHM) {
+      hash.value = sha224;
+    }
+    else if (alg.value === sha256.ALGORITHM) {
+      hash.value = sha256;
+    }
+    else if (alg.value === sha384.ALGORITHM) {
+      hash.value = sha384;
+    }
+    else if (alg.value === sha512.ALGORITHM) {
+      hash.value = sha512;
+    }
+    else if (alg.value === 'SHA-512/t') {
+      hash.value = sha512t(t.value);
+    }
+    else if (alg.value === sha3_224.ALGORITHM) {
+      hash.value = sha3_224;
+    }
+    else if (alg.value === sha3_256.ALGORITHM) {
+      hash.value = sha3_256;
+    }
+    else if (alg.value === sha3_384.ALGORITHM) {
+      hash.value = sha3_384;
+    }
+    else if (alg.value === sha3_512.ALGORITHM) {
+      hash.value = sha3_512;
+    }
+    else if (alg.value === 'SHAKE-128') {
+      hash.value = shake128(t.value);
+    }
+    else if (alg.value === 'SHAKE-256') {
+      hash.value = shake256(t.value);
+    }
+    else if (alg.value === 'cSHAKE-128') {
+      hash.value = cshake128(t.value, N, S);
+    }
+    else if (alg.value === 'cSHAKE-256') {
+      hash.value = cshake256(t.value, N, S);
+    }
+    else if (alg.value === 'ParallelHash-128') {
+      hash.value = parallelhash128(block_size.value, t.value, S);
+    }
+    else if (alg.value === 'ParallelHash-256') {
+      hash.value = parallelhash256(block_size.value, t.value, S);
+    }
+    else if (alg.value === 'ParallelHash-128XOF') {
+      hash.value = parallelhash128XOF(block_size.value, t.value, S);
+    }
+    else if (alg.value === 'ParallelHash-256XOF') {
+      hash.value = parallelhash256XOF(block_size.value, t.value, S);
+    }
+    else if (alg.value === 'TurboSHAKE-128') {
+      hash.value = turboshake128(t.value, ds.value);
+    }
+    else if (alg.value === 'TurboSHAKE-256') {
+      hash.value = turboshake256(t.value, ds.value);
+    }
+    else if (alg.value === 'KangarooTwelve-128') {
+      hash.value = kt128(t.value, S);
+    }
+    else if (alg.value === 'KangarooTwelve-256') {
+      hash.value = kt256(t.value, S);
+    }
+  }),
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div>
     <KitFormControl :title="title || 'Hash'">
       <KitBaseFormSelect v-model="alg" :options="hash_options" />
     </KitFormControl>
-    <KitFormInput v-show="show_t" v-model="t" title="t" />
+    <div class="flex gap-2">
+      <KitFormInput v-show="show_t" v-model="t" title="Digest Size (bit)" type="number" />
+      <KitFormInput v-show="show_block_size" v-model="block_size" type="number" title="Block Size (bit)" />
+      <KitFormInput v-show="show_ds" v-model="ds" type="number" title="Domain Separator" />
+    </div>
+    <KitFormInputWithCodec v-show="show_fn" v-model:text="fn" v-model:codec="fn_codec" title="Function-Name" />
+    <KitFormInputWithCodec v-show="show_ct" v-model:text="ct" v-model:codec="ct_codec" title="Customization" />
   </div>
 </template>

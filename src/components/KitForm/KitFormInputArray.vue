@@ -4,7 +4,7 @@ import type { Codec } from 'mima-kit';
 defineOptions({ name: 'KitFormInputArray' });
 defineProps<{ title: string }>();
 const model = defineModel<{ value: string }[]>('array');
-const codec = defineModel<Codec>('codec');
+const codec = defineModel<Codec>('codec', { required: true });
 
 function add() {
   if (!model.value)
@@ -16,6 +16,16 @@ function del(index: number) {
     return;
   model.value.splice(index, 1);
 }
+watch(
+  codec,
+  (new_codec, old_codec) => {
+    if (!model.value)
+      return;
+    model.value.forEach((m) => {
+      m.value = new_codec(old_codec(m.value));
+    });
+  },
+);
 </script>
 
 <template>
