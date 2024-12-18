@@ -56,36 +56,32 @@ function clearKey() {
   k.dQ = '';
   k.qInv = '';
 }
-watch(k_codec, (new_codec, old_codec) => {
-  k.n = new_codec(old_codec(k.n));
-  k.e = new_codec(old_codec(k.e));
-  k.d = new_codec(old_codec(k.d));
-  k.p = new_codec(old_codec(k.p));
-  k.q = new_codec(old_codec(k.q));
-  k.dP = new_codec(old_codec(k.dP));
-  k.dQ = new_codec(old_codec(k.dQ));
-  k.qInv = new_codec(old_codec(k.qInv));
+const k_raw = ref<{ [K in keyof RSAPrivateKey]: bigint }>({
+  n: 0n,
+  e: 0n,
+  d: 0n,
+  p: 0n,
+  q: 0n,
+  dP: 0n,
+  dQ: 0n,
+  qInv: 0n,
 });
-const k_raw = computed(() => ({
-  n: k.n ? k_codec.value(k.n).toBI() : 0n,
-  e: k.e ? k_codec.value(k.e).toBI() : 0n,
-  d: k.d ? k_codec.value(k.d).toBI() : 0n,
-  p: k.p ? k_codec.value(k.p).toBI() : 0n,
-  q: k.q ? k_codec.value(k.q).toBI() : 0n,
-  dP: k.dP ? k_codec.value(k.dP).toBI() : 0n,
-  dQ: k.dQ ? k_codec.value(k.dQ).toBI() : 0n,
-  qInv: k.qInv ? k_codec.value(k.qInv).toBI() : 0n,
-}));
-const k_bits = computed(() => ({
-  n: k.n ? k_raw.value.n.toString(2).length : 0,
-  e: k.e ? k_raw.value.e.toString(2).length : 0,
-  d: k.d ? k_raw.value.d.toString(2).length : 0,
-  p: k.p ? k_raw.value.p.toString(2).length : 0,
-  q: k.q ? k_raw.value.q.toString(2).length : 0,
-  dP: k.dP ? k_raw.value.dP.toString(2).length : 0,
-  dQ: k.dQ ? k_raw.value.dQ.toString(2).length : 0,
-  qInv: k.qInv ? k_raw.value.qInv.toString(2).length : 0,
-}));
+watch(
+  k,
+  catchNotifySync(() => (k_raw.value = {
+    n: k.n ? k_codec.value(k.n).toBI() : 0n,
+    e: k.e ? k_codec.value(k.e).toBI() : 0n,
+    d: k.d ? k_codec.value(k.d).toBI() : 0n,
+    p: k.p ? k_codec.value(k.p).toBI() : 0n,
+    q: k.q ? k_codec.value(k.q).toBI() : 0n,
+    dP: k.dP ? k_codec.value(k.dP).toBI() : 0n,
+    dQ: k.dQ ? k_codec.value(k.dQ).toBI() : 0n,
+    qInv: k.qInv ? k_codec.value(k.qInv).toBI() : 0n,
+  })),
+  {
+    immediate: true,
+  },
+);
 
 // Encryption Scheme
 const m = ref('mima-kit');
@@ -112,7 +108,7 @@ const oaep_mgf = ref('MGF1');
 const oaep_mgf_hash = ref(sha256);
 const oaep_label = ref('');
 const oaep_label_codec = ref(UTF8);
-function encrypt() {
+const encrypt = catchNotify(() => {
   if (es.value === 'Primitive') {
     const key = rsa(k_raw.value);
     const C = key.encrypt(m_codec.value(m.value));
@@ -131,8 +127,8 @@ function encrypt() {
     const C = cipher.encrypt(m_codec.value(m.value));
     c.value = c_codec.value(C);
   }
-}
-function decrypt() {
+});
+const decrypt = catchNotify(() => {
   if (es.value === 'Primitive') {
     const key = rsa(k_raw.value);
     const M = key.decrypt(c_codec.value(c.value));
@@ -151,7 +147,7 @@ function decrypt() {
     const M = cipher.decrypt(c_codec.value(c.value));
     m.value = m_codec.value(M);
   }
-}
+});
 
 // Signature Scheme with Appendix
 const s = ref('3f7b872a48c18853ed996afba0b24de7e332a7d2cb9d2b2428de0a7255d1aa5a11656df1c2283c17cfb8e21d5b36bb04e2d885e85f1b84f1dc3a1ee80f5087b6ca92f9d897f65d27b40152f1c7fad2fb339570f17fa460ec304441eb055292b6d1d58784ab69cf3d4b167c47457ed4356e326118221d2404ea6688c351afa2e63fadfe996df6f1086292804996180e6950dec81b9693ea4b8fcddb2a1b9b82eb4f098fbb1d39ac632fe14ac7eba56aea2cdfa33ad6df1ed7ab53bf72c5421206b664a6d2cd1131ea7c1fb1934c80d23ab6c697937bcf8b04091eb80239b7dcc42096076613fd7cf5e7ce74bb59b0f40df7efb66694a69f355075509253986835');
@@ -176,7 +172,7 @@ const pss_hash = ref(sha256);
 const pss_mgf = ref('MGF1');
 const pss_mgf_hash = ref(sha256);
 const pss_salt_length = ref(32);
-function sign() {
+const sign = catchNotify(() => {
   if (ssa.value === 'Primitive') {
     const key = rsa(k_raw.value);
     const S = key.sign(m_codec.value(m.value));
@@ -195,8 +191,8 @@ function sign() {
     const S = cipher.sign(m_codec.value(m.value));
     s.value = s_codec.value(S);
   }
-}
-function verify() {
+});
+const verify = catchNotify(() => {
   let isValidationPassed = false;
   if (ssa.value === 'Primitive') {
     const key = rsa(k_raw.value);
@@ -233,8 +229,9 @@ function verify() {
       type: 'error',
     });
   }
-}
+});
 
+// MGF
 const mgf_options: SelectOption[] = [
   {
     label: 'MGF1',
@@ -260,110 +257,144 @@ const mgf_options: SelectOption[] = [
     </div>
 
     <!-- Key Generation -->
-    <details class="collapse collapse-plus bg-base-200" open>
-      <summary class="collapse-title text-lg font-bold">
+    <KitCollapse class="bg-base-200" open>
+      <template #header>
         Key Generation
-      </summary>
-      <div class="collapse-content pt-4">
-        <div class="flex gap-2">
-          <KitFormInput v-model="b" type="number" title="Key Size (bits)" />
-          <KitFormControl title="Key Codec">
-            <KitBaseFormCodecSelect v-model="k_codec" title="Codec" />
-          </KitFormControl>
-        </div>
-        <div class="divider my-8">
-          <button class="btn btn-outline btn-sm" @click="clearKey">
-            Clear
-          </button>/
-          <button class="btn btn-outline btn-sm" @click="genKey">
-            Generate
-          </button>
-        </div>
-        <KitFormInput v-model="k.n" :title="`n: modulus (${k_bits.n} bit)`" />
-        <KitFormInput v-model="k.e" :title="`e: public exponent (${k_bits.e} bit)`" />
-        <KitFormInput v-model="k.d" :title="`d: private exponent (${k_bits.d} bit)`" />
-        <details class="collapse collapse-plus mt-4 bg-base-300">
-          <summary class="collapse-title  text-lg font-bold ">
-            Extra Value
-          </summary>
-          <div class="collapse-content">
-            <KitFormInput v-model="k.p" :title="`p: prime1 (${k_bits.p} bit)`" />
-            <KitFormInput v-model="k.q" :title="`q: prime2 (${k_bits.q} bit)`" />
-            <KitFormInput v-model="k.dP" :title="`dP: p's CRT exponent (${k_bits.dP} bit)`" />
-            <KitFormInput v-model="k.dQ" :title="`dQ: q's CRT exponent (${k_bits.dQ} bit)`" />
-            <KitFormInput v-model="k.qInv" :title="`qInv: CRT coefficient (${k_bits.qInv} bit)`" />
-          </div>
-        </details>
+      </template>
+      <KitFormInput v-model="b" type="number" title="Key Size (bit)" />
+      <div class="divider my-8">
+        <KitButton @click="clearKey">
+          Clear
+        </KitButton>/
+        <KitButton @click="genKey">
+          Generate
+        </KitButton>
       </div>
-    </details>
+      <KitFormInputWithCodec
+        v-model:codec="k_codec"
+        v-model:text="k.n"
+        :title="`n: modulus (${getBIBits(k_raw.n)} bit)`"
+      />
+      <KitFormInputWithCodec
+        v-model:codec="k_codec"
+        v-model:text="k.e"
+        :title="`e: public exponent (${getBIBits(k_raw.e)} bit)`"
+      />
+      <KitFormInputWithCodec
+        v-model:codec="k_codec"
+        v-model:text="k.d"
+        :title="`d: private exponent (${getBIBits(k_raw.d)} bit)`"
+      />
+      <KitCollapse class="mt-4 bg-base-300">
+        <template #header>
+          Extra Data
+        </template>
+        <KitFormInputWithCodec
+          v-model:codec="k_codec"
+          v-model:text="k.p"
+          :title="`p: prime1 (${getBIBits(k_raw.p)} bit)`"
+        />
+        <KitFormInputWithCodec
+          v-model:codec="k_codec"
+          v-model:text="k.q"
+          :title="`q: prime2 (${getBIBits(k_raw.q)} bit)`"
+        />
+        <KitFormInputWithCodec
+          v-model:codec="k_codec"
+          v-model:text="k.dP"
+          :title="`dP: p's CRT exponent (${getBIBits(k_raw.dP)} bit)`"
+        />
+        <KitFormInputWithCodec
+          v-model:codec="k_codec"
+          v-model:text="k.dQ"
+          :title="`dQ: q's CRT exponent (${getBIBits(k_raw.dQ)} bit)`"
+        />
+        <KitFormInputWithCodec
+          v-model:codec="k_codec"
+          v-model:text="k.qInv"
+          :title="`qInv: CRT coefficient (${getBIBits(k_raw.qInv)} bit)`"
+        />
+      </KitCollapse>
+    </KitCollapse>
 
     <!-- Encryption Scheme -->
-    <details class="collapse collapse-plus mt-4 bg-base-200">
-      <summary class="collapse-title  text-lg font-bold ">
+    <KitCollapse class="mt-4 bg-base-200">
+      <template #header>
         Encryption Scheme
-      </summary>
-      <div class="collapse-content pt-4">
-        <KitFormControl title="Encryption Scheme">
-          <KitBaseFormSelect v-model="es" :options="es_options" />
-        </KitFormControl>
-        <KitFormHashSelect v-show="es === 'RSAES-OAEP'" v-model="oaep_hash" title="Hash" />
-        <KitFormControl v-show="es === 'RSAES-OAEP'" title="MGF">
+      </template>
+      <KitFormControl title="Encryption Scheme">
+        <KitBaseFormSelect v-model="es" :options="es_options" />
+      </KitFormControl>
+      <div v-if="es === 'RSAES-OAEP'">
+        <div class="divider divider-start my-4 mb-2">
+          #1: Hash Algorithm
+        </div>
+        <KitFormHashSelect v-model="oaep_hash" title="Hash" />
+        <div class="divider divider-start my-4 mb-2">
+          #2: Mask Generation Function
+        </div>
+        <KitFormControl title="MGF">
           <KitBaseFormSelect v-model="oaep_mgf" :options="mgf_options" />
         </KitFormControl>
-        <KitFormHashSelect v-show="es === 'RSAES-OAEP'" v-model="oaep_mgf_hash" title="MGF Hash" />
-        <KitFormInputWithCodec v-show="es === 'RSAES-OAEP'" v-model:text="oaep_label" v-model:codec="oaep_label_codec" title="Label" />
+        <KitFormHashSelect v-model="oaep_mgf_hash" title="MGF Hash" />
+        <div class="divider divider-start my-4 mb-2">
+          #3: Label data
+        </div>
+        <KitFormInputWithCodec v-model:text="oaep_label" v-model:codec="oaep_label_codec" title="Label" />
       </div>
-    </details>
+    </KitCollapse>
 
     <!-- Signature Scheme -->
-    <details class="collapse collapse-plus mt-4 bg-base-200">
-      <summary class="collapse-title  text-lg font-bold ">
+    <KitCollapse class="mt-4 bg-base-200">
+      <template #header>
         Signature Scheme
-      </summary>
-      <div class="collapse-content pt-4">
-        <KitFormControl title="Signature Scheme">
-          <KitBaseFormSelect v-model="ssa" :options="ssa_options" />
-        </KitFormControl>
-        <KitFormHashSelect v-show="ssa === 'RSASSA-PSS'" v-model="pss_hash" title="Hash" />
-        <KitFormControl v-show="ssa === 'RSASSA-PSS'" title="MGF">
+      </template>
+      <KitFormControl title="Signature Scheme">
+        <KitBaseFormSelect v-model="ssa" :options="ssa_options" />
+      </KitFormControl>
+      <div v-if="ssa === 'RSASSA-PSS'">
+        <div class="divider divider-start my-4 mb-2">
+          #1: Hash Algorithm
+        </div>
+        <KitFormHashSelect v-model="pss_hash" title="Hash" />
+        <div class="divider divider-start my-4 mb-2">
+          #2: Mask Generation Function
+        </div>
+        <KitFormControl title="MGF">
           <KitBaseFormSelect v-model="pss_mgf" :options="mgf_options" />
         </KitFormControl>
-        <KitFormHashSelect v-show="ssa === 'RSASSA-PSS'" v-model="pss_mgf_hash" title="MGF Hash" />
-        <KitFormInput v-show="ssa === 'RSASSA-PSS'" v-model="pss_salt_length" type="number" title="Salt Length" />
-        <KitFormHashSelect v-show="ssa === 'RSASSA-PKCS1-v1_5'" v-model="v15_hash" title="Hash" />
+        <KitFormHashSelect v-model="pss_mgf_hash" title="MGF Hash" />
+        <div class="divider divider-start my-4 mb-2">
+          #3: Salt Length
+        </div>
+        <KitFormInput v-model="pss_salt_length" type="number" title="Salt Length" />
       </div>
-    </details>
+      <div v-if="ssa === 'RSASSA-PKCS1-v1_5'">
+        <div class="divider divider-start my-4 mb-2">
+          #1: Hash Algorithm
+        </div>
+        <KitFormHashSelect v-model="v15_hash" title="Hash" />
+      </div>
+    </KitCollapse>
 
     <!-- OP -->
     <div class="divider my-8">
-      <button
-        :disabled="!k.n || !k.e" class="btn btn-outline btn-sm"
-        @click="encrypt"
-      >
+      <KitButton :disabled="!k.n || !k.e" @click="encrypt">
         Encrypt
-      </button>/
-      <button
-        :disabled="!k.n || !k.d" class="btn btn-outline btn-sm"
-        @click="decrypt"
-      >
+      </KitButton>/
+      <KitButton :disabled="!k.n || !k.d" @click="decrypt">
         Decrypt
-      </button>
+      </KitButton>
     </div>
     <KitFormTextAreaWithCodec v-model:text="m" v-model:codec="m_codec" title="Plain text" />
     <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
     <div class="divider my-8">
-      <button
-        :disabled="!k.n || !k.d" class="btn btn-outline btn-sm"
-        @click="sign"
-      >
+      <KitButton :disabled="!k.n || !k.d" @click="sign">
         Sign
-      </button>/
-      <button
-        :disabled="!k.n || !k.e" class="btn btn-outline btn-sm"
-        @click="verify"
-      >
+      </KitButton>/
+      <KitButton :disabled="!k.n || !k.e" @click="verify">
         Verify
-      </button>
+      </KitButton>
     </div>
     <KitFormTextAreaWithCodec v-model:text="s" v-model:codec="s_codec" title="Signature" />
 

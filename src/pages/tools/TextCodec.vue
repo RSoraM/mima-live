@@ -15,11 +15,17 @@ function swap() {
   [i_codec.value, o_codec.value] = [o_codec.value, i_codec.value];
 }
 
-watchEffect(() => {
-  if (!autoConvert.value)
-    return;
-  convert();
-});
+watch(
+  [autoConvert, i, o],
+  catchNotifySync(() => {
+    if (!autoConvert.value)
+      return;
+    convert();
+  }),
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>
