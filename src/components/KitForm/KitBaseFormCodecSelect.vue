@@ -8,9 +8,9 @@ const codec = defineModel<Codec>({ default: UTF8 });
 const options: SelectOption[] = [
   { label: 'UTF-8', value: UTF8.FORMAT },
   { label: 'HEX', value: HEX.FORMAT },
-  { label: 'Base64', value: B64.FORMAT },
-  { label: 'Base64URL', value: B64URL.FORMAT },
-  { label: 'Core Values', value: CSV.FORMAT },
+  { label: 'B64', value: B64.FORMAT },
+  { label: 'B64URL', value: B64URL.FORMAT },
+  { label: 'CSV', value: CSV.FORMAT },
 ];
 const format = computed({
   get: () => codec.value.FORMAT,

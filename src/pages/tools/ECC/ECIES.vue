@@ -1,37 +1,17 @@
 <script setup lang="ts">
-import { aes, arc5, aria, blowfish, camellia, cbc, des, ecb, FpECC, HEX, hkdf, hmac, kmac128, kmac128XOF, kmac256, kmac256XOF, pbkdf2, PKCS7_PAD, secp256r1, sha256, sm4, t_des, tea, twofish, U8, UTF8, x963kdf, xtea } from 'mima-kit';
-
-interface ECCKeypair {
-  d: string;
-  Q: {
-    isInfinity: boolean;
-    x: string;
-    y: string;
-  };
-}
+import { aes, arc5, aria, blowfish, camellia, cbc, des, ecb, FpECC, HEX, hkdf, hmac, kmac128, kmac128XOF, kmac256, kmac256XOF, pbkdf2, PKCS7_PAD, secp256r1, sha256, sm4, t_des, tea, twofish, UTF8, x963kdf, xtea } from 'mima-kit';
 
 const curve = ref(secp256r1);
 const ec = computed(() => FpECC(curve.value));
 
 // KEY
-const codec = ref(HEX);
-const k = ref<ECCKeypair>({
-  d: '',
+const k = ref<ReturnType<typeof ec['value']['genKey']>>({
+  d: 0n,
   Q: {
     isInfinity: true,
-    x: '',
-    y: '',
+    x: 0n,
+    y: 0n,
   },
-});
-const k_raw = computed(() => {
-  return {
-    d: codec.value(k.value.d).toBI(),
-    Q: {
-      isInfinity: k.value.Q.isInfinity,
-      x: codec.value(k.value.Q.x).toBI(),
-      y: codec.value(k.value.Q.y).toBI(),
-    },
-  };
 });
 // ENCRYPTION
 const m = ref('mima-kit');
@@ -40,42 +20,14 @@ const c = ref('');
 const c_codec = ref(HEX);
 const d = ref('');
 const d_codec = ref(HEX);
-const r = ref<ECCKeypair['Q']>({
-  isInfinity: true,
-  x: '',
-  y: '',
+const r = ref<typeof k['value']>({
+  d: 0n,
+  Q: {
+    isInfinity: true,
+    x: 0n,
+    y: 0n,
+  },
 });
-const r_raw = computed(() => ({
-  isInfinity: r.value.isInfinity,
-  x: codec.value(r.value.x).toBI(),
-  y: codec.value(r.value.y).toBI(),
-}));
-
-// KEY GENERATION
-function genKey() {
-  clearKey();
-  const ec = FpECC(curve.value);
-  const keypair = ec.genKey();
-  k.value = {
-    d: U8.fromBI(keypair.d).to(codec.value),
-    Q: {
-      isInfinity: keypair.Q.isInfinity || false,
-      x: U8.fromBI(keypair.Q.x).to(codec.value),
-      y: U8.fromBI(keypair.Q.y).to(codec.value),
-    },
-  };
-}
-function clearKey() {
-  c.value = '';
-  k.value = {
-    d: '',
-    Q: {
-      isInfinity: true,
-      x: '',
-      y: '',
-    },
-  };
-}
 
 // BLOCK CIPHER
 const cipher_alg = ref('SM4');
@@ -289,13 +241,16 @@ function encrypt() {
     S2,
     iv,
   });
-  const { C, R, D } = ecies.encrypt(k_raw.value, m_codec.value(m.value));
+  const { C, R, D } = ecies.encrypt(k.value, m_codec.value(m.value));
   c.value = c_codec.value(C);
   d.value = d_codec.value(D);
   r.value = {
-    isInfinity: R.Q.isInfinity || false,
-    x: U8.fromBI(R.Q.x).to(codec.value),
-    y: U8.fromBI(R.Q.y).to(codec.value),
+    d: 0n,
+    Q: {
+      isInfinity: R.Q.isInfinity || false,
+      x: R.Q.x,
+      y: R.Q.y,
+    },
   };
 }
 function decrypt() {
@@ -317,28 +272,16 @@ function decrypt() {
     C: c_codec.value(c.value),
     D: d_codec.value(d.value),
     R: {
-      Q: r_raw.value,
+      Q: r.value.Q,
     },
   };
-  const P = ecies.decrypt(k_raw.value, C);
+  const P = ecies.decrypt(k.value, C);
   m.value = m_codec.value(P);
 }
-watch(codec, (new_codec, old_codec) => {
-  k.value = {
-    d: new_codec(old_codec(k.value.d)),
-    Q: {
-      isInfinity: k.value.Q.isInfinity,
-      x: new_codec(old_codec(k.value.Q.x)),
-      y: new_codec(old_codec(k.value.Q.y)),
-    },
-  };
-});
-watch(curve, () => {
-  clearKey();
-});
 
-genKey();
-encrypt();
+onMounted(() => {
+  encrypt();
+});
 </script>
 
 <template>
@@ -351,134 +294,115 @@ encrypt();
       Components Config
     </div>
     <!-- Key Generation -->
-    <details class="collapse collapse-plus bg-base-200" open>
-      <summary class="collapse-title text-lg font-bold">
+    <KitCollapse class="bg-base-200" open>
+      <template #header>
         Key Generation
-      </summary>
-      <div class="collapse-content pt-4">
-        <KitFormControl title="Key Codec">
-          <KitBaseFormCodecSelect v-model="codec" />
-        </KitFormControl>
-        <div class="divider my-8">
-          <button class="btn btn-outline btn-sm" @click="clearKey()">
-            Clear
-          </button>/
-          <button class="btn btn-outline btn-sm" @click="genKey()">
-            Generate
-          </button>
-        </div>
-        <KitFormInput v-model="k.d" :title="`Private Key d: (${getBIBits(k_raw.d)} bit)`" />
-        <KitFormPointCompress
-          v-model:curve="curve"
-          v-model:p="k.Q"
-          v-model:codec="codec"
-          title="Public Key Q"
-        />
-      </div>
-    </details>
+      </template>
+      <KitFormECKey
+        v-model="k"
+        :curve="curve"
+        :fold="true"
+      />
+    </KitCollapse>
     <!-- Cipher Config -->
-    <details class="collapse collapse-plus mt-4 bg-base-200">
-      <summary class="collapse-title text-lg font-bold">
+    <KitCollapse class="mt-4 bg-base-200">
+      <template #header>
         Cipher
-      </summary>
-      <div class="collapse-content pt-4">
-        <KitFormControl title="Cipher">
-          <KitBaseFormSelect v-model="cipher_alg" :options="cipher_option" />
+      </template>
+      <KitFormControl title="Cipher">
+        <KitBaseFormSelect v-model="cipher_alg" :options="cipher_option" />
+      </KitFormControl>
+      <KitFormControl v-show="show_chipher_key_size_option" title="Key Size">
+        <KitBaseFormSelect v-model="cipher_key_size" :options="cipher_key_size_option" />
+      </KitFormControl>
+      <div v-show="cipher_alg === 'ARC5'" class="flex gap-2">
+        <KitFormControl title="Word Size (byte)">
+          <KitBaseFormSelect v-model="cipher_arc5_ws" :options="cipher_arc5_ws_option" />
         </KitFormControl>
-        <KitFormControl v-show="show_chipher_key_size_option" title="Key Size">
-          <KitBaseFormSelect v-model="cipher_key_size" :options="cipher_key_size_option" />
-        </KitFormControl>
-        <div v-show="cipher_alg === 'ARC5'" class="flex gap-2">
-          <KitFormControl title="Word Size (byte)">
-            <KitBaseFormSelect v-model="cipher_arc5_ws" :options="cipher_arc5_ws_option" />
-          </KitFormControl>
-          <KitFormInput v-model="cipher_arc5_r" title="Rounds" type="number" />
-        </div>
-        <KitFormInput v-show="show_cipher_tea_r" v-model="cipher_tea_r" title="Rounds" type="number" />
-        <!-- Mode Config -->
-        <div class="divider my-8">
-          Operation Mode Config
-        </div>
-        <div class="flex gap-2">
-          <KitFormModeSelect v-model="cipher_mode" :blocksize="block_cipher?.BLOCK_SIZE" />
-          <KitFormPaddingSelect v-model:padding="cipher_padding" v-model:disable-no-pad="cipher_disable_no_padding" />
-        </div>
-        <KitFormInputWithCodec v-show="cipher_mode !== ecb" v-model:text="cipher_iv" v-model:codec="cipher_iv_codec" title="iv" />
+        <KitFormInput v-model="cipher_arc5_r" title="Rounds" type="number" />
       </div>
-    </details>
+      <KitFormInput v-show="show_cipher_tea_r" v-model="cipher_tea_r" title="Rounds" type="number" />
+      <!-- Mode Config -->
+      <div class="divider my-8">
+        Operation Mode Config
+      </div>
+      <div class="flex gap-2">
+        <KitFormModeSelect v-model="cipher_mode" :blocksize="block_cipher?.BLOCK_SIZE" />
+        <KitFormPaddingSelect v-model:padding="cipher_padding" v-model:disable-no-pad="cipher_disable_no_padding" />
+      </div>
+      <KitFormInputWithCodec v-show="cipher_mode !== ecb" v-model:text="cipher_iv" v-model:codec="cipher_iv_codec" title="iv" />
+    </KitCollapse>
     <!-- Mac Config -->
-    <details class="collapse collapse-plus mt-4 bg-base-200">
-      <summary class="collapse-title text-lg font-bold">
+    <KitCollapse class="mt-4 bg-base-200">
+      <template #header>
         Mac
-      </summary>
-      <div class="collapse-content pt-4">
-        <KitFormControl title="Mac">
-          <KitBaseFormSelect v-model="mac_alg" :options="mac_option" />
-        </KitFormControl>
-        <KitFormHashSelect v-if="mac_alg === 'HMAC'" v-model="mac_hash" title="Mac-Hash" />
-        <KitFormInputWithCodec v-else v-model:text="mac_s" v-model:codec="mac_s_codec" title="Customization" />
-        <KitFormInput v-model="mac_d" title="Digest Size (byte)" />
-        <KitFormInput v-model="mac_k" title="Key Size (byte)" />
-      </div>
-    </details>
+      </template>
+      <KitFormControl title="Mac">
+        <KitBaseFormSelect v-model="mac_alg" :options="mac_option" />
+      </KitFormControl>
+      <KitFormHashSelect v-if="mac_alg === 'HMAC'" v-model="mac_hash" title="Mac-Hash" />
+      <KitFormInputWithCodec v-else v-model:text="mac_s" v-model:codec="mac_s_codec" title="Customization" />
+      <KitFormInput v-model="mac_d" title="Digest Size (byte)" />
+      <KitFormInput v-model="mac_k" title="Key Size (byte)" />
+    </KitCollapse>
     <!-- KDF -->
-    <details class="collapse collapse-plus mt-4 bg-base-200">
-      <summary class="collapse-title text-lg font-bold">
+    <KitCollapse class="mt-4 bg-base-200">
+      <template #header>
         KDF
-      </summary>
-      <div class="collapse-content pt-4">
-        <KitFormControl title="KDF">
-          <KitBaseFormSelect v-model="kdf_alg" :options="kdf_option" />
+      </template>
+      <KitFormControl title="KDF">
+        <KitBaseFormSelect v-model="kdf_alg" :options="kdf_option" />
+      </KitFormControl>
+      <div v-if="kdf_alg === 'ANSI X9.63'">
+        <KitFormHashSelect v-model="kdf_hash" />
+      </div>
+      <div v-else>
+        <KitFormInputWithCodec v-model="kdf_salt" v-model:codec="kdf_salt_codec" title="Salt" />
+        <KitFormControl title="KDF-Mac">
+          <KitBaseFormSelect v-model="kdf_mac_alg" :options="mac_option" />
         </KitFormControl>
-        <div v-if="kdf_alg === 'ANSI X9.63'">
-          <KitFormHashSelect v-model="kdf_hash" />
-        </div>
-        <div v-else>
-          <KitFormInputWithCodec v-model="kdf_salt" v-model:codec="kdf_salt_codec" title="Salt" />
-          <KitFormControl title="KDF-Mac">
-            <KitBaseFormSelect v-model="kdf_mac_alg" :options="mac_option" />
-          </KitFormControl>
-          <KitFormHashSelect v-if="kdf_mac_alg === 'HMAC'" v-model="kdf_mac_hash" title="KDF-Mac-Hash" />
-          <KitFormInputWithCodec v-else v-model:text="kdf_mac_s" v-model:codec="kdf_mac_s_codec" title="Customization" />
-          <KitFormInput v-model="kdf_mac_d" title="Digest Size (byte)" />
-          <KitFormInput v-model="kdf_mac_k" title="Key Size (byte)" />
-        </div>
-        <KitFormInput v-if="kdf_alg === 'PBKDF2'" v-model="kdf_iterations" title="Iterations" type="number" />
+        <KitFormHashSelect v-if="kdf_mac_alg === 'HMAC'" v-model="kdf_mac_hash" title="KDF-Mac-Hash" />
+        <KitFormInputWithCodec v-else v-model:text="kdf_mac_s" v-model:codec="kdf_mac_s_codec" title="Customization" />
+        <KitFormInput v-model="kdf_mac_d" title="Digest Size (byte)" />
+        <KitFormInput v-model="kdf_mac_k" title="Key Size (byte)" />
       </div>
-    </details>
+      <KitFormInput v-if="kdf_alg === 'PBKDF2'" v-model="kdf_iterations" title="Iterations" type="number" />
+    </KitCollapse>
     <!-- Additional Data -->
-    <details class="collapse collapse-plus mt-4 bg-base-200">
-      <summary class="collapse-title text-lg font-bold">
+    <KitCollapse class="mt-4 bg-base-200">
+      <template #header>
         Additional Data
-      </summary>
-      <div class="collapse-content pt-4">
-        <KitFormInputWithCodec v-model:text="s1" v-model:codec="s1_codec" title="S1" />
-        <KitFormInputWithCodec v-model:text="s2" v-model:codec="s2_codec" title="S2" />
-      </div>
-    </details>
+      </template>
+      <KitFormInputWithCodec v-model:text="s1" v-model:codec="s1_codec" title="S1" />
+      <KitFormInputWithCodec v-model:text="s2" v-model:codec="s2_codec" title="S2" />
+    </KitCollapse>
     <!-- Encryption -->
     <div class="divider my-8">
-      <button class="btn btn-outline btn-sm" @click="encrypt()">
+      <KitButton @click="encrypt()">
         Encrypt
-      </button>/
-      <button class="btn btn-outline btn-sm" @click="decrypt()">
+      </KitButton>/
+      <KitButton @click="decrypt()">
         Decrypt
-      </button>
+      </KitButton>
     </div>
     <KitFormTextAreaWithCodec v-model:text="m" v-model:codec="m_codec" title="Plaintext" />
     <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Ciphertext" />
     <KitFormInputWithCodec v-model:text="d" v-model:codec="d_codec" title="Tag" />
-    <KitFormPointCompress
-      v-model:curve="curve"
-      v-model:p="r"
-      v-model:codec="codec"
-      title="One-time public key R"
-    />
+    <KitFormECPoint
+      v-model="r"
+      :curve="curve"
+      :fold="true"
+      title="R"
+    >
+      <div class="divider my-8">
+        One Time Public key R
+      </div>
+    </KitFormECPoint>
 
     <!-- Curve Parameters -->
     <div class="divider my-8">
       Curve Parameters
     </div>
-    <KitCurveTable v-model:curve="curve" v-model:codec="codec" />
+    <KitCurveTable v-model:curve="curve" v-model:codec="HEX" />
   </div>
 </template>

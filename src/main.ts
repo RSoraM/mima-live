@@ -26,7 +26,7 @@ const routes = [
       {
         path: 'ECC',
         children: [
-          { name: 'Point Compress', path: 'PC', component: () => import('./pages/tools/ECC/PC.vue') },
+          { name: 'Key', path: 'Key', component: () => import('./pages/tools/ECC/KeyGen.vue') },
           { name: 'ECDH', path: 'ECDH', component: () => import('./pages/tools/ECC/ECDH.vue') },
           { name: 'ECMQV', path: 'ECMQV', component: () => import('./pages/tools/ECC/ECMQV.vue') },
           { name: 'ECDSA', path: 'ECDSA', component: () => import('./pages/tools/ECC/ECDSA.vue') },

@@ -6,7 +6,7 @@ import KitFormControl from './KitFormControl.vue';
 defineOptions({ name: 'KitFormInputWithCodec' });
 defineProps<{ title: string }>();
 const text = defineModel<string>('text', { default: '' });
-const codec = defineModel<Codec>('codec', { default: HEX });
+const codec = defineModel<Codec>('codec', { required: false, default: HEX });
 watch(codec, (new_codec, old_codec) => {
   text.value = new_codec(old_codec(text.value));
 });
