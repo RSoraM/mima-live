@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { sm4 } from 'mima-kit';
-
 defineOptions({ name: 'SM4' });
+
 const init = {
   k: '0123456789ABCDEFFEDCBA9876543210',
   iv: '0123456789ABCDEFFEDCBA9876543210',

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { arc4, HEX, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'ARC4' });
 
 const K = ref(HEX('0123456789abcdef'));

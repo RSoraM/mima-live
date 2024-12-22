@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, turboshake128, turboshake256, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'TurboSHAKE' });
 
 const t = ref(256);

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { twofish } from 'mima-kit';
-
 defineOptions({ name: 'Twofish' });
 
 const b = ref<128 | 192 | 256>(128);

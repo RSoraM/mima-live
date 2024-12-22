@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { camellia } from 'mima-kit';
-
-defineOptions({ name: 'AES' });
+defineOptions({ name: 'Camellia' });
 
 const b = ref<128 | 192 | 256>(128);
 const alg = computed(catchNotifySync(() => camellia(b.value)));

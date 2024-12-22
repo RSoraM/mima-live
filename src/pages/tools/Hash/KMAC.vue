@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, kmac128, kmac128XOF, kmac256, kmac256XOF, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'KMAC' });
 
 const t = ref(256);

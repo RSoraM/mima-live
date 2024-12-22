@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, parallelhash128, parallelhash128XOF, parallelhash256, parallelhash256XOF, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'ParallelHash' });
 
 const t = ref(256);

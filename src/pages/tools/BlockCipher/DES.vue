@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { des } from 'mima-kit';
-
 defineOptions({ name: 'DES' });
+
 const init = {
   k: '0123456789ABCDEF',
   iv: '0123456789ABCDEF',

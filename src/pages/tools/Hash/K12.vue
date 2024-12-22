@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, kt128, kt256, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'KangarooTwelve' });
 
 const t = ref(256);

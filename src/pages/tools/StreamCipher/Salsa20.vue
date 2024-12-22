@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, salsa20, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'Salsa20' });
 
 const K = ref(HEX('0123456789abcdeffedcba9876543210'));

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { xtea } from 'mima-kit';
-
 defineOptions({ name: 'XTEA' });
 
 const r = ref(32);

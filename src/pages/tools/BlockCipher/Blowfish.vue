@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { blowfish } from 'mima-kit';
+defineOptions({ name: 'Blowfish' });
 
-defineOptions({ name: 'SM4' });
 const init = {
   k: '0123456789ABCDEFFEDCBA9876543210',
   iv: '0123456789ABCDEF',

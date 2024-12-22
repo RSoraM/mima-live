@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { arc5 } from 'mima-kit';
-
 defineOptions({ name: 'ARC5' });
 
 const b = ref<8 | 16 | 32 | 64 | 128>(64);

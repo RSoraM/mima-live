@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, rabbit, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'Rabbit' });
 
 const K = ref(HEX('0123456789abcdeffedcba9876543210'));

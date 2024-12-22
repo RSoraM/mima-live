@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { t_des } from 'mima-kit';
-
 defineOptions({ name: '3DES' });
 
 const b = ref<128 | 192>(192);

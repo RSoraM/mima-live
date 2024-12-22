@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { aria } from 'mima-kit';
-
-defineOptions({ name: 'AES' });
+defineOptions({ name: 'ARIA' });
 
 const b = ref<128 | 192 | 256>(128);
 const alg = computed(catchNotifySync(() => aria(b.value)));

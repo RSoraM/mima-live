@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, hmac, sm3, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'HMAC' });
 
 const hash = ref(sm3);

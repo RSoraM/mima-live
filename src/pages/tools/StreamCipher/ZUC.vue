@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ZUCParams } from 'mima-kit';
-import { eea3, eia3, HEX } from 'mima-kit';
 
 defineOptions({ name: 'ZUC' });
 

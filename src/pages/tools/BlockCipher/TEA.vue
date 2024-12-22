@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { tea } from 'mima-kit';
-
 defineOptions({ name: 'TEA' });
 
 const r = ref(32);

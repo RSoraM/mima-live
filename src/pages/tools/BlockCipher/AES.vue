@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { aes } from 'mima-kit';
-
 defineOptions({ name: 'AES' });
 
 const b = ref<128 | 192 | 256>(128);
