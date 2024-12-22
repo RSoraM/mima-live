@@ -72,8 +72,8 @@ const routes = [
         children: [
           { name: 'ZUC', path: 'ZUC', component: () => import('./pages/tools/StreamCipher/ZUC.vue') },
           { name: 'ARC4', path: 'ARC4', component: () => import('./pages/tools/StreamCipher/ARC4.vue') },
-          { name: 'Salsa20', path: 'Salsa20', component: () => import('./pages/tools/StreamCipher/Salsa20.vue') },
           { name: 'Rabbit', path: 'Rabbit', component: () => import('./pages/tools/StreamCipher/Rabbit.vue') },
+          { name: 'Salsa20', path: 'Salsa20', component: () => import('./pages/tools/StreamCipher/Salsa20.vue') },
         ],
       },
     ],

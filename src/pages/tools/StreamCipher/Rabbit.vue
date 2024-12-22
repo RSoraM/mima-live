@@ -3,31 +3,21 @@ import { HEX, rabbit, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'Rabbit' });
 
-const k = ref('0123456789abcdeffedcba9876543210');
-const k_codec = ref(HEX);
-const iv = ref('0123456789abcdef');
-const iv_codec = ref(HEX);
-const p = ref('mima-kit');
-const p_codec = ref(UTF8);
-const c = ref('818c4eabd42d0e79');
-const c_codec = ref(HEX);
+const K = ref(HEX('0123456789abcdeffedcba9876543210'));
+const IV = ref(HEX('0123456789abcdef'));
+const P = ref(UTF8('mima-kit'));
+const C = ref(HEX('818c4eabd42d0e79'));
 
 function createCipher() {
-  const K = k_codec.value(k.value);
-  const IV = iv_codec.value(iv.value);
-  return rabbit(K, IV);
+  return rabbit(K.value, IV.value);
 }
 const encrypt = catchNotify(() => {
   const cipher = createCipher();
-  const P = p_codec.value(p.value);
-  const res = cipher.encrypt(P);
-  c.value = c_codec.value(res);
+  C.value = cipher.encrypt(P.value);
 });
 const decrypt = catchNotify(() => {
   const cipher = createCipher();
-  const C = c_codec.value(c.value);
-  const res = cipher.decrypt(C);
-  p.value = p_codec.value(res);
+  P.value = cipher.decrypt(C.value);
 });
 </script>
 
@@ -36,25 +26,36 @@ const decrypt = catchNotify(() => {
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       Rabbit
     </h1>
-    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
-    <KitFormInputWithCodec v-model:text="iv" v-model:codec="iv_codec" title="IV" />
+    <KitFormU8
+      v-model:buffer="K"
+      :codec="HEX"
+      title="Key"
+    />
+    <KitFormU8
+      v-model:buffer="IV"
+      :codec="HEX"
+      title="IV"
+    />
     <div class="divider my-8">
-      <button
-        class="btn btn-outline btn-sm"
-        @click="encrypt"
-      >
+      <KitButton @click="encrypt">
         Encrypt
-      </button>
-      /
-      <button
-        class="btn btn-outline btn-sm"
-        @click="decrypt"
-      >
+      </KitButton>/
+      <KitButton @click="decrypt">
         Decrypt
-      </button>
+      </KitButton>
     </div>
-    <KitFormTextAreaWithCodec v-model:text="p" v-model:codec="p_codec" title="Plain text" />
-    <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
+    <KitFormU8
+      v-model:buffer="P"
+      :codec="UTF8"
+      title="Plain text"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="C"
+      :codec="HEX"
+      title="Cipher text"
+      textarea
+    />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">

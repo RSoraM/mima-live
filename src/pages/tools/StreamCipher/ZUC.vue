@@ -4,19 +4,14 @@ import { eea3, eia3, HEX } from 'mima-kit';
 
 defineOptions({ name: 'ZUC' });
 
-const bearer = ref(0xF);
-const direction = ref<0 | 1>(0);
-const counter = ref('66035492');
-const counter_codec = ref(HEX);
-const k = ref('173D14BA5003731D7A60049470F00A29');
-const k_codec = ref(HEX);
-const i = ref('6CF65340735552AB0C9752FA6F9025FE0BD675D9005875B2');
-const i_codec = ref(HEX);
-const i_length = ref(0xC1);
-const o = ref('a6c85fc66afb8533aafc2518dfe784940ee1e4b030238cc8');
-const o_codec = ref(HEX);
-const t = ref('19fe6c23');
-const t_codec = ref(HEX);
+const BEARER = ref(0xF);
+const DIRECTION = ref<0 | 1>(0);
+const COUNTER = ref(HEX('66035492'));
+const K = ref(HEX('173D14BA5003731D7A60049470F00A29'));
+const I = ref(HEX('6CF65340735552AB0C9752FA6F9025FE0BD675D9005875B2'));
+const I_LENGTH = ref(0xC1);
+const O = ref(HEX('a6c85fc66afb8533aafc2518dfe784940ee1e4b030238cc8'));
+const T = ref(HEX('19fe6c23'));
 const direction_options = [
   { label: '0', value: 0 },
   { label: '1', value: 1 },
@@ -24,18 +19,16 @@ const direction_options = [
 
 const cipher = catchNotify(() => {
   const params: ZUCParams = {
-    COUNTER: counter_codec.value(counter.value),
-    BEARER: bearer.value,
-    DIRECTION: direction.value,
-    KEY: k_codec.value(k.value),
-    LENGTH: i_length.value,
-    M: i_codec.value(i.value),
+    COUNTER: COUNTER.value,
+    BEARER: BEARER.value,
+    DIRECTION: DIRECTION.value,
+    KEY: K.value,
+    LENGTH: I_LENGTH.value,
+    M: I.value,
   };
 
-  const res_cipher = eea3(params);
-  o.value = HEX(res_cipher);
-  const res_mac = eia3(params);
-  t.value = t_codec.value(res_mac);
+  O.value = eea3(params);
+  T.value = eia3(params);
 });
 </script>
 
@@ -45,25 +38,45 @@ const cipher = catchNotify(() => {
       ZUC
     </h1>
     <div class="flex gap-2">
-      <KitFormInput v-model="bearer" type="number" title="Bearer" />
+      <KitFormInput v-model="BEARER" type="number" title="Bearer" />
       <KitFormControl title="Direction">
-        <KitBaseFormSelect v-model="direction" :options="direction_options" />
+        <KitBaseFormSelect v-model="DIRECTION" :options="direction_options" />
       </KitFormControl>
     </div>
-    <KitFormInputWithCodec v-model:text="counter" v-model:codec="counter_codec" title="Counter" />
-    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
-    <KitFormInput v-model="i_length" type="number" title="Input Length (bit)" />
-    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
+    <KitFormU8
+      v-model:buffer="COUNTER"
+      :codec="HEX"
+      title="Counter"
+    />
+    <KitFormU8
+      v-model:buffer="K"
+      :codec="HEX"
+      title="Key"
+    />
+    <KitFormInput v-model="I_LENGTH" type="number" title="Input Length (bit)" />
+    <KitFormU8
+      v-model:buffer="I"
+      :codec="HEX"
+      title="Input"
+      textarea
+    />
     <div class="divider my-8">
-      <button
-        class="btn btn-outline btn-sm"
-        @click="cipher"
-      >
+      <KitButton @click="cipher">
         Cipher
-      </button>
+      </KitButton>
     </div>
-    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
-    <KitFormTextAreaWithCodec v-model:text="t" v-model:codec="t_codec" title="Mac" />
+    <KitFormU8
+      v-model:buffer="O"
+      :codec="HEX"
+      title="Output"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="T"
+      :codec="HEX"
+      title="Mac"
+      textarea
+    />
 
     <div role="alert" class="alert alert-warning my-4">
       <span class="icon-[carbon--warning-alt-filled] size-6" />

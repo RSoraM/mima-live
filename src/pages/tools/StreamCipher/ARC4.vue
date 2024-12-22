@@ -3,28 +3,20 @@ import { arc4, HEX, UTF8 } from 'mima-kit';
 
 defineOptions({ name: 'ARC4' });
 
-const k = ref('0123456789abcdef');
-const k_codec = ref(HEX);
-const p = ref('mima-kit');
-const p_codec = ref(UTF8);
-const c = ref('19fdaf863d20610d');
-const c_codec = ref(HEX);
+const K = ref(HEX('0123456789abcdef'));
+const P = ref(UTF8('mima-kit'));
+const C = ref(HEX('19fdaf863d20610d'));
 
 function createCipher() {
-  const K = k_codec.value(k.value);
-  return arc4(K);
+  return arc4(K.value);
 }
 const encrypt = catchNotify(() => {
   const cipher = createCipher();
-  const P = p_codec.value(p.value);
-  const res = cipher.encrypt(P);
-  c.value = c_codec.value(res);
+  C.value = cipher.encrypt(P.value);
 });
 const decrypt = catchNotify(() => {
   const cipher = createCipher();
-  const C = c_codec.value(c.value);
-  const res = cipher.decrypt(C);
-  p.value = p_codec.value(res);
+  P.value = cipher.decrypt(C.value);
 });
 </script>
 
@@ -33,24 +25,31 @@ const decrypt = catchNotify(() => {
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       ARC4
     </h1>
-    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
+    <KitFormU8
+      v-model:buffer="K"
+      :codec="HEX"
+      title="Key"
+    />
     <div class="divider my-8">
-      <button
-        class="btn btn-outline btn-sm"
-        @click="encrypt"
-      >
+      <KitButton @click="encrypt">
         Encrypt
-      </button>
-      /
-      <button
-        class="btn btn-outline btn-sm"
-        @click="decrypt"
-      >
+      </KitButton>/
+      <KitButton @click="decrypt">
         Decrypt
-      </button>
+      </KitButton>
     </div>
-    <KitFormTextAreaWithCodec v-model:text="p" v-model:codec="p_codec" title="Plain text" />
-    <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Cipher text" />
+    <KitFormU8
+      v-model:buffer="P"
+      :codec="UTF8"
+      title="Plain text"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="C"
+      :codec="HEX"
+      title="Cipher text"
+      textarea
+    />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">
