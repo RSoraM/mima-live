@@ -4,45 +4,29 @@ import { HEX, kt128, kt256, UTF8 } from 'mima-kit';
 defineOptions({ name: 'KangarooTwelve' });
 
 const t = ref(256);
-const s = ref('');
-const s_codec = ref(UTF8);
+const S = ref(new U8());
 const variant = ref('KangarooTwelve-128');
 const variant_options: SelectOption[] = [
   { label: 'KangarooTwelve-128', value: 'KangarooTwelve-128' },
   { label: 'KangarooTwelve-256', value: 'KangarooTwelve-256' },
 ];
-const alg = computed(() => {
+const hash = computed(() => {
   switch (variant.value) {
     case 'KangarooTwelve-128':
-      return kt128;
+      return kt128(t.value, S.value);
     case 'KangarooTwelve-256':
-      return kt256;
+      return kt256(t.value, S.value);
     default:
       return undefined;
   }
 });
-const hash = ref<ReturnType<typeof kt128>>();
 
-const i = ref('mima-kit');
-const i_codec = ref(UTF8);
-const o = ref('');
-const o_codec = ref(HEX);
+const I = ref(UTF8('mima-kit'));
+const O = ref(new U8());
 
-watch(
-  [i, alg, t, s],
-  catchNotifySync(() => {
-    if (!alg.value)
-      return;
-    const S = s_codec.value(s.value);
-    hash.value = alg.value(t.value, S);
-    const I = i_codec.value(i.value);
-    const res = hash.value(I);
-    o.value = o_codec.value(res);
-  }),
-  {
-    immediate: true,
-  },
-);
+watchEffect(catchNotifySync(() => {
+  O.value = hash.value ? hash.value(I.value) : new U8();
+}));
 </script>
 
 <template>
@@ -59,9 +43,23 @@ watch(
         title="Digest Size (bit)"
       />
     </div>
-    <KitFormInputWithCodec v-model:text="s" v-model:codec="s_codec" title="Customization" />
-    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
-    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
+    <KitFormU8
+      v-model:buffer="S"
+      :codec="UTF8"
+      title="Customization"
+    />
+    <KitFormU8
+      v-model:buffer="I"
+      :codec="UTF8"
+      title="Input"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="O"
+      :codec="HEX"
+      title="Output"
+      textarea
+    />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">
