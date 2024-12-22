@@ -5,8 +5,7 @@ defineOptions({ name: 'ParallelHash' });
 
 const t = ref(256);
 const b = ref(1024);
-const s = ref('');
-const s_codec = ref(UTF8);
+const S = ref(new U8());
 const variant = ref('ParallelHash-128');
 const variant_options: SelectOption[] = [
   { label: 'ParallelHash-128', value: 'ParallelHash-128' },
@@ -14,42 +13,27 @@ const variant_options: SelectOption[] = [
   { label: 'ParallelHash-256', value: 'ParallelHash-256' },
   { label: 'ParallelHash-256 XOF', value: 'ParallelHash-256 XOF' },
 ];
-const alg = computed(() => {
+const hash = computed(() => {
   switch (variant.value) {
     case 'ParallelHash-128':
-      return parallelhash128;
+      return parallelhash128(b.value, t.value, S.value);
     case 'ParallelHash-128 XOF':
-      return parallelhash128XOF;
+      return parallelhash128XOF(b.value, t.value, S.value);
     case 'ParallelHash-256':
-      return parallelhash256;
+      return parallelhash256(b.value, t.value, S.value);
     case 'ParallelHash-256 XOF':
-      return parallelhash256XOF;
+      return parallelhash256XOF(b.value, t.value, S.value);
     default:
       return undefined;
   }
 });
-const hash = ref<ReturnType<typeof parallelhash128>>();
 
-const i = ref('mima-kit');
-const i_codec = ref(UTF8);
-const o = ref('');
-const o_codec = ref(HEX);
+const I = ref(UTF8('mima-kit'));
+const O = ref(new U8());
 
-watch(
-  [i, alg, b, t, s],
-  () => {
-    if (!alg.value)
-      return;
-    const S = s_codec.value(s.value);
-    hash.value = alg.value(b.value, t.value, S);
-    const I = i_codec.value(i.value);
-    const res = hash.value(I);
-    o.value = o_codec.value(res);
-  },
-  {
-    immediate: true,
-  },
-);
+watchEffect(catchNotifySync(() => {
+  O.value = hash.value ? hash.value(I.value) : new U8();
+}));
 </script>
 
 <template>
@@ -70,9 +54,23 @@ watch(
         title="Block size (bit)"
       />
     </div>
-    <KitFormInputWithCodec v-model:text="s" v-model:codec="s_codec" title="Customization" />
-    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
-    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
+    <KitFormU8
+      v-model:buffer="S"
+      :codec="UTF8"
+      title="Customization"
+    />
+    <KitFormU8
+      v-model:buffer="I"
+      :codec="UTF8"
+      title="Input"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="O"
+      :codec="HEX"
+      title="Output"
+      textarea
+    />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">

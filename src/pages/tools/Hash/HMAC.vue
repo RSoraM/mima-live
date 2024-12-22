@@ -4,29 +4,15 @@ import { HEX, hmac, sm3, UTF8 } from 'mima-kit';
 defineOptions({ name: 'HMAC' });
 
 const hash = ref(sm3);
-const alg = computed(catchNotifySync(() => hmac(hash.value)));
+const mac = computed(catchNotifySync(() => hmac(hash.value)));
 
-const k = ref('');
-const k_codec = ref(UTF8);
-const i = ref('mima-kit');
-const i_codec = ref(UTF8);
-const o = ref('');
-const o_codec = ref(HEX);
+const K = ref(new U8());
+const I = ref(UTF8('mima-kit'));
+const O = ref(new U8());
 
-watch(
-  [k, i, alg],
-  catchNotifySync(() => {
-    if (!alg.value)
-      return;
-    const K = k_codec.value(k.value);
-    const I = i_codec.value(i.value);
-    const res = alg.value(K, I);
-    o.value = o_codec.value(res);
-  }),
-  {
-    immediate: true,
-  },
-);
+watchEffect(catchNotifySync(() => {
+  O.value = mac.value(K.value, I.value);
+}));
 </script>
 
 <template>
@@ -35,9 +21,23 @@ watch(
       HMAC
     </h1>
     <KitFormHashSelect v-model="hash" />
-    <KitFormInputWithCodec v-model:text="k" v-model:codec="k_codec" title="Key" />
-    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
-    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
+    <KitFormU8
+      v-model:buffer="K"
+      :codec="HEX"
+      title="Key"
+    />
+    <KitFormU8
+      v-model:buffer="I"
+      :codec="UTF8"
+      title="Input"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="O"
+      :codec="HEX"
+      title="Output"
+      textarea
+    />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">
@@ -53,15 +53,15 @@ watch(
       </KitStat>
 
       <KitStat title="Recommended key size (byte)">
-        {{ alg?.KEY_SIZE }}
+        {{ mac?.KEY_SIZE }}
       </KitStat>
 
       <KitStat title="Digest Size (bytes)">
-        {{ alg?.DIGEST_SIZE }}
+        {{ mac?.DIGEST_SIZE }}
       </KitStat>
 
       <KitStat title="Block Size (bytes)">
-        {{ alg?.BLOCK_SIZE }}
+        {{ mac?.BLOCK_SIZE }}
       </KitStat>
     </div>
   </div>

@@ -1,51 +1,31 @@
 <script setup lang="ts">
-import { cshake128, cshake256, HEX, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'CSHAKE' });
 
 const t = ref(256);
-const n = ref('');
-const n_codec = ref(UTF8);
-const s = ref('');
-const s_codec = ref(UTF8);
+const N = ref(new U8());
+const S = ref(new U8());
 const variant = ref('cSHAKE-128');
 const variant_options: SelectOption[] = [
   { label: 'cSHAKE-128', value: 'cSHAKE-128' },
   { label: 'cSHAKE-256', value: 'cSHAKE-256' },
 ];
-const alg = computed(() => {
+const hash = computed(() => {
   switch (variant.value) {
     case 'cSHAKE-128':
-      return cshake128;
+      return cshake128(t.value, N.value, S.value);
     case 'cSHAKE-256':
-      return cshake256;
+      return cshake256(t.value, N.value, S.value);
     default:
       return undefined;
   }
 });
-const hash = ref<ReturnType<typeof cshake128>>();
 
-const i = ref('mima-kit');
-const i_codec = ref(UTF8);
-const o = ref('');
-const o_codec = ref(HEX);
+const I = ref(UTF8('mima-kit'));
+const O = ref(new U8());
 
-watch(
-  [i, alg, n, s],
-  () => {
-    if (!alg.value)
-      return;
-    const N = n_codec.value(n.value);
-    const S = s_codec.value(s.value);
-    hash.value = alg.value(t.value, N, S);
-    const I = i_codec.value(i.value);
-    const res = hash.value(I);
-    o.value = o_codec.value(res);
-  },
-  {
-    immediate: true,
-  },
-);
+watchEffect(catchNotifySync(() => {
+  O.value = hash.value ? hash.value(I.value) : new U8();
+}));
 </script>
 
 <template>
@@ -62,10 +42,28 @@ watch(
         title="Digest Size (bit)"
       />
     </div>
-    <KitFormInputWithCodec v-model:text="n" v-model:codec="n_codec" title="Function-Name" />
-    <KitFormInputWithCodec v-model:text="s" v-model:codec="s_codec" title="Customization" />
-    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
-    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
+    <KitFormU8
+      v-model:buffer="N"
+      :codec="UTF8"
+      title="Function-Name"
+    />
+    <KitFormU8
+      v-model:buffer="S"
+      :codec="UTF8"
+      title="Customization"
+    />
+    <KitFormU8
+      v-model:buffer="I"
+      :codec="UTF8"
+      title="Input"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="O"
+      :codec="HEX"
+      title="Output"
+      textarea
+    />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">

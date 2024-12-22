@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, sha3_224, sha3_256, sha3_384, sha3_512, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'SHA3' });
 
 const variant = ref('SHA-3-256');
@@ -25,24 +23,12 @@ const hash = computed(() => {
   }
 });
 
-const i = ref('mima-kit');
-const i_codec = ref(UTF8);
-const o = ref('');
-const o_codec = ref(HEX);
+const I = ref(UTF8('mima-kit'));
+const O = ref(new U8());
 
-watch(
-  [i, hash],
-  catchNotifySync(() => {
-    if (!hash.value)
-      return;
-    const I = i_codec.value(i.value);
-    const res = hash.value(I);
-    o.value = o_codec.value(res);
-  }),
-  {
-    immediate: true,
-  },
-);
+watchEffect(catchNotifySync(() => {
+  O.value = hash.value ? hash.value(I.value) : new U8();
+}));
 </script>
 
 <template>
@@ -55,8 +41,18 @@ watch(
         <KitBaseFormSelect v-model="variant" :options="variant_options" />
       </KitFormControl>
     </div>
-    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
-    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
+    <KitFormU8
+      v-model:buffer="I"
+      :codec="UTF8"
+      title="Input"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="O"
+      :codec="HEX"
+      title="Output"
+      textarea
+    />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">

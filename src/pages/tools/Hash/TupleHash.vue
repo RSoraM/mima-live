@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { HEX, tuplehash128, tuplehash128XOF, tuplehash256, tuplehash256XOF, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'TupleHash' });
 
 const t = ref(256);
-const s = ref('');
-const s_codec = ref(UTF8);
+const S = ref(new U8());
 const variant = ref('TupleHash-128');
 const variant_options: SelectOption[] = [
   { label: 'TupleHash-128', value: 'TupleHash-128' },
@@ -13,43 +10,32 @@ const variant_options: SelectOption[] = [
   { label: 'TupleHash-256', value: 'TupleHash-256' },
   { label: 'TupleHash-256 XOF', value: 'TupleHash-256 XOF' },
 ];
-const alg = computed(() => {
+const hash = computed(() => {
   switch (variant.value) {
     case 'TupleHash-128':
-      return tuplehash128;
+      return tuplehash128(t.value, S.value);
     case 'TupleHash-128 XOF':
-      return tuplehash128XOF;
+      return tuplehash128XOF(t.value, S.value);
     case 'TupleHash-256':
-      return tuplehash256;
+      return tuplehash256(t.value, S.value);
     case 'TupleHash-256 XOF':
-      return tuplehash256XOF;
+      return tuplehash256XOF(t.value, S.value);
     default:
       return undefined;
   }
 });
-const hash = ref<ReturnType<typeof tuplehash128>>();
 
-const i = ref([{ value: 'mima-kit' }]);
-const i_codec = ref(UTF8);
-const o = ref('');
-const o_codec = ref(HEX);
+const i = ref<{ value: InstanceType<typeof U8> }[]>([
+  { value: UTF8('mima-kit') },
+  { value: new U8() },
+  { value: new U8() },
+]);
+const I = computed(() => i.value.map(m => m.value));
+const O = ref(new U8());
 
-watch(
-  [i, alg, s],
-  catchNotifySync(() => {
-    if (!alg.value)
-      return;
-    const S = s_codec.value(s.value);
-    hash.value = alg.value(t.value, S);
-    const I = i.value.map(item => i_codec.value(item.value));
-    const res = hash.value(I);
-    o.value = o_codec.value(res);
-  }),
-  {
-    immediate: true,
-    deep: true,
-  },
-);
+watchEffect(catchNotifySync(() => {
+  O.value = hash.value ? hash.value(I.value) : new U8();
+}));
 </script>
 
 <template>
@@ -66,9 +52,9 @@ watch(
         title="Digest Size (bit)"
       />
     </div>
-    <KitFormInputWithCodec v-model:text="s" v-model:codec="s_codec" title="Customization" />
-    <KitFormInputArray v-model:array="i" v-model:codec="i_codec" title="Input" />
-    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
+    <KitFormU8 v-model:buffer="S" :codec="UTF8" title="Customization" />
+    <KitFormU8Array v-model="i" title="Input" />
+    <KitFormU8 v-model:buffer="O" :codec="HEX" title="Output" textarea />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">

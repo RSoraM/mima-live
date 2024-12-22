@@ -1,24 +1,12 @@
 <script setup lang="ts">
-import { HEX, sha1, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'SHA1' });
 
-const i = ref('mima-kit');
-const i_codec = ref(UTF8);
-const o = ref('');
-const o_codec = ref(HEX);
+const I = ref(UTF8('mima-kit'));
+const O = ref(new U8());
 
-watch(
-  i,
-  catchNotifySync(() => {
-    const I = i_codec.value(i.value);
-    const res = sha1(I);
-    o.value = o_codec.value(res);
-  }),
-  {
-    immediate: true,
-  },
-);
+watchEffect(catchNotifySync(() => {
+  O.value = sha1(I.value);
+}));
 </script>
 
 <template>
@@ -26,8 +14,18 @@ watch(
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       SHA-1
     </h1>
-    <KitFormTextAreaWithCodec v-model:text="i" v-model:codec="i_codec" title="Input" />
-    <KitFormTextAreaWithCodec v-model:text="o" v-model:codec="o_codec" title="Output" />
+    <KitFormU8
+      v-model:buffer="I"
+      :codec="UTF8"
+      title="Input"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="O"
+      :codec="HEX"
+      title="Output"
+      textarea
+    />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">

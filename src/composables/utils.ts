@@ -1,3 +1,5 @@
+export * from 'mima-kit';
+
 /**
  * 获取大整数的比特长度
  *
