@@ -14,7 +14,7 @@ const model = defineModel();
     <select
       v-model="model"
       class="select text-xs"
-      :class="border ? 'select-bordered' : ''"
+      :class="{ 'select-bordered': border }"
       name="selector"
     >
       <option

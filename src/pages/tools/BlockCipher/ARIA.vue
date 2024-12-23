@@ -19,41 +19,41 @@ const init = {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      ARIA-{{ b }}
-    </h1>
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    ARIA-{{ b }}
+  </h1>
 
-    <KitFormControl title="Key Size (bit)">
-      <KitFormSelect v-model="b" :options="variant_options" />
-    </KitFormControl>
+  <KitFormSelect
+    v-model="b"
+    :options="variant_options"
+    title="Key Size (bit)"
+  />
 
-    <KitDivider>
-      Operation Mode Config
-    </KitDivider>
+  <KitDivider>
+    Operation Mode Config
+  </KitDivider>
 
-    <KitFormModeConfig :block-cipher="alg" :init="init" />
+  <KitFormModeConfig :block-cipher="alg" :init="init" />
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['RFC 5794']"
-          icon="icon-[carbon--txt-reference]"
-          href="https://www.rfc-editor.org/rfc/rfc5794.txt"
-        />
-      </KitStat>
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['RFC 5794']"
+        icon="icon-[carbon--txt-reference]"
+        href="https://www.rfc-editor.org/rfc/rfc5794.txt"
+      />
+    </KitStat>
 
-      <KitStat title="First published">
-        2003
-      </KitStat>
+    <KitStat title="First published">
+      2003
+    </KitStat>
 
-      <KitStat title="Key Size (byte)">
-        {{ alg.KEY_SIZE }}
-      </KitStat>
+    <KitStat title="Key Size (byte)">
+      {{ alg.KEY_SIZE }}
+    </KitStat>
 
-      <KitStat title="Block Size (byte)">
-        {{ alg.BLOCK_SIZE }}
-      </KitStat>
-    </div>
+    <KitStat title="Block Size (byte)">
+      {{ alg.BLOCK_SIZE }}
+    </KitStat>
   </div>
 </template>

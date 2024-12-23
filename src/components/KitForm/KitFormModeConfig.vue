@@ -67,8 +67,16 @@ const verify = catchNotify(() => {
 
 <template>
   <div class="flex gap-2">
-    <KitFormSelectMode v-model="mode" :blocksize="block_cipher.BLOCK_SIZE" />
-    <KitFormSelectPadding v-model="padding" :mode="mode" />
+    <KitFormSelectMode
+      v-model="mode"
+      :blocksize="block_cipher.BLOCK_SIZE"
+      title="Mode"
+    />
+    <KitFormSelectPadding
+      v-model="padding"
+      :mode="mode"
+      title="Padding"
+    />
   </div>
   <KitFormU8
     v-model="K"
@@ -76,7 +84,7 @@ const verify = catchNotify(() => {
     title="Key"
   />
   <KitFormU8
-    v-show="mode.ALGORITHM !== 'ECB'"
+    v-if="mode.ALGORITHM !== 'ECB'"
     v-model="IV"
     :codec="HEX"
     title="IV"

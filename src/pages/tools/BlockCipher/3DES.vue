@@ -18,41 +18,41 @@ const init = {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      {{ b === 128 ? '2DES' : '3DES' }}
-    </h1>
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    {{ b === 128 ? '2DES' : '3DES' }}
+  </h1>
 
-    <KitFormControl title="Key Size (bit)">
-      <KitFormSelect v-model="b" :options="variant_options" />
-    </KitFormControl>
+  <KitFormSelect
+    v-model="b"
+    :options="variant_options"
+    title="Key Size (bit)"
+  />
 
-    <KitDivider>
-      Operation Mode Config
-    </KitDivider>
+  <KitDivider>
+    Operation Mode Config
+  </KitDivider>
 
-    <KitFormModeConfig :block-cipher="alg" :init="init" />
+  <KitFormModeConfig :block-cipher="alg" :init="init" />
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['NIST', 'FIPS.46-3']"
-          icon="icon-[carbon--pdf-reference]"
-          href="https://csrc.nist.gov/files/pubs/fips/46-3/final/docs/fips46-3.pdf"
-        />
-      </KitStat>
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['NIST', 'FIPS.46-3']"
+        icon="icon-[carbon--pdf-reference]"
+        href="https://csrc.nist.gov/files/pubs/fips/46-3/final/docs/fips46-3.pdf"
+      />
+    </KitStat>
 
-      <KitStat title="First published">
-        1975
-      </KitStat>
+    <KitStat title="First published">
+      1975
+    </KitStat>
 
-      <KitStat title="Key Size (byte)">
-        {{ alg.KEY_SIZE }}
-      </KitStat>
+    <KitStat title="Key Size (byte)">
+      {{ alg.KEY_SIZE }}
+    </KitStat>
 
-      <KitStat title="Block Size (byte)">
-        {{ alg.BLOCK_SIZE }}
-      </KitStat>
-    </div>
+    <KitStat title="Block Size (byte)">
+      {{ alg.BLOCK_SIZE }}
+    </KitStat>
   </div>
 </template>

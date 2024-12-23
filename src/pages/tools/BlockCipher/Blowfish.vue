@@ -12,37 +12,35 @@ const init = {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:mt-8">
-      Blowfish
-    </h1>
+  <h1 class="mx-auto text-4xl font-bold md:mt-8">
+    Blowfish
+  </h1>
 
-    <KitDivider>
-      Operation Mode Config
-    </KitDivider>
+  <KitDivider>
+    Operation Mode Config
+  </KitDivider>
 
-    <KitFormModeConfig :block-cipher="blowfish" :init="init" />
+  <KitFormModeConfig :block-cipher="blowfish" :init="init" />
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['Blowfish']"
-          icon="icon-[carbon--html-reference]"
-          href="https://www.schneier.com/academic/blowfish/"
-        />
-      </KitStat>
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['Blowfish']"
+        icon="icon-[carbon--html-reference]"
+        href="https://www.schneier.com/academic/blowfish/"
+      />
+    </KitStat>
 
-      <KitStat title="First published">
-        1993
-      </KitStat>
+    <KitStat title="First published">
+      1993
+    </KitStat>
 
-      <KitStat title="Key Size (byte)">
-        4 - {{ blowfish.KEY_SIZE }}
-      </KitStat>
+    <KitStat title="Key Size (byte)">
+      4 - {{ blowfish.KEY_SIZE }}
+    </KitStat>
 
-      <KitStat title="Block Size (byte)">
-        {{ blowfish.BLOCK_SIZE }}
-      </KitStat>
-    </div>
+    <KitStat title="Block Size (byte)">
+      {{ blowfish.BLOCK_SIZE }}
+    </KitStat>
   </div>
 </template>
