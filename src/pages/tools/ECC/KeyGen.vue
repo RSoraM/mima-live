@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HEX, secp256r1 } from 'mima-kit';
-
 const curve = ref(secp256r1);
 const codec = ref(HEX);
 const key = ref({

@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import type { Codec, secp256k1 } from 'mima-kit';
-import { U8 } from 'mima-kit';
-
 defineOptions({ name: 'KitFormCurveTable' });
+
 defineProps<{
   curve: typeof secp256k1;
-  codec: Codec;
+  codec: typeof HEX;
 }>();
 </script>
 
