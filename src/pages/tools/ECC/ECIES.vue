@@ -307,9 +307,9 @@ onMounted(() => nextTick(() => encrypt()));
         <KitFormControl title="Word Size (byte)">
           <KitBaseFormSelect v-model="cipher_arc5_ws" :options="cipher_arc5_ws_option" />
         </KitFormControl>
-        <KitFormInput v-model="cipher_arc5_r" title="Rounds" type="number" />
+        <KitFormNumber v-model="cipher_arc5_r" title="Rounds" />
       </div>
-      <KitFormInput v-show="show_cipher_tea_r" v-model="cipher_tea_r" title="Rounds" type="number" />
+      <KitFormNumber v-show="show_cipher_tea_r" v-model="cipher_tea_r" title="Rounds" />
       <!-- Mode Config -->
       <div class="divider my-8">
         Operation Mode Config
@@ -340,8 +340,8 @@ onMounted(() => nextTick(() => encrypt()));
         :codec="UTF8"
         title="Customization"
       />
-      <KitFormInput v-model="mac_d" title="Digest Size (byte)" type="number" />
-      <KitFormInput v-model="mac_k" title="Key Size (byte)" type="number" />
+      <KitFormNumber v-model="mac_d" title="Digest Size (byte)" />
+      <KitFormNumber v-model="mac_k" title="Key Size (byte)" />
     </KitCollapse>
     <!-- KDF -->
     <KitCollapse class="mt-4 bg-base-200">
@@ -369,10 +369,10 @@ onMounted(() => nextTick(() => encrypt()));
           v-model="kdf_mac_s"
           title="Customization"
         />
-        <KitFormInput v-model="kdf_mac_d" title="Digest Size (byte)" type="number" />
-        <KitFormInput v-model="kdf_mac_k" title="Key Size (byte)" type="number" />
+        <KitFormNumber v-model="kdf_mac_d" title="Digest Size (byte)" />
+        <KitFormNumber v-model="kdf_mac_k" title="Key Size (byte)" />
       </div>
-      <KitFormInput v-if="kdf_alg === 'PBKDF2'" v-model="kdf_iterations" title="Iterations" type="number" />
+      <KitFormNumber v-if="kdf_alg === 'PBKDF2'" v-model="kdf_iterations" title="Iterations" />
     </KitCollapse>
     <!-- Additional Data -->
     <KitCollapse class="mt-4 bg-base-200">

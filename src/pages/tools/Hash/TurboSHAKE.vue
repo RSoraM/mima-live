@@ -36,8 +36,8 @@ watchEffect(catchNotifySync(() => {
       <KitBaseFormSelect v-model="variant" :options="variant_options" />
     </KitFormControl>
     <div class="flex gap-2">
-      <KitFormInput v-model="t" type="number" title="Digest Size (bit)" />
-      <KitFormInput v-model="d" type="number" title="Domain Separator" />
+      <KitFormNumber v-model="t" title="Digest Size (bit)" />
+      <KitFormNumber v-model="d" title="Domain Separator" />
     </div>
     <KitFormU8
       v-model="I"

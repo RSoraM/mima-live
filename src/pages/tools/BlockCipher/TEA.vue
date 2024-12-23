@@ -19,7 +19,7 @@ const init = {
       TEA
     </h1>
 
-    <KitFormInput v-model="r" type="number" title="Rounds" />
+    <KitFormNumber v-model="r" title="Rounds" />
 
     <div class="divider my-8">
       Operation Mode Config

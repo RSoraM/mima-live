@@ -1,6 +1,6 @@
 <script setup lang="ts">
-defineOptions({ name: 'KitFormInput' });
-const { type = 'text' } = defineProps<{ title: string; type?: string }>();
+defineOptions({ name: 'KitFormNumber' });
+const { type = 'number' } = defineProps<{ title: string; type?: string }>();
 const model = defineModel<string | number>();
 </script>
 

@@ -44,9 +44,9 @@ watchEffect(catchNotifySync(() => {
       <KitFormControl title="Variant">
         <KitBaseFormSelect v-model="variant" :options="variant_options" />
       </KitFormControl>
-      <KitFormInput
+      <KitFormNumber
         v-show="variant === 'SHA-512/t'"
-        v-model="t" type="number"
+        v-model="t"
         title="Digest Size (bit)"
       />
     </div>

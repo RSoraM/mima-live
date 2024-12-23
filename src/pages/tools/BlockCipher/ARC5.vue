@@ -31,7 +31,7 @@ const init = {
       <KitFormControl title="Word Size (byte)">
         <KitBaseFormSelect v-model="b" :options="variant_options" />
       </KitFormControl>
-      <KitFormInput v-model="r" type="number" title="Rounds" />
+      <KitFormNumber v-model="r" title="Rounds" />
     </div>
 
     <div class="divider my-8">

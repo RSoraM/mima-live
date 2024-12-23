@@ -172,20 +172,20 @@ watchEffect(catchNotifySync(() => {
       />
     </KitFormControl>
     <div class="flex gap-2">
-      <KitFormInput
+      <KitFormNumber
         v-show="show_t"
         v-model="t"
-        title="Digest Size (bit)" type="number"
+        title="Digest Size (bit)"
       />
-      <KitFormInput
+      <KitFormNumber
         v-show="show_block_size"
         v-model="block_size"
-        type="number" title="Block Size (bit)"
+        title="Block Size (bit)"
       />
-      <KitFormInput
+      <KitFormNumber
         v-show="show_ds"
         v-model="ds"
-        type="number" title="Domain Separator"
+        title="Domain Separator"
       />
     </div>
     <KitFormU8

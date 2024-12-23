@@ -43,12 +43,12 @@ watchEffect(catchNotifySync(() => {
       <KitBaseFormSelect v-model="variant" :options="variant_options" />
     </KitFormControl>
     <div class="flex gap-2">
-      <KitFormInput
-        v-model="t" type="number"
+      <KitFormNumber
+        v-model="t"
         title="Digest Size (bit)"
       />
-      <KitFormInput
-        v-model="b" type="number"
+      <KitFormNumber
+        v-model="b"
         title="Block size (bit)"
       />
     </div>

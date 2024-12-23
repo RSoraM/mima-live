@@ -37,7 +37,7 @@ const cipher = catchNotify(() => {
       ZUC
     </h1>
     <div class="flex gap-2">
-      <KitFormInput v-model="BEARER" type="number" title="Bearer" />
+      <KitFormNumber v-model="BEARER" title="Bearer" />
       <KitFormControl title="Direction">
         <KitBaseFormSelect v-model="DIRECTION" :options="direction_options" />
       </KitFormControl>
@@ -52,7 +52,7 @@ const cipher = catchNotify(() => {
       :codec="HEX"
       title="Key"
     />
-    <KitFormInput v-model="I_LENGTH" type="number" title="Input Length (bit)" />
+    <KitFormNumber v-model="I_LENGTH" title="Input Length (bit)" />
     <KitFormU8
       v-model="I"
       :codec="HEX"

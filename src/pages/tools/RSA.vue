@@ -199,7 +199,7 @@ onMounted(() => {
       <template #header>
         Key Generation
       </template>
-      <KitFormInput v-model="b" type="number" title="Key Size (bit)" />
+      <KitFormNumber v-model="b" title="Key Size (bit)" />
       <div class="divider my-8">
         <KitButton @click="clearKey">
           Clear
@@ -301,7 +301,7 @@ onMounted(() => {
         <div class="divider divider-start my-4 mb-2">
           #3: Salt Length
         </div>
-        <KitFormInput v-model="pss_salt_length" type="number" title="Salt Length" />
+        <KitFormNumber v-model="pss_salt_length" title="Salt Length" />
       </div>
       <div v-if="ssa === 'RSASSA-PKCS1-v1_5'">
         <div class="divider divider-start my-4 mb-2">
