@@ -32,8 +32,8 @@ const {
   title?: string;
   options?: SelectOption[];
 }>();
+const alg = ref(sm3.ALGORITHM);
 const hash = defineModel<typeof sha256>({ required: true });
-const alg = ref(hash.value.ALGORITHM);
 
 // DIGEST SIZE
 const t = ref(256);
@@ -90,6 +90,18 @@ const show_ds = computed(() => [
 ].includes(alg.value));
 
 const show_config = computed(() => show_t.value || show_fn.value || show_ct.value || show_block_size.value || show_ds.value);
+
+watchImmediate(alg, () => {
+  if (alg.value === 'SHA-512/t') {
+    t.value = 256;
+  }
+  else if (['SHAKE-128', 'cSHAKE-128', 'ParallelHash-128', 'ParallelHash-128XOF', 'TurboSHAKE-128', 'KangarooTwelve-128'].includes(alg.value)) {
+    t.value = 256;
+  }
+  else if (['SHAKE-256', 'cSHAKE-256', 'ParallelHash-256', 'ParallelHash-256XOF', 'TurboSHAKE-256', 'KangarooTwelve-256'].includes(alg.value)) {
+    t.value = 512;
+  }
+});
 
 watchEffect(catchNotifySync(() => {
   const S = ct.value;
@@ -181,31 +193,33 @@ watchEffect(catchNotifySync(() => {
     </template>
     <div class="flex gap-2">
       <KitFormNumber
-        v-show="show_t"
+        v-if="show_t"
         v-model="t"
         title="Digest Size (bit)"
       />
       <KitFormNumber
-        v-show="show_block_size"
+        v-if="show_block_size"
         v-model="block_size"
         title="Block Size (bit)"
       />
       <KitFormNumber
-        v-show="show_ds"
+        v-if="show_ds"
         v-model="ds"
         title="Domain Separator"
       />
     </div>
     <KitFormU8
-      v-show="show_fn"
+      v-if="show_fn"
       v-model="fn"
       :codec="UTF8"
+      :immediate="true"
       title="Function-Name"
     />
     <KitFormU8
-      v-show="show_ct"
+      v-if="show_ct"
       v-model="ct"
       :codec="UTF8"
+      :immediate="true"
       title="Customization"
     />
   </KitCollapse>

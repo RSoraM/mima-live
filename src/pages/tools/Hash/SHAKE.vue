@@ -7,6 +7,7 @@ const variant_options: SelectOption[] = [
   { label: 'SHAKE-128', value: 'SHAKE-128' },
   { label: 'SHAKE-256', value: 'SHAKE-256' },
 ];
+watchImmediate(variant, () => t.value = variant.value === 'SHAKE-128' ? 256 : 512);
 const hash = computed(() => {
   switch (variant.value) {
     case 'SHAKE-128':
@@ -27,60 +28,60 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      SHAKE
-    </h1>
-    <div class="flex gap-2">
-      <KitFormControl title="Variant">
-        <KitFormSelect v-model="variant" :options="variant_options" />
-      </KitFormControl>
-      <KitFormNumber
-        v-model="t"
-        title="Digest Size (bit)"
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    SHAKE
+  </h1>
+  <div class="flex gap-2">
+    <KitFormSelect
+      v-model="variant"
+      :options="variant_options"
+      title="Variant"
+    />
+    <KitFormNumber
+      v-model="t"
+      title="Digest Size (bit)"
+    />
+  </div>
+  <KitFormU8
+    v-model="I" :codec="UTF8"
+    :immediate="true"
+    title="Input"
+    textarea
+  />
+  <KitFormU8
+    v-model="O"
+    :codec="HEX"
+    title="Output"
+    textarea
+  />
+
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['NIST', 'FIPS.202']"
+        icon="icon-[carbon--pdf-reference]"
+        href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf"
       />
-    </div>
-    <KitFormU8
-      v-model="I" :codec="UTF8"
-      :immediate="true"
-      title="Input"
-      textarea
-    />
-    <KitFormU8
-      v-model="O"
-      :codec="HEX"
-      title="Output"
-      textarea
-    />
+    </KitStat>
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['NIST', 'FIPS.202']"
-          icon="icon-[carbon--pdf-reference]"
-          href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf"
-        />
-      </KitStat>
+    <KitStat title="First published">
+      2016
+    </KitStat>
 
-      <KitStat title="First published">
-        2016
-      </KitStat>
+    <KitStat title="Digest Size (byte)">
+      {{ hash?.DIGEST_SIZE }}
+    </KitStat>
 
-      <KitStat title="Digest Size (byte)">
-        {{ hash?.DIGEST_SIZE }}
-      </KitStat>
+    <KitStat title="Block Size (byte)">
+      {{ hash?.BLOCK_SIZE }}
+    </KitStat>
 
-      <KitStat title="Block Size (byte)">
-        {{ hash?.BLOCK_SIZE }}
-      </KitStat>
+    <KitStat title="Structure">
+      Sponge & Keccak-p
+    </KitStat>
 
-      <KitStat title="Structure">
-        Sponge & Keccak-p
-      </KitStat>
-
-      <KitStat title="Round">
-        24
-      </KitStat>
-    </div>
+    <KitStat title="Round">
+      24
+    </KitStat>
   </div>
 </template>

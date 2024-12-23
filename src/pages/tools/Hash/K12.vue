@@ -8,6 +8,7 @@ const variant_options: SelectOption[] = [
   { label: 'KangarooTwelve-128', value: 'KangarooTwelve-128' },
   { label: 'KangarooTwelve-256', value: 'KangarooTwelve-256' },
 ];
+watchImmediate(variant, () => t.value = variant.value === 'KangarooTwelve-128' ? 256 : 512);
 const hash = computed(() => {
   switch (variant.value) {
     case 'KangarooTwelve-128':
@@ -28,61 +29,61 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      KangarooTwelve
-    </h1>
-    <div class="flex gap-2">
-      <KitFormControl title="Variant">
-        <KitFormSelect v-model="variant" :options="variant_options" />
-      </KitFormControl>
-      <KitFormNumber
-        v-model="t"
-        title="Digest Size (bit)"
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    KangarooTwelve
+  </h1>
+  <div class="flex gap-2">
+    <KitFormSelect
+      v-model="variant"
+      :options="variant_options"
+      title="Variant"
+    />
+    <KitFormNumber
+      v-model="t"
+      title="Digest Size (bit)"
+    />
+  </div>
+  <KitFormU8
+    v-model="S" :codec="UTF8"
+    :immediate="true"
+    title="Customization"
+  />
+  <KitFormU8
+    v-model="I" :codec="UTF8"
+    :immediate="true"
+    title="Input"
+    textarea
+  />
+  <KitFormU8
+    v-model="O"
+    :codec="HEX"
+    title="Output"
+    textarea
+  />
+
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['KangarooTwelve']"
+        icon="icon-[carbon--pdf-reference]"
+        href="https://keccak.team/files/KangarooTwelve.pdf"
       />
-    </div>
-    <KitFormU8
-      v-model="S" :codec="UTF8"
-      :immediate="true"
-      title="Customization"
-    />
-    <KitFormU8
-      v-model="I" :codec="UTF8"
-      :immediate="true"
-      title="Input"
-      textarea
-    />
-    <KitFormU8
-      v-model="O"
-      :codec="HEX"
-      title="Output"
-      textarea
-    />
+    </KitStat>
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['KangarooTwelve']"
-          icon="icon-[carbon--pdf-reference]"
-          href="https://keccak.team/files/KangarooTwelve.pdf"
-        />
-      </KitStat>
+    <KitStat title="Digest Size (byte)">
+      {{ hash?.DIGEST_SIZE }}
+    </KitStat>
 
-      <KitStat title="Digest Size (byte)">
-        {{ hash?.DIGEST_SIZE }}
-      </KitStat>
+    <KitStat title="Block Size (byte)">
+      {{ hash?.BLOCK_SIZE }}
+    </KitStat>
 
-      <KitStat title="Block Size (byte)">
-        {{ hash?.BLOCK_SIZE }}
-      </KitStat>
+    <KitStat title="Structure">
+      Sponge & Keccak-p
+    </KitStat>
 
-      <KitStat title="Structure">
-        Sponge & Keccak-p
-      </KitStat>
-
-      <KitStat title="Round">
-        12
-      </KitStat>
-    </div>
+    <KitStat title="Round">
+      12
+    </KitStat>
   </div>
 </template>

@@ -10,6 +10,7 @@ const variant_options: SelectOption[] = [
   { label: 'KMAC-256', value: 'KMAC-256' },
   { label: 'KMAC-256 XOF', value: 'KMAC-256 XOF' },
 ];
+watchImmediate(variant, () => t.value = variant.value.startsWith('KMAC-128') ? 256 : 512);
 const mac = computed(() => {
   switch (variant.value) {
     case 'KMAC-128':
@@ -35,70 +36,70 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      KMAC
-    </h1>
-    <div class="flex gap-2">
-      <KitFormControl title="Variant">
-        <KitFormSelect v-model="variant" :options="variant_options" />
-      </KitFormControl>
-      <KitFormNumber
-        v-model="t"
-        title="Digest Size (bit)"
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    KMAC
+  </h1>
+  <div class="flex gap-2">
+    <KitFormSelect
+      v-model="variant"
+      :options="variant_options"
+      title="Variant"
+    />
+    <KitFormNumber
+      v-model="t"
+      title="Digest Size (bit)"
+    />
+  </div>
+  <KitFormU8
+    v-model="S" :codec="UTF8"
+    :immediate="true"
+    title="Customization"
+  />
+  <KitFormU8
+    v-model="K" :codec="HEX"
+    :immediate="true"
+    title="Key"
+  />
+  <KitFormU8
+    v-model="I" :codec="UTF8"
+    :immediate="true"
+    title="Input"
+    textarea
+  />
+  <KitFormU8
+    v-model="O"
+    :codec="HEX"
+    title="Output"
+    textarea
+  />
+
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['NIST', 'SP.800-185']"
+        icon="icon-[carbon--pdf-reference]"
+        href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-185.pdf"
       />
-    </div>
-    <KitFormU8
-      v-model="S" :codec="UTF8"
-      :immediate="true"
-      title="Customization"
-    />
-    <KitFormU8
-      v-model="K" :codec="HEX"
-      :immediate="true"
-      title="Key"
-    />
-    <KitFormU8
-      v-model="I" :codec="UTF8"
-      :immediate="true"
-      title="Input"
-      textarea
-    />
-    <KitFormU8
-      v-model="O"
-      :codec="HEX"
-      title="Output"
-      textarea
-    />
+    </KitStat>
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['NIST', 'SP.800-185']"
-          icon="icon-[carbon--pdf-reference]"
-          href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-185.pdf"
-        />
-      </KitStat>
+    <KitStat title="First published">
+      2016
+    </KitStat>
 
-      <KitStat title="First published">
-        2016
-      </KitStat>
+    <KitStat title="Digest Size (byte)">
+      {{ mac?.DIGEST_SIZE }}
+    </KitStat>
 
-      <KitStat title="Digest Size (byte)">
-        {{ mac?.DIGEST_SIZE }}
-      </KitStat>
+    <KitStat title="Block Size (byte)">
+      {{ mac?.BLOCK_SIZE }}
+    </KitStat>
 
-      <KitStat title="Block Size (byte)">
-        {{ mac?.BLOCK_SIZE }}
-      </KitStat>
+    <KitStat title="Structure">
+      Sponge & Keccak-p
+    </KitStat>
 
-      <KitStat title="Structure">
-        Sponge & Keccak-p
-      </KitStat>
-
-      <KitStat title="Round">
-        24
-      </KitStat>
-    </div>
+    <KitStat title="Round">
+      24
+    </KitStat>
   </div>
 </template>

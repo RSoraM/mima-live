@@ -14,53 +14,51 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      HMAC
-    </h1>
-    <KitFormSelectHash v-model="hash" />
-    <KitFormU8
-      v-model="K" :codec="HEX"
-      :immediate="true"
-      title="Key"
-    />
-    <KitFormU8
-      v-model="I" :codec="UTF8"
-      :immediate="true"
-      title="Input"
-      textarea
-    />
-    <KitFormU8
-      v-model="O"
-      :codec="HEX"
-      title="Output"
-      textarea
-    />
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    HMAC
+  </h1>
+  <KitFormSelectHash v-model="hash" title="Hash" />
+  <KitFormU8
+    v-model="K" :codec="HEX"
+    :immediate="true"
+    title="Key"
+  />
+  <KitFormU8
+    v-model="I" :codec="UTF8"
+    :immediate="true"
+    title="Input"
+    textarea
+  />
+  <KitFormU8
+    v-model="O"
+    :codec="HEX"
+    title="Output"
+    textarea
+  />
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['RFC 2104']"
-          icon="icon-[carbon--txt-reference]"
-          href="https://www.rfc-editor.org/rfc/rfc2104.txt"
-        />
-      </KitStat>
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['RFC 2104']"
+        icon="icon-[carbon--txt-reference]"
+        href="https://www.rfc-editor.org/rfc/rfc2104.txt"
+      />
+    </KitStat>
 
-      <KitStat title="First published">
-        1996
-      </KitStat>
+    <KitStat title="First published">
+      1996
+    </KitStat>
 
-      <KitStat title="Recommended key size (byte)">
-        {{ mac?.KEY_SIZE }}
-      </KitStat>
+    <KitStat title="Recommended key size (byte)">
+      {{ mac?.KEY_SIZE }}
+    </KitStat>
 
-      <KitStat title="Digest Size (byte)">
-        {{ mac?.DIGEST_SIZE }}
-      </KitStat>
+    <KitStat title="Digest Size (byte)">
+      {{ mac?.DIGEST_SIZE }}
+    </KitStat>
 
-      <KitStat title="Block Size (byte)">
-        {{ mac?.BLOCK_SIZE }}
-      </KitStat>
-    </div>
+    <KitStat title="Block Size (byte)">
+      {{ mac?.BLOCK_SIZE }}
+    </KitStat>
   </div>
 </template>
