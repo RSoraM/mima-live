@@ -15,13 +15,13 @@ watchEffect(catchNotifySync(() => {
       SM3
     </h1>
     <KitFormU8
-      v-model:buffer="I"
+      v-model="I"
       :codec="UTF8"
       title="Input"
       textarea
     />
     <KitFormU8
-      v-model:buffer="O"
+      v-model="O"
       :codec="HEX"
       title="Output"
       textarea

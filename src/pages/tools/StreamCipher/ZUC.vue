@@ -43,18 +43,18 @@ const cipher = catchNotify(() => {
       </KitFormControl>
     </div>
     <KitFormU8
-      v-model:buffer="COUNTER"
+      v-model="COUNTER"
       :codec="HEX"
       title="Counter"
     />
     <KitFormU8
-      v-model:buffer="K"
+      v-model="K"
       :codec="HEX"
       title="Key"
     />
     <KitFormInput v-model="I_LENGTH" type="number" title="Input Length (bit)" />
     <KitFormU8
-      v-model:buffer="I"
+      v-model="I"
       :codec="HEX"
       title="Input"
       textarea
@@ -65,13 +65,13 @@ const cipher = catchNotify(() => {
       </KitButton>
     </div>
     <KitFormU8
-      v-model:buffer="O"
+      v-model="O"
       :codec="HEX"
       title="Output"
       textarea
     />
     <KitFormU8
-      v-model:buffer="T"
+      v-model="T"
       :codec="HEX"
       title="Mac"
       textarea

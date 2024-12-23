@@ -271,7 +271,7 @@ onMounted(() => {
           #3: Label data
         </div>
         <KitFormU8
-          v-model:buffer="oaep_label"
+          v-model="oaep_label"
           :codec="UTF8"
           title="Label"
         />
@@ -321,13 +321,13 @@ onMounted(() => {
       </KitButton>
     </div>
     <KitFormU8
-      v-model:buffer="M"
+      v-model="M"
       :codec="UTF8"
       title="Plain text"
       textarea
     />
     <KitFormU8
-      v-model:buffer="C"
+      v-model="C"
       :codec="HEX"
       title="Cipher text"
       textarea
@@ -341,7 +341,7 @@ onMounted(() => {
       </KitButton>
     </div>
     <KitFormU8
-      v-model:buffer="S"
+      v-model="S"
       :codec="HEX"
       title="Signature"
       textarea

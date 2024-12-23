@@ -52,12 +52,12 @@ onMounted(() => nextTick(() => convert()));
       </KitButton>
     </div>
     <KitFormU8
-      v-model:buffer="compressed_p"
+      v-model="compressed_p"
       :codec="HEX"
       :title="`Compressed Q${title} (${compressed_p.length << 3} bit)`"
     />
     <KitFormU8
-      v-model:buffer="uncompressed_p"
+      v-model="uncompressed_p"
       :codec="HEX"
       :title="`Uncompressed Q${title} (${uncompressed_p.length << 3} bit)`"
     />

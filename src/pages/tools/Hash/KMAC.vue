@@ -49,23 +49,23 @@ watchEffect(catchNotifySync(() => {
       />
     </div>
     <KitFormU8
-      v-model:buffer="S"
+      v-model="S"
       :codec="UTF8"
       title="Customization"
     />
     <KitFormU8
-      v-model:buffer="K"
+      v-model="K"
       :codec="HEX"
       title="Key"
     />
     <KitFormU8
-      v-model:buffer="I"
+      v-model="I"
       :codec="UTF8"
       title="Input"
       textarea
     />
     <KitFormU8
-      v-model:buffer="O"
+      v-model="O"
       :codec="HEX"
       title="Output"
       textarea

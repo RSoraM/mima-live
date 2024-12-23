@@ -8,13 +8,13 @@ const buffer = ref(UTF8('mima-kit'));
       Text Codec
     </h1>
     <KitFormU8
-      v-model:buffer="buffer"
+      v-model="buffer"
       :codec="UTF8"
       title="Input"
       textarea
     />
     <KitFormU8
-      v-model:buffer="buffer"
+      v-model="buffer"
       :codec="HEX"
       title="Output"
       textarea

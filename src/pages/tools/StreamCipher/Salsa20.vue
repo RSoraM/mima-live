@@ -25,12 +25,12 @@ const decrypt = catchNotify(() => {
       Salsa20
     </h1>
     <KitFormU8
-      v-model:buffer="K"
+      v-model="K"
       :codec="HEX"
       title="Key"
     />
     <KitFormU8
-      v-model:buffer="IV"
+      v-model="IV"
       :codec="HEX"
       title="IV"
     />
@@ -43,13 +43,13 @@ const decrypt = catchNotify(() => {
       </KitButton>
     </div>
     <KitFormU8
-      v-model:buffer="P"
+      v-model="P"
       :codec="UTF8"
       title="Plain text"
       textarea
     />
     <KitFormU8
-      v-model:buffer="C"
+      v-model="C"
       :codec="HEX"
       title="Cipher text"
       textarea

@@ -20,7 +20,7 @@ function del(index: number) {
     <div class="join join-vertical flex flex-col">
       <KitFormU8Base
         v-for="(m, i) in model" :key="i"
-        v-model:buffer="m.value" :codec="UTF8"
+        v-model="m.value" :codec="UTF8"
       >
         <button class="btn btn-outline join-item" @click="del(i)">
           Delete

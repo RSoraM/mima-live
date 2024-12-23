@@ -78,13 +78,13 @@ const disableNoPad = computed(() => !allowNoPadModes.includes(mode.value));
     <KitFormSelectPadding v-model:padding="padding" v-model:disable-no-pad="disableNoPad" />
   </div>
   <KitFormU8
-    v-model:buffer="K"
+    v-model="K"
     :codec="HEX"
     title="Key"
   />
   <KitFormU8
     v-show="mode.ALGORITHM !== 'ECB'"
-    v-model:buffer="IV"
+    v-model="IV"
     :codec="HEX"
     title="IV"
   />
@@ -98,13 +98,13 @@ const disableNoPad = computed(() => !allowNoPadModes.includes(mode.value));
     </KitButton>
   </div>
   <KitFormU8
-    v-model:buffer="P"
+    v-model="P"
     :codec="HEX"
     title="Plain text"
     textarea
   />
   <KitFormU8
-    v-model:buffer="C"
+    v-model="C"
     :codec="HEX"
     title="Cipher text"
     textarea
@@ -123,13 +123,13 @@ const disableNoPad = computed(() => !allowNoPadModes.includes(mode.value));
   </div>
   <KitFormU8
     v-if="mode.ALGORITHM === 'GCM'"
-    v-model:buffer="A"
+    v-model="A"
     :codec="HEX"
     title="Additional Data"
   />
   <KitFormU8
     v-if="mode.ALGORITHM === 'GCM'"
-    v-model:buffer="T"
+    v-model="T"
     :codec="HEX"
     title="Auth Tag"
   />

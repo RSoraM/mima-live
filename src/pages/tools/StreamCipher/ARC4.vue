@@ -24,7 +24,7 @@ const decrypt = catchNotify(() => {
       ARC4
     </h1>
     <KitFormU8
-      v-model:buffer="K"
+      v-model="K"
       :codec="HEX"
       title="Key"
     />
@@ -37,13 +37,13 @@ const decrypt = catchNotify(() => {
       </KitButton>
     </div>
     <KitFormU8
-      v-model:buffer="P"
+      v-model="P"
       :codec="UTF8"
       title="Plain text"
       textarea
     />
     <KitFormU8
-      v-model:buffer="C"
+      v-model="C"
       :codec="HEX"
       title="Cipher text"
       textarea

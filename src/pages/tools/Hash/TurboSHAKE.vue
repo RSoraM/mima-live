@@ -40,13 +40,13 @@ watchEffect(catchNotifySync(() => {
       <KitFormInput v-model="d" type="number" title="Domain Separator" />
     </div>
     <KitFormU8
-      v-model:buffer="I"
+      v-model="I"
       :codec="UTF8"
       title="Input"
       textarea
     />
     <KitFormU8
-      v-model:buffer="O"
+      v-model="O"
       :codec="HEX"
       title="Output"
       textarea

@@ -20,18 +20,18 @@ watchEffect(catchNotifySync(() => {
     </h1>
     <KitFormSelectHash v-model="hash" />
     <KitFormU8
-      v-model:buffer="K"
+      v-model="K"
       :codec="HEX"
       title="Key"
     />
     <KitFormU8
-      v-model:buffer="I"
+      v-model="I"
       :codec="UTF8"
       title="Input"
       textarea
     />
     <KitFormU8
-      v-model:buffer="O"
+      v-model="O"
       :codec="HEX"
       title="Output"
       textarea

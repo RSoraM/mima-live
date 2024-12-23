@@ -73,7 +73,7 @@ onMounted(() => nextTick(() => sign()));
       </KitButton>
     </div>
     <KitFormU8
-      v-model:buffer="M"
+      v-model="M"
       :codec="UTF8"
       title="Message"
       textarea

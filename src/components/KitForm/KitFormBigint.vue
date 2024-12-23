@@ -19,6 +19,6 @@ onMounted(() => {
 
 <template>
   <KitFormControl :title="title">
-    <KitFormU8Base v-model:buffer="u8" :codec="HEX" />
+    <KitFormU8Base v-model="u8" :codec="HEX" />
   </KitFormControl>
 </template>

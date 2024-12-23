@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { cshake128, cshake256, kt128, kt256, md5, parallelhash128, parallelhash128XOF, parallelhash256, parallelhash256XOF, sha1, sha3_224, sha3_256, sha3_384, sha3_512, sha224, sha256, sha384, sha512, sha512t, shake128, shake256, sm3, turboshake128, turboshake256, UTF8 } from 'mima-kit';
+defineOptions({ name: 'KitFormSelectHash' });
 
-defineOptions({ name: 'KitFormHashSelect' });
 const {
   options: hash_options = [
     { label: 'SM3', value: sm3.ALGORITHM },
@@ -30,7 +29,7 @@ const {
     { label: 'KangarooTwelve-256', value: 'KangarooTwelve-256' },
   ],
 } = defineProps<{ title?: string; options?: SelectOption[] }>();
-const hash = defineModel<typeof sha256>({ default: sha256 });
+const hash = defineModel<typeof sha256>({ required: true });
 const alg = ref(hash.value.ALGORITHM);
 
 // DIGEST SIZE
@@ -52,16 +51,14 @@ const show_t = computed(() => [
 ].includes(alg.value));
 
 // Function name
-const fn = ref('');
-const fn_codec = ref(UTF8);
+const fn = ref(new U8());
 const show_fn = computed(() => [
   'cSHAKE-128',
   'cSHAKE-256',
 ].includes(alg.value));
 
 // Customization
-const ct = ref('');
-const ct_codec = ref(UTF8);
+const ct = ref(new U8());
 const show_ct = computed(() => [
   'cSHAKE-128',
   'cSHAKE-256',
@@ -89,101 +86,119 @@ const show_ds = computed(() => [
   'TurboSHAKE-256',
 ].includes(alg.value));
 
-watch(
-  [alg, t, fn, ct, block_size, ds],
-  catchNotifySync(() => {
-    const S = ct_codec.value(ct.value);
-    const N = fn_codec.value(fn.value);
-    if (alg.value === sm3.ALGORITHM) {
-      hash.value = sm3;
-    }
-    else if (alg.value === md5.ALGORITHM) {
-      hash.value = md5;
-    }
-    else if (alg.value === sha1.ALGORITHM) {
-      hash.value = sha1;
-    }
-    else if (alg.value === sha224.ALGORITHM) {
-      hash.value = sha224;
-    }
-    else if (alg.value === sha256.ALGORITHM) {
-      hash.value = sha256;
-    }
-    else if (alg.value === sha384.ALGORITHM) {
-      hash.value = sha384;
-    }
-    else if (alg.value === sha512.ALGORITHM) {
-      hash.value = sha512;
-    }
-    else if (alg.value === 'SHA-512/t') {
-      hash.value = sha512t(t.value);
-    }
-    else if (alg.value === sha3_224.ALGORITHM) {
-      hash.value = sha3_224;
-    }
-    else if (alg.value === sha3_256.ALGORITHM) {
-      hash.value = sha3_256;
-    }
-    else if (alg.value === sha3_384.ALGORITHM) {
-      hash.value = sha3_384;
-    }
-    else if (alg.value === sha3_512.ALGORITHM) {
-      hash.value = sha3_512;
-    }
-    else if (alg.value === 'SHAKE-128') {
-      hash.value = shake128(t.value);
-    }
-    else if (alg.value === 'SHAKE-256') {
-      hash.value = shake256(t.value);
-    }
-    else if (alg.value === 'cSHAKE-128') {
-      hash.value = cshake128(t.value, N, S);
-    }
-    else if (alg.value === 'cSHAKE-256') {
-      hash.value = cshake256(t.value, N, S);
-    }
-    else if (alg.value === 'ParallelHash-128') {
-      hash.value = parallelhash128(block_size.value, t.value, S);
-    }
-    else if (alg.value === 'ParallelHash-256') {
-      hash.value = parallelhash256(block_size.value, t.value, S);
-    }
-    else if (alg.value === 'ParallelHash-128XOF') {
-      hash.value = parallelhash128XOF(block_size.value, t.value, S);
-    }
-    else if (alg.value === 'ParallelHash-256XOF') {
-      hash.value = parallelhash256XOF(block_size.value, t.value, S);
-    }
-    else if (alg.value === 'TurboSHAKE-128') {
-      hash.value = turboshake128(t.value, ds.value);
-    }
-    else if (alg.value === 'TurboSHAKE-256') {
-      hash.value = turboshake256(t.value, ds.value);
-    }
-    else if (alg.value === 'KangarooTwelve-128') {
-      hash.value = kt128(t.value, S);
-    }
-    else if (alg.value === 'KangarooTwelve-256') {
-      hash.value = kt256(t.value, S);
-    }
-  }),
-  {
-    immediate: true,
-  },
-);
+watchEffect(catchNotifySync(() => {
+  const S = ct.value;
+  const N = fn.value;
+  if (alg.value === sm3.ALGORITHM) {
+    hash.value = sm3;
+  }
+  else if (alg.value === md5.ALGORITHM) {
+    hash.value = md5;
+  }
+  else if (alg.value === sha1.ALGORITHM) {
+    hash.value = sha1;
+  }
+  else if (alg.value === sha224.ALGORITHM) {
+    hash.value = sha224;
+  }
+  else if (alg.value === sha256.ALGORITHM) {
+    hash.value = sha256;
+  }
+  else if (alg.value === sha384.ALGORITHM) {
+    hash.value = sha384;
+  }
+  else if (alg.value === sha512.ALGORITHM) {
+    hash.value = sha512;
+  }
+  else if (alg.value === 'SHA-512/t') {
+    hash.value = sha512t(t.value);
+  }
+  else if (alg.value === sha3_224.ALGORITHM) {
+    hash.value = sha3_224;
+  }
+  else if (alg.value === sha3_256.ALGORITHM) {
+    hash.value = sha3_256;
+  }
+  else if (alg.value === sha3_384.ALGORITHM) {
+    hash.value = sha3_384;
+  }
+  else if (alg.value === sha3_512.ALGORITHM) {
+    hash.value = sha3_512;
+  }
+  else if (alg.value === 'SHAKE-128') {
+    hash.value = shake128(t.value);
+  }
+  else if (alg.value === 'SHAKE-256') {
+    hash.value = shake256(t.value);
+  }
+  else if (alg.value === 'cSHAKE-128') {
+    hash.value = cshake128(t.value, N, S);
+  }
+  else if (alg.value === 'cSHAKE-256') {
+    hash.value = cshake256(t.value, N, S);
+  }
+  else if (alg.value === 'ParallelHash-128') {
+    hash.value = parallelhash128(block_size.value, t.value, S);
+  }
+  else if (alg.value === 'ParallelHash-256') {
+    hash.value = parallelhash256(block_size.value, t.value, S);
+  }
+  else if (alg.value === 'ParallelHash-128XOF') {
+    hash.value = parallelhash128XOF(block_size.value, t.value, S);
+  }
+  else if (alg.value === 'ParallelHash-256XOF') {
+    hash.value = parallelhash256XOF(block_size.value, t.value, S);
+  }
+  else if (alg.value === 'TurboSHAKE-128') {
+    hash.value = turboshake128(t.value, ds.value);
+  }
+  else if (alg.value === 'TurboSHAKE-256') {
+    hash.value = turboshake256(t.value, ds.value);
+  }
+  else if (alg.value === 'KangarooTwelve-128') {
+    hash.value = kt128(t.value, S);
+  }
+  else if (alg.value === 'KangarooTwelve-256') {
+    hash.value = kt256(t.value, S);
+  }
+}));
 </script>
 
 <template>
   <div>
     <KitFormControl :title="title || 'Hash'">
-      <KitBaseFormSelect v-model="alg" :options="hash_options" />
+      <KitBaseFormSelect
+        v-model="alg" :options="hash_options"
+      />
     </KitFormControl>
     <div class="flex gap-2">
-      <KitFormInput v-show="show_t" v-model="t" title="Digest Size (bit)" type="number" />
-      <KitFormInput v-show="show_block_size" v-model="block_size" type="number" title="Block Size (bit)" />
-      <KitFormInput v-show="show_ds" v-model="ds" type="number" title="Domain Separator" />
+      <KitFormInput
+        v-show="show_t"
+        v-model="t"
+        title="Digest Size (bit)" type="number"
+      />
+      <KitFormInput
+        v-show="show_block_size"
+        v-model="block_size"
+        type="number" title="Block Size (bit)"
+      />
+      <KitFormInput
+        v-show="show_ds"
+        v-model="ds"
+        type="number" title="Domain Separator"
+      />
     </div>
-    <KitFormInputWithCodec v-show="show_fn" v-model:text="fn" v-model:codec="fn_codec" title="Function-Name" />
-    <KitFormInputWithCodec v-show="show_ct" v-model:text="ct" v-model:codec="ct_codec" title="Customization" />
+    <KitFormU8
+      v-show="show_fn"
+      v-model="fn"
+      :codec="UTF8"
+      title="Function-Name"
+    />
+    <KitFormU8
+      v-show="show_ct"
+      v-model="ct"
+      :codec="UTF8"
+      title="Customization"
+    />
   </div>
 </template>

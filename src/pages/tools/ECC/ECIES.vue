@@ -320,7 +320,7 @@ onMounted(() => nextTick(() => encrypt()));
       </div>
       <KitFormU8
         v-if="cipher_mode !== ecb"
-        v-model:buffer="cipher_iv"
+        v-model="cipher_iv"
         :codec="UTF8"
         title="IV"
       />
@@ -336,7 +336,7 @@ onMounted(() => nextTick(() => encrypt()));
       <KitFormSelectHash v-if="mac_alg === 'HMAC'" v-model="mac_hash" title="Mac-Hash" />
       <KitFormU8
         v-else
-        v-model:buffer="mac_s"
+        v-model="mac_s"
         :codec="UTF8"
         title="Customization"
       />
@@ -356,7 +356,7 @@ onMounted(() => nextTick(() => encrypt()));
       </div>
       <div v-else>
         <KitFormU8
-          v-model:buffer="kdf_salt"
+          v-model="kdf_salt"
           :codec="UTF8"
           title="Salt"
         />
@@ -366,7 +366,7 @@ onMounted(() => nextTick(() => encrypt()));
         <KitFormSelectHash v-if="kdf_mac_alg === 'HMAC'" v-model="kdf_mac_hash" title="KDF-Mac-Hash" />
         <KitFormU8
           v-else
-          v-model:buffer="kdf_mac_s"
+          v-model="kdf_mac_s"
           title="Customization"
         />
         <KitFormInput v-model="kdf_mac_d" title="Digest Size (byte)" type="number" />
@@ -380,12 +380,12 @@ onMounted(() => nextTick(() => encrypt()));
         Additional Data
       </template>
       <KitFormU8
-        v-model:buffer="S1"
+        v-model="S1"
         :codec="UTF8"
         title="S1"
       />
       <KitFormU8
-        v-model:buffer="S2"
+        v-model="S2"
         :codec="UTF8"
         title="S2"
       />
@@ -400,19 +400,19 @@ onMounted(() => nextTick(() => encrypt()));
       </KitButton>
     </div>
     <KitFormU8
-      v-model:buffer="M"
+      v-model="M"
       :codec="UTF8"
       title="Plaintext"
       textarea
     />
     <KitFormU8
-      v-model:buffer="C"
+      v-model="C"
       :codec="HEX"
       title="Ciphertext"
       textarea
     />
     <KitFormU8
-      v-model:buffer="D"
+      v-model="D"
       :codec="HEX"
       title="Tag"
     />
