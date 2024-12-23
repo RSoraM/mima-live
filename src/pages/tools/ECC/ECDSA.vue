@@ -55,8 +55,8 @@ onMounted(() => nextTick(() => sign()));
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       ECDSA
     </h1>
-    <KitFormCurveSelect v-model="curve" />
-    <KitFormHashSelect v-model="hash" />
+    <KitFormSelectCurve v-model="curve" />
+    <KitFormSelectHash v-model="hash" />
     <!-- Key Generation -->
     <KitFormECKey
       v-model="key"

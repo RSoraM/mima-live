@@ -277,7 +277,7 @@ onMounted(() => nextTick(() => encrypt()));
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       ECIES
     </h1>
-    <KitFormCurveSelect v-model="curve" />
+    <KitFormSelectCurve v-model="curve" />
     <div class="divider my-8">
       Components Config
     </div>
@@ -315,8 +315,8 @@ onMounted(() => nextTick(() => encrypt()));
         Operation Mode Config
       </div>
       <div class="flex gap-2">
-        <KitFormModeSelect v-model="cipher_mode" :blocksize="block_cipher?.BLOCK_SIZE" />
-        <KitFormPaddingSelect v-model:padding="cipher_padding" v-model:disable-no-pad="cipher_disable_no_padding" />
+        <KitFormSelectMode v-model="cipher_mode" :blocksize="block_cipher?.BLOCK_SIZE" />
+        <KitFormSelectPadding v-model:padding="cipher_padding" v-model:disable-no-pad="cipher_disable_no_padding" />
       </div>
       <KitFormU8
         v-if="cipher_mode !== ecb"
@@ -333,7 +333,7 @@ onMounted(() => nextTick(() => encrypt()));
       <KitFormControl title="Mac">
         <KitBaseFormSelect v-model="mac_alg" :options="mac_option" />
       </KitFormControl>
-      <KitFormHashSelect v-if="mac_alg === 'HMAC'" v-model="mac_hash" title="Mac-Hash" />
+      <KitFormSelectHash v-if="mac_alg === 'HMAC'" v-model="mac_hash" title="Mac-Hash" />
       <KitFormU8
         v-else
         v-model:buffer="mac_s"
@@ -352,7 +352,7 @@ onMounted(() => nextTick(() => encrypt()));
         <KitBaseFormSelect v-model="kdf_alg" :options="kdf_option" />
       </KitFormControl>
       <div v-if="kdf_alg === 'ANSI X9.63'">
-        <KitFormHashSelect v-model="kdf_hash" />
+        <KitFormSelectHash v-model="kdf_hash" />
       </div>
       <div v-else>
         <KitFormU8
@@ -363,7 +363,7 @@ onMounted(() => nextTick(() => encrypt()));
         <KitFormControl title="KDF-Mac">
           <KitBaseFormSelect v-model="kdf_mac_alg" :options="mac_option" />
         </KitFormControl>
-        <KitFormHashSelect v-if="kdf_mac_alg === 'HMAC'" v-model="kdf_mac_hash" title="KDF-Mac-Hash" />
+        <KitFormSelectHash v-if="kdf_mac_alg === 'HMAC'" v-model="kdf_mac_hash" title="KDF-Mac-Hash" />
         <KitFormU8
           v-else
           v-model:buffer="kdf_mac_s"

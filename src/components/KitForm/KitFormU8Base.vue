@@ -22,7 +22,7 @@ onMounted(() => {
 
 <template>
   <div class="join" :class="{ 'join-vertical': textarea }">
-    <KitBaseFormCodecSelect v-model="text_codec" class="join-item" />
+    <KitBaseFormSelectCodec v-model="text_codec" class="join-item" />
     <textarea
       v-if="textarea"
       v-model="text" :onblur="t2b"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { bp192r1, bp224r1, bp256r1, bp320r1, bp384r1, bp512r1, secp192k1, secp192r1, secp224k1, secp224r1, secp256k1, secp256r1, secp384r1, secp521r1, sm2p256v1, w448, w25519 } from 'mima-kit';
 
-defineOptions({ name: 'KitFormCurveSelect' });
+defineOptions({ name: 'KitFormSelectCurve' });
 defineProps<{ title?: string }>();
 const curve = defineModel<typeof secp256r1>();
 const curve_options: SelectOption[] = [

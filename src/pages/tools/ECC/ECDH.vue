@@ -64,7 +64,7 @@ onMounted(() => nextTick(() => {
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       ECDH / ECCDH
     </h1>
-    <KitFormCurveSelect v-model="curve" />
+    <KitFormSelectCurve v-model="curve" />
     <div class="divider my-8">
       Key Exchange
     </div>

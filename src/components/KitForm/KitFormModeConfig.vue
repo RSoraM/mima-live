@@ -74,8 +74,8 @@ const disableNoPad = computed(() => !allowNoPadModes.includes(mode.value));
 
 <template>
   <div class="flex gap-2">
-    <KitFormModeSelect v-model="mode" :blocksize="cipher.BLOCK_SIZE" />
-    <KitFormPaddingSelect v-model:padding="padding" v-model:disable-no-pad="disableNoPad" />
+    <KitFormSelectMode v-model="mode" :blocksize="cipher.BLOCK_SIZE" />
+    <KitFormSelectPadding v-model:padding="padding" v-model:disable-no-pad="disableNoPad" />
   </div>
   <KitFormU8
     v-model:buffer="K"

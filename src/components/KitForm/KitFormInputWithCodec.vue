@@ -15,7 +15,7 @@ watch(codec, (new_codec, old_codec) => {
 <template>
   <KitFormControl :title="title">
     <div class="join">
-      <KitBaseFormCodecSelect v-model="codec" class="join-item" />
+      <KitBaseFormSelectCodec v-model="codec" class="join-item" />
       <input v-model="text" type="text" class="input join-item input-bordered w-full text-xs">
     </div>
   </KitFormControl>

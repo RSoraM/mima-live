@@ -18,7 +18,7 @@ const key = ref({
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       Key Generation
     </h1>
-    <KitFormCurveSelect v-model="curve" />
+    <KitFormSelectCurve v-model="curve" />
     <KitFormECKey
       v-model="key"
       :curve="curve"

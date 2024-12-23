@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cbc, cfb, ctr, ecb, gcm, ofb, pcbc } from 'mima-kit';
 
-defineOptions({ name: 'KitFormModeSelect' });
+defineOptions({ name: 'KitFormSelectMode' });
 const { blocksize } = defineProps<{ title?: string; blocksize?: number }>();
 const mode = defineModel();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ISO7816_PAD, NO_PAD, PKCS7_PAD, X923_PAD, ZERO_PAD } from 'mima-kit';
 
-defineOptions({ name: 'KitFormPaddingSelect' });
+defineOptions({ name: 'KitFormSelectPadding' });
 defineProps<{ title?: string }>();
 const padding = defineModel<typeof PKCS7_PAD>('padding');
 const disableNoPad = defineModel<boolean>('disableNoPad');

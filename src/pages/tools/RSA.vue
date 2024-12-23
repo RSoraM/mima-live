@@ -259,14 +259,14 @@ onMounted(() => {
         <div class="divider divider-start my-4 mb-2">
           #1: Hash Algorithm
         </div>
-        <KitFormHashSelect v-model="oaep_hash" title="Hash" />
+        <KitFormSelectHash v-model="oaep_hash" title="Hash" />
         <div class="divider divider-start my-4 mb-2">
           #2: Mask Generation Function
         </div>
         <KitFormControl title="MGF">
           <KitBaseFormSelect v-model="oaep_mgf" :options="mgf_options" />
         </KitFormControl>
-        <KitFormHashSelect v-model="oaep_mgf_hash" title="MGF Hash" />
+        <KitFormSelectHash v-model="oaep_mgf_hash" title="MGF Hash" />
         <div class="divider divider-start my-4 mb-2">
           #3: Label data
         </div>
@@ -290,14 +290,14 @@ onMounted(() => {
         <div class="divider divider-start my-4 mb-2">
           #1: Hash Algorithm
         </div>
-        <KitFormHashSelect v-model="pss_hash" title="Hash" />
+        <KitFormSelectHash v-model="pss_hash" title="Hash" />
         <div class="divider divider-start my-4 mb-2">
           #2: Mask Generation Function
         </div>
         <KitFormControl title="MGF">
           <KitBaseFormSelect v-model="pss_mgf" :options="mgf_options" />
         </KitFormControl>
-        <KitFormHashSelect v-model="pss_mgf_hash" title="MGF Hash" />
+        <KitFormSelectHash v-model="pss_mgf_hash" title="MGF Hash" />
         <div class="divider divider-start my-4 mb-2">
           #3: Salt Length
         </div>
@@ -307,7 +307,7 @@ onMounted(() => {
         <div class="divider divider-start my-4 mb-2">
           #1: Hash Algorithm
         </div>
-        <KitFormHashSelect v-model="v15_hash" title="Hash" />
+        <KitFormSelectHash v-model="v15_hash" title="Hash" />
       </div>
     </KitCollapse>
 

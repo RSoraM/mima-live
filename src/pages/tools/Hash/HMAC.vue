@@ -18,7 +18,7 @@ watchEffect(catchNotifySync(() => {
     <h1 class="mx-auto text-4xl font-bold md:my-8">
       HMAC
     </h1>
-    <KitFormHashSelect v-model="hash" />
+    <KitFormSelectHash v-model="hash" />
     <KitFormU8
       v-model:buffer="K"
       :codec="HEX"
