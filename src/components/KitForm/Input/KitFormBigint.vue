@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormBigint' });
-defineProps<{ title?: string }>();
+const { title } = defineProps<{ title?: string }>();
 
 const bi = defineModel<bigint>({ required: true });
 const u8 = ref(new U8());
@@ -18,7 +18,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <KitFormControl :title="title">
-    <KitFormU8Base v-model="u8" :codec="HEX" />
-  </KitFormControl>
+  <KitFormU8 v-model="u8" :title="title" :codec="HEX" />
 </template>

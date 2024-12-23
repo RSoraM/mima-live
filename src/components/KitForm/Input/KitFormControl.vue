@@ -14,18 +14,18 @@ const { type = 'text' } = defineProps<{
 
 <template>
   <template v-if="title">
-    <label v-if="type === 'text'" class="form-control w-full">
+    <label v-if="type === 'text'" :="$attrs" class="form-control w-full">
       <div class="label">
         <span class="label-text text-xs">{{ title }}</span>
       </div>
       <slot />
     </label>
-    <div v-else class="form-control">
+    <div v-else :="$attrs" class="form-control">
       <label class="label cursor-pointer">
         <span class="label-text text-xs">{{ title }}</span>
         <slot />
       </label>
     </div>
   </template>
-  <slot v-else />
+  <slot v-else :="$attrs" />
 </template>
