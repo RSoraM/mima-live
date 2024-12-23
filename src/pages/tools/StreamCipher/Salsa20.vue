@@ -34,14 +34,14 @@ const decrypt = catchNotify(() => {
       :codec="HEX"
       title="IV"
     />
-    <div class="divider my-8">
+    <KitDivider>
       <KitButton @click="encrypt">
         Encrypt
       </KitButton>/
       <KitButton @click="decrypt">
         Decrypt
       </KitButton>
-    </div>
+    </KitDivider>
     <KitFormU8
       v-model="P"
       :codec="UTF8"

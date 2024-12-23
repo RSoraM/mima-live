@@ -193,14 +193,14 @@ onMounted(async () => nextTick(() => {
         Key Generation
       </template>
       <KitFormNumber v-model="b" title="Key Size (bit)" />
-      <div class="divider my-8">
+      <KitDivider>
         <KitButton @click="clearKey">
           Clear
         </KitButton>/
         <KitButton @click="genKey">
           Generate
         </KitButton>
-      </div>
+      </KitDivider>
       <KitFormBigint
         v-model="key.n"
         :title="`n: modulus (${getBIBits(key.n)} bit)`"
@@ -249,20 +249,20 @@ onMounted(async () => nextTick(() => {
         <KitBaseFormSelect v-model="es" :options="es_options" />
       </KitFormControl>
       <div v-if="es === 'RSAES-OAEP'">
-        <div class="divider divider-start my-4 text-sm">
+        <KitDivider class="divider-start">
           # 1: Hash
-        </div>
+        </KitDivider>
         <KitFormSelectHash v-model="oaep_hash" title="Hash" />
-        <div class="divider divider-start my-4 text-sm">
+        <KitDivider class="divider-start">
           # 2: Mask Generation Function
-        </div>
+        </KitDivider>
         <KitFormControl title="MGF">
           <KitBaseFormSelect v-model="oaep_mgf" :options="mgf_options" />
         </KitFormControl>
         <KitFormSelectHash v-model="oaep_mgf_hash" title="MGF Hash" />
-        <div class="divider divider-start my-4 text-sm">
+        <KitDivider class="divider-start">
           # 3: Label
-        </div>
+        </KitDivider>
         <KitFormU8
           v-model="oaep_label"
           :codec="UTF8"
@@ -280,39 +280,39 @@ onMounted(async () => nextTick(() => {
         <KitBaseFormSelect v-model="ssa" :options="ssa_options" />
       </KitFormControl>
       <div v-if="ssa === 'RSASSA-PSS'">
-        <div class="divider divider-start my-4 text-sm">
+        <KitDivider class="divider-start">
           # 1: Hash Algorithm
-        </div>
+        </KitDivider>
         <KitFormSelectHash v-model="pss_hash" title="Hash" />
-        <div class="divider divider-start my-4 text-sm">
+        <KitDivider class="divider-start">
           # 2: Mask Generation Function
-        </div>
+        </KitDivider>
         <KitFormControl title="MGF">
           <KitBaseFormSelect v-model="pss_mgf" :options="mgf_options" />
         </KitFormControl>
         <KitFormSelectHash v-model="pss_mgf_hash" title="MGF Hash" />
-        <div class="divider divider-start my-4 text-sm">
+        <KitDivider class="divider-start">
           # 3: Salt Length
-        </div>
+        </KitDivider>
         <KitFormNumber v-model="pss_salt_length" title="Salt Length" />
       </div>
       <div v-if="ssa === 'RSASSA-PKCS1-v1_5'">
-        <div class="divider divider-start my-4 text-sm">
+        <KitDivider class="divider-start">
           # 1: Hash Algorithm
-        </div>
+        </KitDivider>
         <KitFormSelectHash v-model="v15_hash" title="Hash" />
       </div>
     </KitCollapse>
 
     <!-- OP -->
-    <div class="divider my-8">
+    <KitDivider>
       <KitButton :disabled="!key.n || !key.e" @click="encrypt">
         Encrypt
       </KitButton>/
       <KitButton :disabled="!key.n || !key.d" @click="decrypt">
         Decrypt
       </KitButton>
-    </div>
+    </KitDivider>
     <KitFormU8
       v-model="M"
       :codec="UTF8"
@@ -325,14 +325,14 @@ onMounted(async () => nextTick(() => {
       title="Cipher text"
       textarea
     />
-    <div class="divider my-8">
+    <KitDivider>
       <KitButton :disabled="!key.n || !key.d" @click="sign">
         Sign
       </KitButton>/
       <KitButton :disabled="!key.n || !key.e" @click="verify">
         Verify
       </KitButton>
-    </div>
+    </KitDivider>
     <KitFormU8
       v-model="S"
       :codec="HEX"

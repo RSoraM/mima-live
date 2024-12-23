@@ -59,11 +59,11 @@ const cipher = catchNotify(() => {
       title="Input"
       textarea
     />
-    <div class="divider my-8">
+    <KitDivider>
       <KitButton @click="cipher">
         Cipher
       </KitButton>
-    </div>
+    </KitDivider>
     <KitFormU8
       v-model="O"
       :codec="HEX"
