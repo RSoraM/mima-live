@@ -12,6 +12,7 @@ declare module 'vue' {
     KitButton: typeof import('./src/components/KitButton.vue')['default']
     KitCollapse: typeof import('./src/components/KitCollapse.vue')['default']
     KitCurveTable: typeof import('./src/components/KitCurveTable.vue')['default']
+    KitDivider: typeof import('./src/components/KitDivider.vue')['default']
     KitFormBigint: typeof import('./src/components/KitForm/Input/KitFormBigint.vue')['default']
     KitFormControl: typeof import('./src/components/KitForm/Input/KitFormControl.vue')['default']
     KitFormECKey: typeof import('./src/components/KitForm/KitFormECKey.vue')['default']

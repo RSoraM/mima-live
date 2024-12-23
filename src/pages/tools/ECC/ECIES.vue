@@ -109,7 +109,7 @@ onMounted(() => nextTick(() => encrypt()));
     <!-- Key Generation -->
     <KitCollapse class="bg-base-200" open>
       <template #header>
-        Key Generation
+        Key
       </template>
       <KitFormECKey
         v-model="key"
@@ -127,7 +127,7 @@ onMounted(() => nextTick(() => encrypt()));
         title="Cipher"
       />
       <!-- Mode Config -->
-      <div class="divider my-8">
+      <div class="divider my-4">
         Operation Mode Config
       </div>
       <div class="flex gap-2">
@@ -141,12 +141,6 @@ onMounted(() => nextTick(() => encrypt()));
           :mode="cipher_mode"
         />
       </div>
-      <KitFormU8
-        v-if="cipher_mode !== ecb"
-        v-model="cipher_iv"
-        :codec="UTF8"
-        title="IV"
-      />
     </KitCollapse>
     <!-- Mac Config -->
     <KitCollapse class="mt-4 bg-base-200">
@@ -176,6 +170,12 @@ onMounted(() => nextTick(() => encrypt()));
         v-model="S2"
         :codec="UTF8"
         title="S2"
+      />
+      <KitFormU8
+        v-if="cipher_mode !== ecb"
+        v-model="cipher_iv"
+        :codec="UTF8"
+        title="IV"
       />
     </KitCollapse>
     <!-- Encryption -->

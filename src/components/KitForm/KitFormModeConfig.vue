@@ -24,6 +24,7 @@ const IV = ref(HEX(init?.iv || ''));
 const A = ref(HEX(init?.a || ''));
 // auth tag
 const T = ref(HEX(init?.t || ''));
+// TODO 添加表单
 const t_size = ref(16);
 // plain text
 const P = ref(HEX(init?.p || ''));

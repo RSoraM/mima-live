@@ -170,45 +170,41 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <div>
-    <KitFormControl :title="title || 'Hash'">
-      <KitBaseFormSelect
-        v-model="alg" :options="hash_options"
+  <KitFormControl :title="title || 'Hash'">
+    <KitBaseFormSelect v-model="alg" :options="hash_options" />
+  </KitFormControl>
+  <KitCollapse v-if="show_config" class="input-bordered my-2 border bg-base-300">
+    <template #header>
+      Hash Config
+    </template>
+    <div class="flex gap-2">
+      <KitFormNumber
+        v-show="show_t"
+        v-model="t"
+        title="Digest Size (bit)"
       />
-    </KitFormControl>
-    <KitCollapse v-if="show_config" class="mb-4 border bg-base-200">
-      <template #header>
-        {{ title || 'Hash' }} Config
-      </template>
-      <div class="flex gap-2">
-        <KitFormNumber
-          v-show="show_t"
-          v-model="t"
-          title="Digest Size (bit)"
-        />
-        <KitFormNumber
-          v-show="show_block_size"
-          v-model="block_size"
-          title="Block Size (bit)"
-        />
-        <KitFormNumber
-          v-show="show_ds"
-          v-model="ds"
-          title="Domain Separator"
-        />
-      </div>
-      <KitFormU8
-        v-show="show_fn"
-        v-model="fn"
-        :codec="UTF8"
-        title="Function-Name"
+      <KitFormNumber
+        v-show="show_block_size"
+        v-model="block_size"
+        title="Block Size (bit)"
       />
-      <KitFormU8
-        v-show="show_ct"
-        v-model="ct"
-        :codec="UTF8"
-        title="Customization"
+      <KitFormNumber
+        v-show="show_ds"
+        v-model="ds"
+        title="Domain Separator"
       />
-    </KitCollapse>
-  </div>
+    </div>
+    <KitFormU8
+      v-show="show_fn"
+      v-model="fn"
+      :codec="UTF8"
+      title="Function-Name"
+    />
+    <KitFormU8
+      v-show="show_ct"
+      v-model="ct"
+      :codec="UTF8"
+      title="Customization"
+    />
+  </KitCollapse>
 </template>

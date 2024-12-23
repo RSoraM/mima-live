@@ -249,19 +249,19 @@ onMounted(async () => nextTick(() => {
         <KitBaseFormSelect v-model="es" :options="es_options" />
       </KitFormControl>
       <div v-if="es === 'RSAES-OAEP'">
-        <div class="divider divider-start my-4 mb-2">
-          #1: Hash Algorithm
+        <div class="divider divider-start my-4 text-sm">
+          # 1: Hash
         </div>
         <KitFormSelectHash v-model="oaep_hash" title="Hash" />
-        <div class="divider divider-start my-4 mb-2">
-          #2: Mask Generation Function
+        <div class="divider divider-start my-4 text-sm">
+          # 2: Mask Generation Function
         </div>
         <KitFormControl title="MGF">
           <KitBaseFormSelect v-model="oaep_mgf" :options="mgf_options" />
         </KitFormControl>
         <KitFormSelectHash v-model="oaep_mgf_hash" title="MGF Hash" />
-        <div class="divider divider-start my-4 mb-2">
-          #3: Label data
+        <div class="divider divider-start my-4 text-sm">
+          # 3: Label
         </div>
         <KitFormU8
           v-model="oaep_label"
@@ -280,25 +280,25 @@ onMounted(async () => nextTick(() => {
         <KitBaseFormSelect v-model="ssa" :options="ssa_options" />
       </KitFormControl>
       <div v-if="ssa === 'RSASSA-PSS'">
-        <div class="divider divider-start my-4 mb-2">
-          #1: Hash Algorithm
+        <div class="divider divider-start my-4 text-sm">
+          # 1: Hash Algorithm
         </div>
         <KitFormSelectHash v-model="pss_hash" title="Hash" />
-        <div class="divider divider-start my-4 mb-2">
-          #2: Mask Generation Function
+        <div class="divider divider-start my-4 text-sm">
+          # 2: Mask Generation Function
         </div>
         <KitFormControl title="MGF">
           <KitBaseFormSelect v-model="pss_mgf" :options="mgf_options" />
         </KitFormControl>
         <KitFormSelectHash v-model="pss_mgf_hash" title="MGF Hash" />
-        <div class="divider divider-start my-4 mb-2">
-          #3: Salt Length
+        <div class="divider divider-start my-4 text-sm">
+          # 3: Salt Length
         </div>
         <KitFormNumber v-model="pss_salt_length" title="Salt Length" />
       </div>
       <div v-if="ssa === 'RSASSA-PKCS1-v1_5'">
-        <div class="divider divider-start my-4 mb-2">
-          #1: Hash Algorithm
+        <div class="divider divider-start my-4 text-sm">
+          # 1: Hash Algorithm
         </div>
         <KitFormSelectHash v-model="v15_hash" title="Hash" />
       </div>

@@ -54,7 +54,7 @@ onMounted(() => nextTick(() => genKey()));
 
 <template>
   <div>
-    <div class="divider my-8" :class="title ? 'divider-start' : ''">
+    <div class="divider my-8 text-sm font-bold" :class="title ? 'divider-start' : ''">
       {{ title ? `# Key ${title}:` : '' }}
       <KitButton @click="clearKey">
         Clear
