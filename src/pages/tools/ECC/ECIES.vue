@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { aes, arc5, aria, blowfish, camellia, cbc, des, ecb, FpECC, HEX, hkdf, hmac, kmac128, kmac128XOF, kmac256, kmac256XOF, pbkdf2, PKCS7_PAD, secp256r1, sha256, sm4, t_des, tea, twofish, UTF8, x963kdf, xtea } from 'mima-kit';
+defineOptions({ name: 'ECIES' });
 
 const curve = ref(secp256r1);
 const ec = computed(() => FpECC(curve.value));
 
 // KEY
-const k = ref<ReturnType<typeof ec['value']['genKey']>>({
+const key = ref({
   d: 0n,
   Q: {
     isInfinity: true,
@@ -14,13 +14,10 @@ const k = ref<ReturnType<typeof ec['value']['genKey']>>({
   },
 });
 // ENCRYPTION
-const m = ref('mima-kit');
-const m_codec = ref(UTF8);
-const c = ref('');
-const c_codec = ref(HEX);
-const d = ref('');
-const d_codec = ref(HEX);
-const r = ref<typeof k['value']>({
+const M = ref(UTF8('mima-kit'));
+const C = ref(new U8());
+const D = ref(new U8());
+const r = ref({
   d: 0n,
   Q: {
     isInfinity: true,
@@ -31,8 +28,7 @@ const r = ref<typeof k['value']>({
 
 // BLOCK CIPHER
 const cipher_alg = ref('SM4');
-const cipher_iv = ref('');
-const cipher_iv_codec = ref(HEX);
+const cipher_iv = ref(new U8());
 const cipher_mode = ref(cbc);
 const cipher_padding = ref(PKCS7_PAD);
 const cipher_disable_no_padding = ref(true);
@@ -121,8 +117,7 @@ const mac_alg = ref('HMAC');
 const mac_hash = ref(sha256);
 const mac_d = ref(sha256.DIGEST_SIZE);
 const mac_k = ref(sha256.DIGEST_SIZE);
-const mac_s = ref('');
-const mac_s_codec = ref(UTF8);
+const mac_s = ref(new U8());
 const mac_option: SelectOption[] = [
   { label: 'HMAC', value: 'HMAC' },
   { label: 'KMAC128', value: 'KMAC128' },
@@ -166,7 +161,7 @@ function createMac(alg: string, S: Uint8Array, d: number, k: number) {
   return undefined;
 }
 const mac = computed(() => {
-  const S = mac_s_codec.value(mac_s.value);
+  const S = mac_s.value;
   return createMac(mac_alg.value, S, mac_d.value, mac_k.value);
 });
 
@@ -180,12 +175,10 @@ const kdf_option: SelectOption[] = [
 const kdf_hash = ref(sha256);
 const kdf_mac_alg = ref('HMAC');
 const kdf_mac_hash = ref(sha256);
-const kdf_mac_s = ref('');
-const kdf_mac_s_codec = ref(UTF8);
+const kdf_mac_s = ref(new U8());
 const kdf_mac_d = ref(sha256.DIGEST_SIZE);
 const kdf_mac_k = ref(sha256.DIGEST_SIZE);
-const kdf_salt = ref('');
-const kdf_salt_codec = ref(UTF8);
+const kdf_salt = ref(new U8());
 const kdf_iterations = ref(5000);
 watch(kdf_mac_alg, () => {
   if (kdf_mac_alg.value === 'HMAC') {
@@ -205,8 +198,8 @@ watch(kdf_mac_hash, () => {
   kdf_mac_k.value = kdf_mac_hash.value.DIGEST_SIZE;
 });
 const kdf = computed(() => {
-  const S = kdf_salt_codec.value(kdf_salt.value);
-  const MS = kdf_mac_s_codec.value(kdf_mac_s.value);
+  const S = kdf_salt.value;
+  const MS = kdf_mac_s.value;
   if (kdf_alg.value === 'ANSI X9.63') {
     return x963kdf(kdf_hash.value);
   }
@@ -222,66 +215,61 @@ const kdf = computed(() => {
 });
 
 // ECIES
-const s1 = ref('');
-const s1_codec = ref(UTF8);
-const s2 = ref('');
-const s2_codec = ref(UTF8);
-function encrypt() {
-  if (!(cipher.value && mac.value && kdf.value)) {
+const S1 = ref(new U8());
+const S2 = ref(new U8());
+const encrypt = catchNotifySync(() => {
+  if (!(cipher.value || mac.value || kdf.value)) {
     return;
   }
-  const S1 = s1_codec.value(s1.value);
-  const S2 = s2_codec.value(s2.value);
-  const iv = cipher_iv.value ? cipher_iv_codec.value(cipher_iv.value) : undefined;
+  const iv = cipher_iv.value.length ? cipher_iv.value : undefined;
   const ecies = ec.value.ecies({
     cipher: cipher.value,
     mac: mac.value,
     kdf: kdf.value,
-    S1,
-    S2,
+    S1: S1.value,
+    S2: S2.value,
     iv,
   });
-  const { C, R, D } = ecies.encrypt(k.value, m_codec.value(m.value));
-  c.value = c_codec.value(C);
-  d.value = d_codec.value(D);
+  const ciphertext = ecies.encrypt(key.value, M.value);
+  C.value = U8.from(ciphertext.C);
+  D.value = U8.from(ciphertext.D);
   r.value = {
     d: 0n,
     Q: {
-      isInfinity: R.Q.isInfinity || false,
-      x: R.Q.x,
-      y: R.Q.y,
+      isInfinity: ciphertext.R.Q.isInfinity || false,
+      x: ciphertext.R.Q.x,
+      y: ciphertext.R.Q.y,
     },
   };
-}
-function decrypt() {
-  if (!(cipher.value && mac.value && kdf.value)) {
+});
+const decrypt = catchNotifySync(() => {
+  if (!(cipher.value || mac.value || kdf.value)) {
     return;
   }
-  const S1 = s1_codec.value(s1.value);
-  const S2 = s2_codec.value(s2.value);
-  const iv = cipher_iv.value ? cipher_iv_codec.value(cipher_iv.value) : undefined;
+  const iv = cipher_iv.value.length ? cipher_iv.value : undefined;
   const ecies = ec.value.ecies({
     cipher: cipher.value,
     mac: mac.value,
     kdf: kdf.value,
-    S1,
-    S2,
+    S1: S1.value,
+    S2: S2.value,
     iv,
   });
-  const C = {
-    C: c_codec.value(c.value),
-    D: d_codec.value(d.value),
+  const ciphertext = {
+    C: C.value,
+    D: D.value,
     R: {
-      Q: r.value.Q,
+      Q: {
+        isInfinity: r.value.Q.isInfinity,
+        x: r.value.Q.x,
+        y: r.value.Q.y,
+      },
     },
   };
-  const P = ecies.decrypt(k.value, C);
-  m.value = m_codec.value(P);
-}
-
-onMounted(() => {
-  encrypt();
+  M.value = ecies.decrypt(key.value, ciphertext);
 });
+
+onMounted(() => nextTick(() => encrypt()));
 </script>
 
 <template>
@@ -299,7 +287,7 @@ onMounted(() => {
         Key Generation
       </template>
       <KitFormECKey
-        v-model="k"
+        v-model="key"
         :curve="curve"
         :fold="true"
       />
@@ -330,7 +318,12 @@ onMounted(() => {
         <KitFormModeSelect v-model="cipher_mode" :blocksize="block_cipher?.BLOCK_SIZE" />
         <KitFormPaddingSelect v-model:padding="cipher_padding" v-model:disable-no-pad="cipher_disable_no_padding" />
       </div>
-      <KitFormInputWithCodec v-show="cipher_mode !== ecb" v-model:text="cipher_iv" v-model:codec="cipher_iv_codec" title="iv" />
+      <KitFormU8
+        v-if="cipher_mode !== ecb"
+        v-model:buffer="cipher_iv"
+        :codec="UTF8"
+        title="IV"
+      />
     </KitCollapse>
     <!-- Mac Config -->
     <KitCollapse class="mt-4 bg-base-200">
@@ -341,9 +334,14 @@ onMounted(() => {
         <KitBaseFormSelect v-model="mac_alg" :options="mac_option" />
       </KitFormControl>
       <KitFormHashSelect v-if="mac_alg === 'HMAC'" v-model="mac_hash" title="Mac-Hash" />
-      <KitFormInputWithCodec v-else v-model:text="mac_s" v-model:codec="mac_s_codec" title="Customization" />
-      <KitFormInput v-model="mac_d" title="Digest Size (byte)" />
-      <KitFormInput v-model="mac_k" title="Key Size (byte)" />
+      <KitFormU8
+        v-else
+        v-model:buffer="mac_s"
+        :codec="UTF8"
+        title="Customization"
+      />
+      <KitFormInput v-model="mac_d" title="Digest Size (byte)" type="number" />
+      <KitFormInput v-model="mac_k" title="Key Size (byte)" type="number" />
     </KitCollapse>
     <!-- KDF -->
     <KitCollapse class="mt-4 bg-base-200">
@@ -357,14 +355,22 @@ onMounted(() => {
         <KitFormHashSelect v-model="kdf_hash" />
       </div>
       <div v-else>
-        <KitFormInputWithCodec v-model="kdf_salt" v-model:codec="kdf_salt_codec" title="Salt" />
+        <KitFormU8
+          v-model:buffer="kdf_salt"
+          :codec="UTF8"
+          title="Salt"
+        />
         <KitFormControl title="KDF-Mac">
           <KitBaseFormSelect v-model="kdf_mac_alg" :options="mac_option" />
         </KitFormControl>
         <KitFormHashSelect v-if="kdf_mac_alg === 'HMAC'" v-model="kdf_mac_hash" title="KDF-Mac-Hash" />
-        <KitFormInputWithCodec v-else v-model:text="kdf_mac_s" v-model:codec="kdf_mac_s_codec" title="Customization" />
-        <KitFormInput v-model="kdf_mac_d" title="Digest Size (byte)" />
-        <KitFormInput v-model="kdf_mac_k" title="Key Size (byte)" />
+        <KitFormU8
+          v-else
+          v-model:buffer="kdf_mac_s"
+          title="Customization"
+        />
+        <KitFormInput v-model="kdf_mac_d" title="Digest Size (byte)" type="number" />
+        <KitFormInput v-model="kdf_mac_k" title="Key Size (byte)" type="number" />
       </div>
       <KitFormInput v-if="kdf_alg === 'PBKDF2'" v-model="kdf_iterations" title="Iterations" type="number" />
     </KitCollapse>
@@ -373,8 +379,16 @@ onMounted(() => {
       <template #header>
         Additional Data
       </template>
-      <KitFormInputWithCodec v-model:text="s1" v-model:codec="s1_codec" title="S1" />
-      <KitFormInputWithCodec v-model:text="s2" v-model:codec="s2_codec" title="S2" />
+      <KitFormU8
+        v-model:buffer="S1"
+        :codec="UTF8"
+        title="S1"
+      />
+      <KitFormU8
+        v-model:buffer="S2"
+        :codec="UTF8"
+        title="S2"
+      />
     </KitCollapse>
     <!-- Encryption -->
     <div class="divider my-8">
@@ -385,24 +399,34 @@ onMounted(() => {
         Decrypt
       </KitButton>
     </div>
-    <KitFormTextAreaWithCodec v-model:text="m" v-model:codec="m_codec" title="Plaintext" />
-    <KitFormTextAreaWithCodec v-model:text="c" v-model:codec="c_codec" title="Ciphertext" />
-    <KitFormInputWithCodec v-model:text="d" v-model:codec="d_codec" title="Tag" />
-    <KitFormECPoint
+    <KitFormU8
+      v-model:buffer="M"
+      :codec="UTF8"
+      title="Plaintext"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="C"
+      :codec="HEX"
+      title="Ciphertext"
+      textarea
+    />
+    <KitFormU8
+      v-model:buffer="D"
+      :codec="HEX"
+      title="Tag"
+    />
+    <KitFormECPointCompress
       v-model="r"
       :curve="curve"
       :fold="true"
       title="R"
-    >
-      <div class="divider my-8">
-        One Time Public key R
-      </div>
-    </KitFormECPoint>
+    />
 
     <!-- Curve Parameters -->
     <div class="divider my-8">
       Curve Parameters
     </div>
-    <KitCurveTable v-model:curve="curve" v-model:codec="HEX" />
+    <KitCurveTable :curve="curve" :codec="HEX" />
   </div>
 </template>

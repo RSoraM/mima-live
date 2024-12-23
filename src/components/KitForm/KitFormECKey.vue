@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { Codec, secp256r1 } from 'mima-kit';
-import { FpECC, HEX } from 'mima-kit';
+defineOptions({ name: 'KitFormECKey' });
 
 // props
-defineOptions({ name: 'KitFormECKey' });
 const { curve, title = '', fold = true } = defineProps<{
   curve: typeof secp256r1;
   title?: string;
@@ -13,17 +11,26 @@ const { curve, title = '', fold = true } = defineProps<{
 const ec = computed(() => FpECC(curve));
 
 // key
-const key = defineModel<ReturnType<typeof ec['value']['genKey']>>({ required: true });
-
-// compression
-const compressed_p = ref('');
-const compressed_p_codec = ref<Codec>(HEX);
-const uncompressed_p = ref('');
-const uncompressed_p_codec = ref<Codec>(HEX);
+const key = defineModel<{
+  d: bigint;
+  Q: {
+    isInfinity: boolean;
+    x: bigint;
+    y: bigint;
+  };
+}>({ required: true });
 
 // functions
 function genKey() {
-  key.value = ec.value.genKey();
+  const k = ec.value.genKey();
+  key.value = {
+    d: k.d,
+    Q: {
+      isInfinity: k.Q.isInfinity || false,
+      x: k.Q.x,
+      y: k.Q.y,
+    },
+  };
 }
 function clearKey() {
   key.value = {
@@ -34,33 +41,6 @@ function clearKey() {
       y: 0n,
     },
   };
-  compressed_p.value = '';
-  uncompressed_p.value = '';
-}
-function convert() {
-  const P = key.value.Q;
-  const compressed = ec.value.PointToU8(P, true);
-  compressed_p.value = compressed_p_codec.value(compressed);
-  const uncompressed = ec.value.PointToU8(P);
-  uncompressed_p.value = uncompressed_p_codec.value(uncompressed);
-}
-function recover() {
-  let buffer: Uint8Array;
-  if (compressed_p.value) {
-    buffer = compressed_p_codec.value(compressed_p.value);
-  }
-  else {
-    buffer = uncompressed_p_codec.value(uncompressed_p.value);
-  }
-  const P = ec.value.U8ToPoint(buffer);
-  key.value = {
-    d: key.value.d,
-    Q: {
-      isInfinity: P.isInfinity || false,
-      x: P.x,
-      y: P.y,
-    },
-  };
 }
 
 // watchers
@@ -68,8 +48,8 @@ watch(
   () => curve,
   () => clearKey(),
 );
-genKey();
-nextTick(() => convert());
+
+onMounted(() => nextTick(() => genKey()));
 </script>
 
 <template>
@@ -85,62 +65,31 @@ nextTick(() => convert());
     </div>
     <KitFormBigint
       v-model="key.d"
-      :title="`Private Key d${title} (${getBIBits(key.d)} byte)`"
+      :title="`Private Key d${title} (${getBIBits(key.d)} bit)`"
     />
     <KitFormBigint
       v-model="key.Q.x"
-      :title="`Public Key Q${title}.x (${getBIBits(key.Q.x)} byte)`"
+      :title="`Public Key Q${title}.x (${getBIBits(key.Q.x)} bit)`"
     />
     <KitFormBigint
       v-model="key.Q.y"
-      :title="`Public Key Q${title}.y (${getBIBits(key.Q.y)} byte)`"
+      :title="`Public Key Q${title}.y (${getBIBits(key.Q.y)} bit)`"
     />
     <KitCollapse v-if="fold" class="my-2 bg-base-300">
       <template #header>
         Point Compression
       </template>
-      <KitFormToggle v-model="key.Q.isInfinity" :title="`Public Key Q${title}.isInfinity`" />
-      <!-- Compression -->
-      <div class="divider my-6">
-        <KitButton @click="recover()">
-          Recover
-        </KitButton>/
-        <KitButton @click="convert()">
-          Convert
-        </KitButton>
-      </div>
-      <KitFormInputWithCodec
-        v-model:codec="compressed_p_codec"
-        v-model:text="compressed_p"
-        :title="`Compressed Q${title}`"
-      />
-      <KitFormInputWithCodec
-        v-model:codec="uncompressed_p_codec"
-        v-model:text="uncompressed_p"
-        :title="`Uncompressed Q${title}`"
+      <KitFormECPointCompress
+        v-model="key"
+        :curve="curve"
+        :title="title"
       />
     </KitCollapse>
-    <div v-else>
-      <KitFormToggle v-model="key.Q.isInfinity" :title="`Public Key Q${title}.isInfinity`" />
-      <!-- Compression -->
-      <div class="divider my-6">
-        <KitButton @click="recover()">
-          Recover
-        </KitButton>/
-        <KitButton @click="convert()">
-          Convert
-        </KitButton>
-      </div>
-      <KitFormInputWithCodec
-        v-model:codec="compressed_p_codec"
-        v-model:text="compressed_p"
-        :title="`Compressed Q${title}`"
-      />
-      <KitFormInputWithCodec
-        v-model:codec="uncompressed_p_codec"
-        v-model:text="uncompressed_p"
-        :title="`Uncompressed Q${title}`"
-      />
-    </div>
+    <KitFormECPointCompress
+      v-else
+      v-model="key"
+      :curve="curve"
+      :title="title"
+    />
   </div>
 </template>

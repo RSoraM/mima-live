@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { FpECC, HEX, secp256r1, U8 } from 'mima-kit';
-
+defineOptions({ name: 'ECDH' });
 const curve = ref(secp256r1);
 const ec = computed(() => FpECC(curve.value));
-const codec = ref(HEX);
 // Alice
-const k_a = ref<ReturnType<typeof ec['value']['genKey']>>({
+const k_a = ref({
   d: 0n,
   Q: {
     isInfinity: true,
@@ -14,11 +12,9 @@ const k_a = ref<ReturnType<typeof ec['value']['genKey']>>({
   },
 });
 const ecdh_s_a = ref(0n);
-const ecdh_s_a_str = ref('');
 const eccdh_s_a = ref(0n);
-const eccdh_s_a_str = ref('');
 // Bob
-const k_b = ref<ReturnType<typeof ec['value']['genKey']>>({
+const k_b = ref({
   d: 0n,
   Q: {
     isInfinity: true,
@@ -27,9 +23,7 @@ const k_b = ref<ReturnType<typeof ec['value']['genKey']>>({
   },
 });
 const ecdh_s_b = ref(0n);
-const ecdh_s_b_str = ref('');
 const eccdh_s_b = ref(0n);
-const eccdh_s_b_str = ref('');
 
 const isSAComputeAble = computed(() => {
   const t = [k_a.value.d, k_b.value.Q.x, k_b.value.Q.y];
@@ -56,32 +50,13 @@ watch(
     eccdh_s_b.value = 0n;
   }),
 );
-watch(
-  [ecdh_s_a, eccdh_s_a, ecdh_s_b, eccdh_s_b],
-  catchNotifySync(() => {
-    ecdh_s_a_str.value = U8.fromBI(ecdh_s_a.value).to(codec.value);
-    eccdh_s_a_str.value = U8.fromBI(eccdh_s_a.value).to(codec.value);
-    ecdh_s_b_str.value = U8.fromBI(ecdh_s_b.value).to(codec.value);
-    eccdh_s_b_str.value = U8.fromBI(eccdh_s_b.value).to(codec.value);
-  }),
-  { immediate: true },
-);
-watch(
-  [ecdh_s_a_str, eccdh_s_a_str, ecdh_s_b_str, eccdh_s_b_str],
-  catchNotifySync(() => {
-    ecdh_s_a.value = codec.value(ecdh_s_a_str.value).toBI();
-    eccdh_s_a.value = codec.value(eccdh_s_a_str.value).toBI();
-    ecdh_s_b.value = codec.value(ecdh_s_b_str.value).toBI();
-    eccdh_s_b.value = codec.value(eccdh_s_b_str.value).toBI();
-  }),
-  { immediate: true },
-);
-onMounted(() => {
+
+onMounted(() => nextTick(() => {
   ecdh_s_a.value = ecdh(k_a.value, k_b.value);
   ecdh_s_b.value = ecdh(k_b.value, k_a.value);
   eccdh_s_a.value = eccdh(k_a.value, k_b.value);
   eccdh_s_b.value = eccdh(k_b.value, k_a.value);
-});
+}));
 </script>
 
 <template>
@@ -118,14 +93,12 @@ onMounted(() => {
           ECDH
         </KitButton>
       </div>
-      <KitFormInputWithCodec
-        v-model:codec="codec"
-        v-model:text="ecdh_s_a_str"
+      <KitFormBigint
+        v-model="ecdh_s_a"
         :title="`S = (dA * QB).x: (${getBIBits(ecdh_s_a)} bit)`"
       />
-      <KitFormInputWithCodec
-        v-model:codec="codec"
-        v-model:text="eccdh_s_a_str"
+      <KitFormBigint
+        v-model="eccdh_s_a"
         :title="`S = (dA * QB * h).x: (${getBIBits(eccdh_s_a)} bit)`"
       />
     </KitCollapse>
@@ -154,14 +127,12 @@ onMounted(() => {
           ECDH
         </KitButton>
       </div>
-      <KitFormInputWithCodec
-        v-model:codec="codec"
-        v-model:text="ecdh_s_b_str"
+      <KitFormBigint
+        v-model="ecdh_s_b"
         :title="`S = (dB * QA).x: (${getBIBits(ecdh_s_b)} bit)`"
       />
-      <KitFormInputWithCodec
-        v-model:codec="codec"
-        v-model:text="eccdh_s_b_str"
+      <KitFormBigint
+        v-model="eccdh_s_b"
         :title="`S = (dB * QA * h).x: (${getBIBits(eccdh_s_b)} bit)`"
       />
     </KitCollapse>
@@ -170,6 +141,6 @@ onMounted(() => {
     <div class="divider my-8">
       Curve Parameters
     </div>
-    <KitCurveTable :curve="curve" :codec="codec" />
+    <KitCurveTable :curve="curve" :codec="HEX" />
   </div>
 </template>

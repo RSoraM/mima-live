@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { FpECC, HEX, secp256r1, sha256, U8, UTF8 } from 'mima-kit';
+defineOptions({ name: 'ECMQV' });
 
 const curve = ref(secp256r1);
 const ec = computed(() => FpECC(curve.value));
-const hash = ref(sha256);
-const k = ref<ReturnType<typeof ec['value']['genKey']>>({
+const key = ref({
   d: 0n,
   Q: {
     isInfinity: true,
@@ -12,25 +11,20 @@ const k = ref<ReturnType<typeof ec['value']['genKey']>>({
     y: 0n,
   },
 });
-const m = ref('mima-kit');
-const m_codec = ref(UTF8);
-const s = ref('');
-const s_codec = ref(HEX);
-const r = ref('');
-const r_codec = ref(HEX);
+const M = ref(UTF8('mima-kit'));
+const S = ref(0n);
+const R = ref(0n);
+const hash = ref(sha256);
 function sign() {
   const dsa = ec.value.ecdsa(hash.value);
-  const M = m_codec.value(m.value);
-  const S = dsa.sign(k.value, M);
-  r.value = U8.fromBI(S.r).to(r_codec.value);
-  s.value = U8.fromBI(S.s).to(s_codec.value);
+  const sign = dsa.sign(key.value, M.value);
+  S.value = sign.s;
+  R.value = sign.r;
 }
 function verify() {
   const dsa = ec.value.ecdsa(hash.value);
-  const M = m_codec.value(m.value);
-  const R = r_codec.value(r.value).toBI();
-  const S = s_codec.value(s.value).toBI();
-  if (dsa.verify(k.value, M, { r: R, s: S })) {
+  const sign = { r: R.value, s: S.value };
+  if (dsa.verify(key.value, M.value, sign)) {
     $notify({
       title: 'Verification',
       message: 'Verification success',
@@ -49,14 +43,11 @@ function verify() {
 watch(
   curve,
   catchNotifySync(() => {
-    s.value = '';
-    r.value = '';
+    R.value = 0n;
+    S.value = 0n;
   }),
-  { immediate: true },
 );
-onMounted(() => {
-  sign();
-});
+onMounted(() => nextTick(() => sign()));
 </script>
 
 <template>
@@ -68,7 +59,7 @@ onMounted(() => {
     <KitFormHashSelect v-model="hash" />
     <!-- Key Generation -->
     <KitFormECKey
-      v-model="k"
+      v-model="key"
       :curve="curve"
       :fold="true"
     />
@@ -81,9 +72,20 @@ onMounted(() => {
         verify
       </KitButton>
     </div>
-    <KitFormTextAreaWithCodec v-model:text="m" v-model:codec="m_codec" title="Message" />
-    <KitFormInputWithCodec v-model:text="r" v-model:codec="r_codec" title="Signature r" />
-    <KitFormInputWithCodec v-model:text="s" v-model:codec="s_codec" title="Signature s" />
+    <KitFormU8
+      v-model:buffer="M"
+      :codec="UTF8"
+      title="Message"
+      textarea
+    />
+    <KitFormBigint
+      v-model="R"
+      :title="`Signature r (${getBIBits(R)} bit)`"
+    />
+    <KitFormBigint
+      v-model="S"
+      :title="`Signature s (${getBIBits(S)} bit)`"
+    />
 
     <!-- Curve Parameters -->
     <div class="divider my-8">
