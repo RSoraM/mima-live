@@ -36,11 +36,11 @@ const init = {
         1993
       </KitStat>
 
-      <KitStat title="Key Size (bytes)">
+      <KitStat title="Key Size (byte)">
         4 - {{ blowfish.KEY_SIZE }}
       </KitStat>
 
-      <KitStat title="Block Size (bytes)">
+      <KitStat title="Block Size (byte)">
         {{ blowfish.BLOCK_SIZE }}
       </KitStat>
     </div>

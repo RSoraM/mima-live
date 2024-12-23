@@ -61,11 +61,11 @@ watchEffect(catchNotifySync(() => {
         />
       </KitStat>
 
-      <KitStat title="Digest Size (bytes)">
+      <KitStat title="Digest Size (byte)">
         {{ hash?.DIGEST_SIZE }}
       </KitStat>
 
-      <KitStat title="Block Size (bytes)">
+      <KitStat title="Block Size (byte)">
         {{ hash?.BLOCK_SIZE }}
       </KitStat>
 

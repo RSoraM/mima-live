@@ -36,11 +36,11 @@ const init = {
         2012
       </KitStat>
 
-      <KitStat title="Key Size (bytes)">
+      <KitStat title="Key Size (byte)">
         {{ sm4.KEY_SIZE }}
       </KitStat>
 
-      <KitStat title="Block Size (bytes)">
+      <KitStat title="Block Size (byte)">
         {{ sm4.BLOCK_SIZE }}
       </KitStat>
     </div>

@@ -46,7 +46,7 @@ const init = {
     <table class="table table-zebra table-lg">
       <thead>
         <tr>
-          <th>Word Size (Bytes)</th>
+          <th>Word Size (byte)</th>
           <th>rounds</th>
         </tr>
       </thead>
@@ -92,11 +92,11 @@ const init = {
         1994
       </KitStat>
 
-      <KitStat title="Key Size (bytes)">
+      <KitStat title="Key Size (byte)">
         1 - {{ alg.KEY_SIZE }}
       </KitStat>
 
-      <KitStat title="Block Size (bytes)">
+      <KitStat title="Block Size (byte)">
         {{ alg.BLOCK_SIZE }}
       </KitStat>
     </div>

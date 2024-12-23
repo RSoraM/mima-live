@@ -68,11 +68,11 @@ const decrypt = catchNotify(() => {
         2003
       </KitStat>
 
-      <KitStat title="Key Size (bytes)">
+      <KitStat title="Key Size (byte)">
         16
       </KitStat>
 
-      <KitStat title="IV Size (bytes)">
+      <KitStat title="IV Size (byte)">
         0 or 8
       </KitStat>
     </div>

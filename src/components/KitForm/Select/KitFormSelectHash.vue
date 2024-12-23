@@ -89,6 +89,8 @@ const show_ds = computed(() => [
   'TurboSHAKE-256',
 ].includes(alg.value));
 
+const show_config = computed(() => show_t.value || show_fn.value || show_ct.value || show_block_size.value || show_ds.value);
+
 watchEffect(catchNotifySync(() => {
   const S = ct.value;
   const N = fn.value;
@@ -174,34 +176,39 @@ watchEffect(catchNotifySync(() => {
         v-model="alg" :options="hash_options"
       />
     </KitFormControl>
-    <div class="flex gap-2">
-      <KitFormNumber
-        v-show="show_t"
-        v-model="t"
-        title="Digest Size (bit)"
+    <KitCollapse v-if="show_config" class="mb-4 border bg-base-200">
+      <template #header>
+        {{ title || 'Hash' }} Config
+      </template>
+      <div class="flex gap-2">
+        <KitFormNumber
+          v-show="show_t"
+          v-model="t"
+          title="Digest Size (bit)"
+        />
+        <KitFormNumber
+          v-show="show_block_size"
+          v-model="block_size"
+          title="Block Size (bit)"
+        />
+        <KitFormNumber
+          v-show="show_ds"
+          v-model="ds"
+          title="Domain Separator"
+        />
+      </div>
+      <KitFormU8
+        v-show="show_fn"
+        v-model="fn"
+        :codec="UTF8"
+        title="Function-Name"
       />
-      <KitFormNumber
-        v-show="show_block_size"
-        v-model="block_size"
-        title="Block Size (bit)"
+      <KitFormU8
+        v-show="show_ct"
+        v-model="ct"
+        :codec="UTF8"
+        title="Customization"
       />
-      <KitFormNumber
-        v-show="show_ds"
-        v-model="ds"
-        title="Domain Separator"
-      />
-    </div>
-    <KitFormU8
-      v-show="show_fn"
-      v-model="fn"
-      :codec="UTF8"
-      title="Function-Name"
-    />
-    <KitFormU8
-      v-show="show_ct"
-      v-model="ct"
-      :codec="UTF8"
-      title="Customization"
-    />
+    </KitCollapse>
   </div>
 </template>

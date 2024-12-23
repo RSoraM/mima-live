@@ -110,7 +110,7 @@ const cipher = catchNotify(() => {
         2016
       </KitStat>
 
-      <KitStat title="Key Size (bytes)">
+      <KitStat title="Key Size (byte)">
         16
       </KitStat>
     </div>

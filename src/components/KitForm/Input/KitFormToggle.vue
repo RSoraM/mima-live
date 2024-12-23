@@ -8,7 +8,12 @@ const model = defineModel<boolean>();
   <div class="form-control">
     <label class="label cursor-pointer">
       <span class="label-text text-xs">{{ title }}</span>
-      <input v-model="model" type="checkbox" class="toggle">
+      <input
+        v-model="model"
+        type="checkbox"
+        class="toggle"
+        name="toggle"
+      >
     </label>
   </div>
 </template>

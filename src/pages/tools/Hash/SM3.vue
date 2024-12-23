@@ -40,11 +40,11 @@ watchEffect(catchNotifySync(() => {
         2010
       </KitStat>
 
-      <KitStat title="Digest Size (bytes)">
+      <KitStat title="Digest Size (byte)">
         {{ sm3.DIGEST_SIZE }}
       </KitStat>
 
-      <KitStat title="Block Size (bytes)">
+      <KitStat title="Block Size (byte)">
         {{ sm3.BLOCK_SIZE }}
       </KitStat>
 

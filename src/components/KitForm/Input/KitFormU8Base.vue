@@ -30,11 +30,13 @@ onMounted(() => {
       v-if="textarea"
       v-model="text" :onblur="t2b"
       class="join-item textarea textarea-bordered h-24 text-xs"
+      name="textarea"
     />
     <input
       v-else
       v-model="text" :onblur="t2b" type="text"
       class="input join-item input-bordered w-full text-xs"
+      name="text"
     >
     <slot />
   </div>

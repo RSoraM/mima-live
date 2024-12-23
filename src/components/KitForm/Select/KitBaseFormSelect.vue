@@ -13,6 +13,7 @@ const model = defineModel();
     v-model="model"
     class="select text-xs"
     :class="border ? 'select-bordered' : ''"
+    name="selector"
   >
     <option
       v-for="option in options" :key="option.label"

@@ -76,9 +76,15 @@ watchEffect(catchNotifySync(() => {
       v-else
       v-model="mac_s"
       :codec="UTF8"
-      title="Customization"
+      :title="`${title} Customization`"
     />
-    <KitFormNumber v-model="mac_d" title="Digest Size (byte)" />
-    <KitFormNumber v-model="mac_k" title="Key Size (byte)" />
+    <KitFormNumber
+      v-model="mac_d"
+      :title="`${title} Digest Size (byte)`"
+    />
+    <KitFormNumber
+      v-model="mac_k"
+      :title="`${title} Key Size (byte)`"
+    />
   </div>
 </template>

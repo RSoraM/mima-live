@@ -46,11 +46,11 @@ const init = {
         1975
       </KitStat>
 
-      <KitStat title="Key Size (bytes)">
+      <KitStat title="Key Size (byte)">
         {{ alg.KEY_SIZE }}
       </KitStat>
 
-      <KitStat title="Block Size (bytes)">
+      <KitStat title="Block Size (byte)">
         {{ alg.BLOCK_SIZE }}
       </KitStat>
     </div>
