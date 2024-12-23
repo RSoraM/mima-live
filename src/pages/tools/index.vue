@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const theKitMenu = ref<HTMLDialogElement>();
-onBeforeRouteUpdate(() => {
-  theKitMenu.value?.close();
-});
+onBeforeRouteUpdate(() => theKitMenu.value?.close());
 </script>
 
 <template>
