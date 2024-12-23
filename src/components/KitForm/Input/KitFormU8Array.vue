@@ -1,6 +1,10 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormU8Array' });
-defineProps<{ title: string }>();
+
+const { immediate = false } = defineProps<{
+  title: string;
+  immediate?: boolean;
+}>();
 const model = defineModel<{ value: InstanceType<typeof U8> }[]>();
 
 function add() {
@@ -21,6 +25,7 @@ function del(index: number) {
       <KitFormU8Base
         v-for="(m, i) in model" :key="i"
         v-model="m.value" :codec="UTF8"
+        :immediate="immediate"
       >
         <button class="btn btn-outline join-item" @click="del(i)">
           Delete

@@ -15,8 +15,8 @@ watchEffect(catchNotifySync(() => {
       SM3
     </h1>
     <KitFormU8
-      v-model="I"
-      :codec="UTF8"
+      v-model="I" :codec="UTF8"
+      :immediate="true"
       title="Input"
       textarea
     />

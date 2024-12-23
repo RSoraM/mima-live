@@ -52,8 +52,8 @@ watchEffect(catchNotifySync(() => {
         title="Digest Size (bit)"
       />
     </div>
-    <KitFormU8 v-model="S" :codec="UTF8" title="Customization" />
-    <KitFormU8Array v-model="i" title="Input" />
+    <KitFormU8 v-model="S" :codec="UTF8" :immediate="true" title="Customization" />
+    <KitFormU8Array v-model="i" :immediate="true" title="Input" />
     <KitFormU8 v-model="O" :codec="HEX" title="Output" textarea />
 
     <div class="stats stats-vertical my-6 shadow">

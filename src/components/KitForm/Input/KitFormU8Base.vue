@@ -1,15 +1,24 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormU8Base' });
 
-const { textarea = false, codec = HEX } = defineProps<{
+const { textarea = false, codec = HEX, immediate = false } = defineProps<{
   textarea?: boolean;
   codec?: typeof HEX;
+  immediate?: boolean;
 }>();
 const buffer = defineModel<InstanceType<typeof U8>>({ required: true });
 const text_codec = ref(codec);
 const text = ref<string>('');
 
 const t2b = () => buffer.value = text_codec.value(text.value);
+watch(
+  text,
+  () => {
+    if (immediate && text_codec.value === UTF8) {
+      t2b();
+    }
+  },
+);
 onMounted(() => {
   watch(
     text_codec,
@@ -27,15 +36,15 @@ onMounted(() => {
     <KitBaseFormSelectCodec v-model="text_codec" class="join-item" />
     <textarea
       v-if="textarea"
-      v-model="text" :onblur="t2b"
-      class="join-item textarea textarea-bordered h-24 text-xs"
+      v-model="text" class="join-item textarea textarea-bordered h-24 text-xs"
       name="textarea"
+      @change="t2b"
     />
     <input
       v-else
-      v-model="text" :onblur="t2b" type="text"
-      class="input join-item input-bordered w-full text-xs"
+      v-model="text" type="text" class="input join-item input-bordered w-full text-xs"
       name="text"
+      @change="t2b"
     >
     <slot />
   </div>

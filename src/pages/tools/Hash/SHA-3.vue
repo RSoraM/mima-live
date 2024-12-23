@@ -42,8 +42,8 @@ watchEffect(catchNotifySync(() => {
       </KitFormControl>
     </div>
     <KitFormU8
-      v-model="I"
-      :codec="UTF8"
+      v-model="I" :codec="UTF8"
+      :immediate="true"
       title="Input"
       textarea
     />
