@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import type { Codec } from 'mima-kit';
-import { B64, B64URL, CSV, HEX, UTF8 } from 'mima-kit';
-
 defineOptions({ name: 'KitFormCodecSelect' });
-defineProps<{ title?: string }>();
-const codec = defineModel<Codec>({ default: UTF8 });
-const options: SelectOption[] = [
-  { label: 'UTF-8', value: UTF8.FORMAT },
-  { label: 'HEX', value: HEX.FORMAT },
-  { label: 'B64', value: B64.FORMAT },
-  { label: 'B64URL', value: B64URL.FORMAT },
-  { label: 'CSV', value: CSV.FORMAT },
-];
+
+const {
+  options: codec_options = [
+    { label: 'UTF-8', value: UTF8.FORMAT },
+    { label: 'HEX', value: HEX.FORMAT },
+    { label: 'B64', value: B64.FORMAT },
+    { label: 'B64URL', value: B64URL.FORMAT },
+    { label: 'CSV', value: CSV.FORMAT },
+  ],
+} = defineProps<{
+  title?: string;
+  options?: SelectOption[];
+}>();
+const codec = defineModel<typeof UTF8>({ required: true });
 const format = computed({
   get: () => codec.value.FORMAT,
   set: (value: string) => {
@@ -39,5 +41,5 @@ const format = computed({
 </script>
 
 <template>
-  <KitBaseFormSelect v-model="format" :options="options" :title="title || 'Codec'" />
+  <KitBaseFormSelect v-model="format" :options="codec_options" :title="title || 'Codec'" />
 </template>

@@ -26,193 +26,18 @@ const r = ref({
   },
 });
 
-// BLOCK CIPHER
-const cipher_alg = ref('SM4');
+// CIPHER
 const cipher_iv = ref(new U8());
+const cipher_alg = ref(sm4);
 const cipher_mode = ref(cbc);
 const cipher_padding = ref(PKCS7_PAD);
-const cipher_disable_no_padding = ref(true);
-const cipher_option: SelectOption[] = [
-  { label: 'SM4', value: 'SM4' },
-  { label: 'AES', value: 'AES' },
-  { label: 'ARIA', value: 'ARIA' },
-  { label: 'Camellia', value: 'Camellia' },
-  { label: 'DES', value: 'DES' },
-  { label: '3DES', value: '3DES' },
-  { label: 'ARC5', value: 'ARC5' },
-  { label: 'Blowfish', value: 'Blowfish' },
-  { label: 'Twofish', value: 'Twofish' },
-  { label: 'TEA', value: 'TEA' },
-  { label: 'XTEA', value: 'XTEA' },
-];
-const cipher_key_size = ref<128 | 192 | 256>(128);
-const cipher_key_size_option = computed<SelectOption[]>(() => ([
-  { label: '128', value: 128 },
-  { label: '192', value: 192 },
-  { label: '256', value: 256, disable: cipher_alg.value === '3DES' },
-]));
-const show_chipher_key_size_option = computed(() => [
-  'AES',
-  'ARIA',
-  'Camellia',
-  '3DES',
-  'Twofish',
-].includes(cipher_alg.value));
-const cipher_arc5_r = ref(20);
-const cipher_arc5_ws = ref<8 | 16 | 32 | 64 | 128>(64);
-const cipher_arc5_ws_option: SelectOption[] = [
-  { label: '8', value: 8 },
-  { label: '16', value: 16 },
-  { label: '32', value: 32 },
-  { label: '64', value: 64 },
-  { label: '128', value: 128 },
-];
-const cipher_tea_r = ref(32);
-const show_cipher_tea_r = computed(() => ['TEA', 'XTEA'].includes(cipher_alg.value));
-const block_cipher = computed(() => {
-  if (cipher_alg.value === 'SM4') {
-    return sm4;
-  }
-  else if (cipher_alg.value === 'AES') {
-    return aes(cipher_key_size.value);
-  }
-  else if (cipher_alg.value === 'ARIA') {
-    return aria(cipher_key_size.value);
-  }
-  else if (cipher_alg.value === 'Camellia') {
-    return camellia(cipher_key_size.value);
-  }
-  else if (cipher_alg.value === 'DES') {
-    return des;
-  }
-  else if (cipher_alg.value === '3DES') {
-    return t_des(cipher_key_size.value as 128 | 192);
-  }
-  else if (cipher_alg.value === 'ARC5') {
-    return arc5(cipher_arc5_ws.value, cipher_arc5_r.value);
-  }
-  else if (cipher_alg.value === 'Blowfish') {
-    return blowfish;
-  }
-  else if (cipher_alg.value === 'Twofish') {
-    return twofish(cipher_key_size.value);
-  }
-  else if (cipher_alg.value === 'TEA') {
-    return tea(cipher_tea_r.value);
-  }
-  else if (cipher_alg.value === 'XTEA') {
-    return xtea(cipher_tea_r.value);
-  }
-
-  return undefined;
-});
-const cipher = computed(
-  () => block_cipher.value
-    ? cipher_mode.value(block_cipher.value, cipher_padding.value)
-    : undefined,
-);
+const cipher = computed(() => cipher_mode.value(cipher_alg.value, cipher_padding.value));
 
 // MAC
-const mac_alg = ref('HMAC');
-const mac_hash = ref(sha256);
-const mac_d = ref(sha256.DIGEST_SIZE);
-const mac_k = ref(sha256.DIGEST_SIZE);
-const mac_s = ref(new U8());
-const mac_option: SelectOption[] = [
-  { label: 'HMAC', value: 'HMAC' },
-  { label: 'KMAC128', value: 'KMAC128' },
-  { label: 'KMAC128XOF', value: 'KMAC128XOF' },
-  { label: 'KMAC256', value: 'KMAC256' },
-  { label: 'KMAC256XOF', value: 'KMAC256XOF' },
-];
-watch(mac_alg, () => {
-  if (mac_alg.value === 'HMAC') {
-    mac_d.value = mac_hash.value.DIGEST_SIZE;
-  }
-  else if (mac_alg.value === 'KMAC128' || mac_alg.value === 'KMAC128XOF') {
-    mac_k.value = 128;
-    mac_d.value = 256;
-  }
-  else {
-    mac_k.value = 256;
-    mac_d.value = 512;
-  }
-});
-watch(mac_hash, () => {
-  mac_d.value = mac_hash.value.DIGEST_SIZE;
-  mac_k.value = mac_hash.value.DIGEST_SIZE;
-});
-function createMac(alg: string, S: Uint8Array, d: number, k: number) {
-  if (alg === 'HMAC') {
-    return hmac(mac_hash.value, d, k);
-  }
-  else if (alg === 'KMAC128') {
-    return kmac128(d, S, k);
-  }
-  else if (alg === 'KMAC128XOF') {
-    return kmac128XOF(d, S, k);
-  }
-  else if (alg === 'KMAC256') {
-    return kmac256(d, S, k);
-  }
-  else if (alg === 'KMAC256XOF') {
-    return kmac256XOF(d, S, k);
-  }
-  return undefined;
-}
-const mac = computed(() => {
-  const S = mac_s.value;
-  return createMac(mac_alg.value, S, mac_d.value, mac_k.value);
-});
+const mac = ref(hmac(sha256));
 
 // KDF
-const kdf_alg = ref('ANSI X9.63');
-const kdf_option: SelectOption[] = [
-  { label: 'ANSI X9.63', value: 'ANSI X9.63' },
-  { label: 'HKDF', value: 'HKDF' },
-  { label: 'PBKDF2', value: 'PBKDF2' },
-];
-const kdf_hash = ref(sha256);
-const kdf_mac_alg = ref('HMAC');
-const kdf_mac_hash = ref(sha256);
-const kdf_mac_s = ref(new U8());
-const kdf_mac_d = ref(sha256.DIGEST_SIZE);
-const kdf_mac_k = ref(sha256.DIGEST_SIZE);
-const kdf_salt = ref(new U8());
-const kdf_iterations = ref(5000);
-watch(kdf_mac_alg, () => {
-  if (kdf_mac_alg.value === 'HMAC') {
-    kdf_mac_d.value = mac_hash.value.DIGEST_SIZE;
-  }
-  else if (kdf_mac_alg.value === 'KMAC128' || kdf_mac_alg.value === 'KMAC128XOF') {
-    kdf_mac_k.value = 128;
-    kdf_mac_d.value = 256;
-  }
-  else {
-    kdf_mac_k.value = 256;
-    kdf_mac_d.value = 512;
-  }
-});
-watch(kdf_mac_hash, () => {
-  kdf_mac_d.value = kdf_mac_hash.value.DIGEST_SIZE;
-  kdf_mac_k.value = kdf_mac_hash.value.DIGEST_SIZE;
-});
-const kdf = computed(() => {
-  const S = kdf_salt.value;
-  const MS = kdf_mac_s.value;
-  if (kdf_alg.value === 'ANSI X9.63') {
-    return x963kdf(kdf_hash.value);
-  }
-  else if (kdf_alg.value === 'HKDF') {
-    const mac = createMac(kdf_mac_alg.value, MS, kdf_mac_d.value, kdf_mac_k.value);
-    return mac ? hkdf(mac, S) : undefined;
-  }
-  else if (kdf_alg.value === 'PBKDF2') {
-    const mac = createMac(kdf_mac_alg.value, MS, kdf_mac_d.value, kdf_mac_k.value);
-    return mac ? pbkdf2(mac, S, kdf_iterations.value) : undefined;
-  }
-  return undefined;
-});
+const kdf = ref(x963kdf(sha256));
 
 // ECIES
 const S1 = ref(new U8());
@@ -297,26 +122,24 @@ onMounted(() => nextTick(() => encrypt()));
       <template #header>
         Cipher
       </template>
-      <KitFormControl title="Cipher">
-        <KitBaseFormSelect v-model="cipher_alg" :options="cipher_option" />
-      </KitFormControl>
-      <KitFormControl v-show="show_chipher_key_size_option" title="Key Size">
-        <KitBaseFormSelect v-model="cipher_key_size" :options="cipher_key_size_option" />
-      </KitFormControl>
-      <div v-show="cipher_alg === 'ARC5'" class="flex gap-2">
-        <KitFormControl title="Word Size (byte)">
-          <KitBaseFormSelect v-model="cipher_arc5_ws" :options="cipher_arc5_ws_option" />
-        </KitFormControl>
-        <KitFormNumber v-model="cipher_arc5_r" title="Rounds" />
-      </div>
-      <KitFormNumber v-show="show_cipher_tea_r" v-model="cipher_tea_r" title="Rounds" />
+      <KitFormSelectBlockCipher
+        v-model="cipher_alg"
+        title="Cipher"
+      />
       <!-- Mode Config -->
       <div class="divider my-8">
         Operation Mode Config
       </div>
       <div class="flex gap-2">
-        <KitFormSelectMode v-model="cipher_mode" :blocksize="block_cipher?.BLOCK_SIZE" />
-        <KitFormSelectPadding v-model:padding="cipher_padding" v-model:disable-no-pad="cipher_disable_no_padding" />
+        <KitFormSelectMode
+          v-model="cipher_mode"
+          :blocksize="cipher_alg.BLOCK_SIZE"
+          title="Mode"
+        />
+        <KitFormSelectPadding
+          v-model="cipher_padding"
+          :mode="cipher_mode"
+        />
       </div>
       <KitFormU8
         v-if="cipher_mode !== ecb"
@@ -330,49 +153,14 @@ onMounted(() => nextTick(() => encrypt()));
       <template #header>
         Mac
       </template>
-      <KitFormControl title="Mac">
-        <KitBaseFormSelect v-model="mac_alg" :options="mac_option" />
-      </KitFormControl>
-      <KitFormSelectHash v-if="mac_alg === 'HMAC'" v-model="mac_hash" title="Mac-Hash" />
-      <KitFormU8
-        v-else
-        v-model="mac_s"
-        :codec="UTF8"
-        title="Customization"
-      />
-      <KitFormNumber v-model="mac_d" title="Digest Size (byte)" />
-      <KitFormNumber v-model="mac_k" title="Key Size (byte)" />
+      <KitFormSelectMAC v-model="mac" title="Mac" />
     </KitCollapse>
     <!-- KDF -->
     <KitCollapse class="mt-4 bg-base-200">
       <template #header>
         KDF
       </template>
-      <KitFormControl title="KDF">
-        <KitBaseFormSelect v-model="kdf_alg" :options="kdf_option" />
-      </KitFormControl>
-      <div v-if="kdf_alg === 'ANSI X9.63'">
-        <KitFormSelectHash v-model="kdf_hash" />
-      </div>
-      <div v-else>
-        <KitFormU8
-          v-model="kdf_salt"
-          :codec="UTF8"
-          title="Salt"
-        />
-        <KitFormControl title="KDF-Mac">
-          <KitBaseFormSelect v-model="kdf_mac_alg" :options="mac_option" />
-        </KitFormControl>
-        <KitFormSelectHash v-if="kdf_mac_alg === 'HMAC'" v-model="kdf_mac_hash" title="KDF-Mac-Hash" />
-        <KitFormU8
-          v-else
-          v-model="kdf_mac_s"
-          title="Customization"
-        />
-        <KitFormNumber v-model="kdf_mac_d" title="Digest Size (byte)" />
-        <KitFormNumber v-model="kdf_mac_k" title="Key Size (byte)" />
-      </div>
-      <KitFormNumber v-if="kdf_alg === 'PBKDF2'" v-model="kdf_iterations" title="Iterations" />
+      <KitFormSelectKDF v-model="kdf" title="KDF" />
     </KitCollapse>
     <!-- Additional Data -->
     <KitCollapse class="mt-4 bg-base-200">

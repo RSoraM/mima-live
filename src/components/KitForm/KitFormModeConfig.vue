@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import type { ecb, sm4 } from 'mima-kit';
-import { cbc, cfb, ctr, gcm, HEX, ofb, PKCS7_PAD } from 'mima-kit';
-
 defineOptions({ name: 'KitFormModeConfig' });
 
-const { cipher, init } = defineProps<{
-  cipher: typeof sm4;
+const { blockCipher: block_cipher, init } = defineProps<{
+  blockCipher: typeof sm4;
   init?: InitValues;
 }>();
 interface InitValues {
@@ -18,7 +15,7 @@ interface InitValues {
 }
 type Mode = typeof ecb | typeof cbc | typeof gcm;
 const mode = ref<Mode>(cbc);
-const padding = ref<typeof PKCS7_PAD>(PKCS7_PAD);
+const padding = ref(PKCS7_PAD);
 // key
 const K = ref(HEX(init?.k || ''));
 // iv
@@ -33,29 +30,27 @@ const P = ref(HEX(init?.p || ''));
 // cipher text
 const C = ref(HEX(init?.c || ''));
 
-function createCipher(mode: Mode) {
-  return mode(cipher, padding.value, t_size.value);
-}
+const mod_cipher = computed(() => mode.value(block_cipher, padding.value, t_size.value));
 
 const encrypt = catchNotify(() => {
-  const cipher = createCipher(mode.value);
+  const cipher = mod_cipher.value;
   C.value = cipher(K.value, IV.value).encrypt(P.value);
 });
 const decrypt = catchNotify(() => {
-  const cipher = createCipher(mode.value);
+  const cipher = mod_cipher.value;
   P.value = cipher(K.value, IV.value).decrypt(C.value);
 });
 const sign = catchNotify(() => {
   if (mode.value !== gcm)
     throw new Error('Only GCM mode supports signing');
-  const cipher = createCipher(gcm) as ReturnType<typeof gcm>;
+  const cipher = mod_cipher.value as ReturnType<typeof gcm>;
   C.value = cipher(K.value, IV.value).encrypt(P.value);
   T.value = cipher(K.value, IV.value).sign(C.value, A.value);
 });
 const verify = catchNotify(() => {
   if (mode.value !== gcm)
     throw new Error('Only GCM mode supports verifying');
-  const cipher = createCipher(gcm) as ReturnType<typeof gcm>;
+  const cipher = mod_cipher.value as ReturnType<typeof gcm>;
   if (!cipher(K.value, IV.value).verify(T.value, C.value, A.value)) {
     throw new Error('Verification failed');
   }
@@ -67,15 +62,12 @@ const verify = catchNotify(() => {
     });
   }
 });
-
-const allowNoPadModes = [cfb, ofb, ctr, gcm];
-const disableNoPad = computed(() => !allowNoPadModes.includes(mode.value));
 </script>
 
 <template>
   <div class="flex gap-2">
-    <KitFormSelectMode v-model="mode" :blocksize="cipher.BLOCK_SIZE" />
-    <KitFormSelectPadding v-model:padding="padding" v-model:disable-no-pad="disableNoPad" />
+    <KitFormSelectMode v-model="mode" :blocksize="block_cipher.BLOCK_SIZE" />
+    <KitFormSelectPadding v-model="padding" :mode="mode" />
   </div>
   <KitFormU8
     v-model="K"

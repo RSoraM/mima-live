@@ -1,34 +1,55 @@
 <script setup lang="ts">
-import { cbc, cfb, ctr, ecb, gcm, ofb, pcbc } from 'mima-kit';
-
 defineOptions({ name: 'KitFormSelectMode' });
+
 const { blocksize } = defineProps<{
   title?: string;
   blocksize?: number;
 }>();
-const mode = defineModel();
-
 const options = computed(() => {
   const default_options: SelectOption[] = [
-    { label: 'ECB', value: ecb },
-    { label: 'CBC', value: cbc },
-    { label: 'PCBC', value: pcbc },
-    { label: 'CFB', value: cfb },
-    { label: 'OFB', value: ofb },
-    { label: 'CTR', value: ctr },
+    { label: 'ECB', value: 'ECB' },
+    { label: 'CBC', value: 'CBC' },
+    { label: 'PCBC', value: 'PCBC' },
+    { label: 'CFB', value: 'CFB' },
+    { label: 'OFB', value: 'OFB' },
+    { label: 'CTR', value: 'CTR' },
   ];
   // GCM only supports 16 bytes block size
   if (blocksize === 16) {
-    default_options.push({ label: 'GCM', value: gcm });
+    default_options.push({ label: 'GCM', value: 'GCM' });
   }
   return default_options;
 });
 
-/**
- * 强制会退到 ECB 模式
- */
+const alg = ref('CBC');
+const mode = defineModel({ required: true });
+
 watchEffect(() => {
-  if (mode.value === gcm && blocksize !== 16) {
+  if (alg.value === 'ECB') {
+    mode.value = ecb;
+  }
+  else if (alg.value === 'CBC') {
+    mode.value = cbc;
+  }
+  else if (alg.value === 'PCBC') {
+    mode.value = pcbc;
+  }
+  else if (alg.value === 'CFB') {
+    mode.value = cfb;
+  }
+  else if (alg.value === 'OFB') {
+    mode.value = ofb;
+  }
+  else if (alg.value === 'CTR') {
+    mode.value = ctr;
+  }
+  else if (alg.value === 'GCM') {
+    mode.value = gcm;
+  }
+
+  /** 强制会退到 ECB 模式 */
+  if (alg.value === 'GCM' && blocksize !== 16) {
+    alg.value = 'ECB';
     mode.value = ecb;
   }
 });
@@ -36,6 +57,6 @@ watchEffect(() => {
 
 <template>
   <KitFormControl :title="title || 'Mode'">
-    <KitBaseFormSelect v-model="mode" :options="options" />
+    <KitBaseFormSelect v-model="alg" :options="options" />
   </KitFormControl>
 </template>

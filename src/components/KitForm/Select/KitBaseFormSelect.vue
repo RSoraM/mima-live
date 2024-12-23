@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormSelect' });
+
 const { border = true } = defineProps<{
   options: SelectOption[];
   border?: boolean;

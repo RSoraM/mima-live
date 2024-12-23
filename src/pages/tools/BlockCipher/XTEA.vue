@@ -25,7 +25,7 @@ const init = {
       Operation Mode Config
     </div>
 
-    <KitFormModeConfig :cipher="alg" :init="init" />
+    <KitFormModeConfig :block-cipher="alg" :init="init" />
 
     <div class="stats stats-vertical my-6 shadow">
       <KitStat title="Specification">
