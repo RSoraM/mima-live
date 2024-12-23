@@ -2,7 +2,11 @@
 import type { Codec, U8 } from 'mima-kit';
 
 defineOptions({ name: 'KitFormU8' });
-const { textarea = false, codec = HEX } = defineProps<{ title: string; textarea?: boolean; codec?: Codec }>();
+const { textarea = false } = defineProps<{
+  codec: Codec;
+  title: string;
+  textarea?: boolean;
+}>();
 const buffer = defineModel<U8>({ required: true });
 </script>
 

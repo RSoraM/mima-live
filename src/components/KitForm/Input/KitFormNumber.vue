@@ -1,6 +1,9 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormNumber' });
-const { type = 'number' } = defineProps<{ title: string; type?: string }>();
+const { type = 'number' } = defineProps<{
+  title: string;
+  type?: string;
+}>();
 const model = defineModel<string | number>();
 </script>
 

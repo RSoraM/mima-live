@@ -28,7 +28,10 @@ const {
     { label: 'KangarooTwelve-128', value: 'KangarooTwelve-128' },
     { label: 'KangarooTwelve-256', value: 'KangarooTwelve-256' },
   ],
-} = defineProps<{ title?: string; options?: SelectOption[] }>();
+} = defineProps<{
+  title?: string;
+  options?: SelectOption[];
+}>();
 const hash = defineModel<typeof sha256>({ required: true });
 const alg = ref(hash.value.ALGORITHM);
 

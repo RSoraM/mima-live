@@ -1,7 +1,10 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormECPointCompress' });
 
-const { curve } = defineProps<{ curve: typeof secp256r1; title?: string }>();
+const { curve } = defineProps<{
+  curve: typeof secp256r1;
+  title?: string;
+}>();
 const ec = computed(() => FpECC(curve));
 const key = defineModel<{
   d: bigint;

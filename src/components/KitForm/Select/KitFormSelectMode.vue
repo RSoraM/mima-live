@@ -2,7 +2,10 @@
 import { cbc, cfb, ctr, ecb, gcm, ofb, pcbc } from 'mima-kit';
 
 defineOptions({ name: 'KitFormSelectMode' });
-const { blocksize } = defineProps<{ title?: string; blocksize?: number }>();
+const { blocksize } = defineProps<{
+  title?: string;
+  blocksize?: number;
+}>();
 const mode = defineModel();
 
 const options = computed(() => {

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormSelect' });
-const { border = true } = defineProps<{ options: SelectOption[]; border?: boolean }>();
+const { border = true } = defineProps<{
+  options: SelectOption[];
+  border?: boolean;
+}>();
 const model = defineModel();
 </script>
 

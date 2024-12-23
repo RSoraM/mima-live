@@ -1,16 +1,7 @@
 <script setup lang="ts">
 // Key Generation
 const b = ref(2048);
-const key = reactive<{
-  n: bigint;
-  e: bigint;
-  d: bigint;
-  p: bigint;
-  q: bigint;
-  dP: bigint;
-  dQ: bigint;
-  qInv: bigint;
-}>({
+const key = ref({
   n: 0n,
   e: 0n,
   d: 0n,
@@ -29,24 +20,28 @@ function genKey() {
     message: `Time: ${end - now}ms`,
     type: 'success',
   });
-  key.n = k.n;
-  key.e = k.e;
-  key.d = k.d;
-  key.p = k.p;
-  key.q = k.q;
-  key.dP = k.dP;
-  key.dQ = k.dQ;
-  key.qInv = k.qInv;
+  key.value = {
+    n: k.n,
+    e: k.e,
+    d: k.d,
+    p: k.p,
+    q: k.q,
+    dP: k.dP,
+    dQ: k.dQ,
+    qInv: k.qInv,
+  };
 }
 function clearKey() {
-  key.n = 0n;
-  key.e = 0n;
-  key.d = 0n;
-  key.p = 0n;
-  key.q = 0n;
-  key.dP = 0n;
-  key.dQ = 0n;
-  key.qInv = 0n;
+  key.value = {
+    n: 0n,
+    e: 0n,
+    d: 0n,
+    p: 0n,
+    q: 0n,
+    dP: 0n,
+    dQ: 0n,
+    qInv: 0n,
+  };
 }
 
 // Encryption Scheme
@@ -64,35 +59,35 @@ const oaep_mgf_hash = ref(sha256);
 const oaep_label = ref(new U8());
 const encrypt = catchNotify(() => {
   if (es.value === 'Primitive') {
-    const cipher = rsa(key);
+    const cipher = rsa(key.value);
     C.value = U8.fromBI(cipher.encrypt(M.value));
   }
   else if (es.value === 'RSAES-OAEP') {
     const hash = oaep_hash.value;
     const mgf = mgf1(oaep_mgf_hash.value);
     const label = oaep_label.value;
-    const cipher = pkcs1_es_oaep(key, hash, mgf, label);
+    const cipher = pkcs1_es_oaep(key.value, hash, mgf, label);
     C.value = cipher.encrypt(M.value);
   }
   else if (es.value === 'RSAES-PKCS1-v1_5') {
-    const cipher = pkcs1_es_1_5(key);
+    const cipher = pkcs1_es_1_5(key.value);
     C.value = cipher.encrypt(M.value);
   }
 });
 const decrypt = catchNotify(() => {
   if (es.value === 'Primitive') {
-    const cipher = rsa(key);
+    const cipher = rsa(key.value);
     M.value = U8.fromBI(cipher.decrypt(C.value));
   }
   else if (es.value === 'RSAES-OAEP') {
     const hash = oaep_hash.value;
     const mgf = mgf1(oaep_mgf_hash.value);
     const label = oaep_label.value;
-    const cipher = pkcs1_es_oaep(key, hash, mgf, label);
+    const cipher = pkcs1_es_oaep(key.value, hash, mgf, label);
     M.value = cipher.decrypt(C.value);
   }
   else if (es.value === 'RSAES-PKCS1-v1_5') {
-    const cipher = pkcs1_es_1_5(key);
+    const cipher = pkcs1_es_1_5(key.value);
     M.value = cipher.decrypt(C.value);
   }
 });
@@ -112,26 +107,26 @@ const pss_mgf_hash = ref(sha256);
 const pss_salt_length = ref(32);
 const sign = catchNotify(() => {
   if (ssa.value === 'Primitive') {
-    const signer = rsa(key);
+    const signer = rsa(key.value);
     S.value = U8.fromBI(signer.sign(M.value));
   }
   else if (ssa.value === 'RSASSA-PSS') {
     const hash = pss_hash.value;
     const mgf = mgf1(pss_mgf_hash.value);
     const salt_length = pss_salt_length.value;
-    const signer = pkcs1_ssa_pss(key, hash, mgf, salt_length);
+    const signer = pkcs1_ssa_pss(key.value, hash, mgf, salt_length);
     S.value = signer.sign(M.value);
   }
   else if (ssa.value === 'RSASSA-PKCS1-v1_5') {
     const hash = v15_hash.value;
-    const signer = pkcs1_ssa_1_5(key, hash);
+    const signer = pkcs1_ssa_1_5(key.value, hash);
     S.value = signer.sign(M.value);
   }
 });
 const verify = catchNotify(() => {
   let isValidationPassed = false;
   if (ssa.value === 'Primitive') {
-    const signer = rsa(key);
+    const signer = rsa(key.value);
     const R = signer.verify(S.value);
     isValidationPassed = R === M.value.toBI();
   }
@@ -139,12 +134,12 @@ const verify = catchNotify(() => {
     const hash = pss_hash.value;
     const mgf = mgf1(pss_mgf_hash.value);
     const salt_length = pss_salt_length.value;
-    const signer = pkcs1_ssa_pss(key, hash, mgf, salt_length);
+    const signer = pkcs1_ssa_pss(key.value, hash, mgf, salt_length);
     isValidationPassed = signer.verify(M.value, S.value);
   }
   else if (ssa.value === 'RSASSA-PKCS1-v1_5') {
     const hash = v15_hash.value;
-    const signer = pkcs1_ssa_1_5(key, hash);
+    const signer = pkcs1_ssa_1_5(key.value, hash);
     isValidationPassed = signer.verify(M.value, S.value);
   }
 
@@ -169,13 +164,11 @@ const mgf_options: SelectOption[] = [
   { label: 'MGF1', value: 'MGF1' },
 ];
 
-onMounted(() => {
+onMounted(async () => nextTick(() => {
   genKey();
-  nextTick(() => {
-    encrypt();
-    sign();
-  });
-});
+  encrypt();
+  sign();
+}));
 </script>
 
 <template>
