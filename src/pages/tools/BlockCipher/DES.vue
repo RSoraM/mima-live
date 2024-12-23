@@ -17,9 +17,9 @@ const init = {
       DES
     </h1>
 
-    <div class="divider my-8">
+    <KitDivider>
       Operation Mode Config
-    </div>
+    </KitDivider>
 
     <KitFormModeConfig :block-cipher="des" :init="init" />
 

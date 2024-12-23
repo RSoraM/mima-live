@@ -17,9 +17,9 @@ const init = {
       SM4
     </h1>
 
-    <div class="divider my-8">
+    <KitDivider>
       Operation Mode Config
-    </div>
+    </KitDivider>
 
     <KitFormModeConfig :block-cipher="sm4" :init="init" />
 
