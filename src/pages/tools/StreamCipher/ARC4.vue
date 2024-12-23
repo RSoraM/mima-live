@@ -19,52 +19,50 @@ const decrypt = catchNotify(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      ARC4
-    </h1>
-    <KitFormU8
-      v-model="K"
-      :codec="HEX"
-      title="Key"
-    />
-    <KitDivider>
-      <KitButton @click="encrypt">
-        Encrypt
-      </KitButton>/
-      <KitButton @click="decrypt">
-        Decrypt
-      </KitButton>
-    </KitDivider>
-    <KitFormU8
-      v-model="P"
-      :codec="UTF8"
-      title="Plain text"
-      textarea
-    />
-    <KitFormU8
-      v-model="C"
-      :codec="HEX"
-      title="Cipher text"
-      textarea
-    />
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    ARC4
+  </h1>
+  <KitFormU8
+    v-model="K"
+    :codec="HEX"
+    title="Key"
+  />
+  <KitDivider>
+    <KitButton @click="encrypt">
+      Encrypt
+    </KitButton>/
+    <KitButton @click="decrypt">
+      Decrypt
+    </KitButton>
+  </KitDivider>
+  <KitFormU8
+    v-model="P"
+    :codec="UTF8"
+    title="Plain text"
+    textarea
+  />
+  <KitFormU8
+    v-model="C"
+    :codec="HEX"
+    title="Cipher text"
+    textarea
+  />
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['ARC4']"
-          icon="icon-[carbon--html-reference]"
-          href="https://en.wikipedia.org/wiki/RC4"
-        />
-      </KitStat>
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['ARC4']"
+        icon="icon-[carbon--html-reference]"
+        href="https://en.wikipedia.org/wiki/RC4"
+      />
+    </KitStat>
 
-      <KitStat title="First published">
-        1994
-      </KitStat>
+    <KitStat title="First published">
+      1994
+    </KitStat>
 
-      <KitStat title="Key Size (byte)">
-        5-256
-      </KitStat>
-    </div>
+    <KitStat title="Key Size (byte)">
+      5-256
+    </KitStat>
   </div>
 </template>

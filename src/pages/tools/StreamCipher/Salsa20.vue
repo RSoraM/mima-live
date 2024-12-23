@@ -20,61 +20,59 @@ const decrypt = catchNotify(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      Salsa20
-    </h1>
-    <KitFormU8
-      v-model="K"
-      :codec="HEX"
-      title="Key"
-    />
-    <KitFormU8
-      v-model="IV"
-      :codec="HEX"
-      title="IV"
-    />
-    <KitDivider>
-      <KitButton @click="encrypt">
-        Encrypt
-      </KitButton>/
-      <KitButton @click="decrypt">
-        Decrypt
-      </KitButton>
-    </KitDivider>
-    <KitFormU8
-      v-model="P"
-      :codec="UTF8"
-      title="Plain text"
-      textarea
-    />
-    <KitFormU8
-      v-model="C"
-      :codec="HEX"
-      title="Cipher text"
-      textarea
-    />
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    Salsa20
+  </h1>
+  <KitFormU8
+    v-model="K"
+    :codec="HEX"
+    title="Key"
+  />
+  <KitFormU8
+    v-model="IV"
+    :codec="HEX"
+    title="IV"
+  />
+  <KitDivider>
+    <KitButton @click="encrypt">
+      Encrypt
+    </KitButton>/
+    <KitButton @click="decrypt">
+      Decrypt
+    </KitButton>
+  </KitDivider>
+  <KitFormU8
+    v-model="P"
+    :codec="UTF8"
+    title="Plain text"
+    textarea
+  />
+  <KitFormU8
+    v-model="C"
+    :codec="HEX"
+    title="Cipher text"
+    textarea
+  />
 
-    <div class="stats stats-vertical my-6 shadow">
-      <KitStat title="Specification">
-        <KitRefLink
-          :texts="['Salsa20']"
-          icon="icon-[carbon--pdf-reference]"
-          href="https://cr.yp.to/snuffle/spec.pdf"
-        />
-      </KitStat>
+  <div class="stats stats-vertical my-6 shadow">
+    <KitStat title="Specification">
+      <KitRefLink
+        :texts="['Salsa20']"
+        icon="icon-[carbon--pdf-reference]"
+        href="https://cr.yp.to/snuffle/spec.pdf"
+      />
+    </KitStat>
 
-      <KitStat title="First published">
-        2007
-      </KitStat>
+    <KitStat title="First published">
+      2007
+    </KitStat>
 
-      <KitStat title="Key Size (byte)">
-        16 or 32
-      </KitStat>
+    <KitStat title="Key Size (byte)">
+      16 or 32
+    </KitStat>
 
-      <KitStat title="IV Size (byte)">
-        8
-      </KitStat>
-    </div>
+    <KitStat title="IV Size (byte)">
+      8
+    </KitStat>
   </div>
 </template>
