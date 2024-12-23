@@ -2,9 +2,9 @@
 defineOptions({ name: 'KitFormECKey' });
 
 // props
-const { curve, title = '', fold = true } = defineProps<{
+const { curve, name = '', fold = true } = defineProps<{
   curve: typeof secp256r1;
-  title?: string;
+  name?: string;
   fold?: boolean;
 }>();
 
@@ -53,43 +53,41 @@ onMounted(() => nextTick(() => genKey()));
 </script>
 
 <template>
-  <div>
-    <div class="divider my-8 text-sm font-bold" :class="title ? 'divider-start' : ''">
-      {{ title ? `# Key ${title}:` : '' }}
-      <KitButton @click="clearKey">
-        Clear
-      </KitButton>/
-      <KitButton @click="genKey">
-        Generate
-      </KitButton>
-    </div>
-    <KitFormBigint
-      v-model="key.d"
-      :title="`Private Key d${title} (${getBIBits(key.d)} bit)`"
-    />
-    <KitFormBigint
-      v-model="key.Q.x"
-      :title="`Public Key Q${title}.x (${getBIBits(key.Q.x)} bit)`"
-    />
-    <KitFormBigint
-      v-model="key.Q.y"
-      :title="`Public Key Q${title}.y (${getBIBits(key.Q.y)} bit)`"
-    />
-    <KitCollapse v-if="fold" class="my-2 bg-base-300">
-      <template #header>
-        Point Compression
-      </template>
-      <KitFormECPointCompress
-        v-model="key"
-        :curve="curve"
-        :title="title"
-      />
-    </KitCollapse>
+  <KitDivider :class="name ? 'divider-start' : ''">
+    {{ name ? `# Key ${name}:` : '' }}
+    <KitButton @click="clearKey">
+      Clear
+    </KitButton>/
+    <KitButton @click="genKey">
+      Generate
+    </KitButton>
+  </KitDivider>
+  <KitFormBigint
+    v-model="key.d"
+    :title="`Private Key d${name} (${getBIBits(key.d)} bit)`"
+  />
+  <KitFormBigint
+    v-model="key.Q.x"
+    :title="`Public Key Q${name}.x (${getBIBits(key.Q.x)} bit)`"
+  />
+  <KitFormBigint
+    v-model="key.Q.y"
+    :title="`Public Key Q${name}.y (${getBIBits(key.Q.y)} bit)`"
+  />
+  <KitCollapse v-if="fold" class="my-2 bg-base-300">
+    <template #header>
+      Point Compression
+    </template>
     <KitFormECPointCompress
-      v-else
       v-model="key"
       :curve="curve"
-      :title="title"
+      :title="name"
     />
-  </div>
+  </KitCollapse>
+  <KitFormECPointCompress
+    v-else
+    v-model="key"
+    :curve="curve"
+    :title="name"
+  />
 </template>

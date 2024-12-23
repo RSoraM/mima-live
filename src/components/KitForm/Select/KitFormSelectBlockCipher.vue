@@ -16,8 +16,8 @@ const {
     { label: 'XTEA', value: 'XTEA' },
   ],
 } = defineProps<{
-  title: string;
   options?: SelectOption[];
+  title?: string;
 }>();
 
 const alg = ref('SM4');
@@ -94,16 +94,23 @@ watchEffect(catchNotifySync(() => {
 
 <template>
   <div>
-    <KitFormControl title="Cipher">
-      <KitBaseFormSelect v-model="alg" :options="cipher_alg" />
-    </KitFormControl>
-    <KitFormControl v-show="show_key_size_option" title="Key Size">
-      <KitBaseFormSelect v-model="key_size" :options="key_size_option" />
-    </KitFormControl>
+    <KitFormSelect
+      v-model="alg"
+      :options="cipher_alg"
+      :title="title"
+    />
+    <KitFormSelect
+      v-show="show_key_size_option"
+      v-model="key_size"
+      :options="key_size_option"
+      title="Key Size"
+    />
     <div v-show="show_arc5_option" class="flex gap-2">
-      <KitFormControl title="Word Size (byte)">
-        <KitBaseFormSelect v-model="arc5_ws" :options="arc5_ws_option" />
-      </KitFormControl>
+      <KitFormSelect
+        v-model="arc5_ws"
+        :options="arc5_ws_option"
+        title="Word Size (byte)"
+      />
       <KitFormNumber v-model="arc5_r" title="Rounds" />
     </div>
     <KitFormNumber v-show="show_tea_r" v-model="tea_r" title="Rounds" />

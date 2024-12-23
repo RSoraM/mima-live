@@ -37,7 +37,9 @@ watchEffect(() => {
 </script>
 
 <template>
-  <KitFormControl :title="title || 'Padding'">
-    <KitBaseFormSelect v-model="alg" :options="options" />
-  </KitFormControl>
+  <KitFormSelect
+    v-model="alg"
+    :options="options"
+    :title="title"
+  />
 </template>

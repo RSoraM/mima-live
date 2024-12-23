@@ -39,7 +39,7 @@ const cipher = catchNotify(() => {
     <div class="flex gap-2">
       <KitFormNumber v-model="BEARER" title="Bearer" />
       <KitFormControl title="Direction">
-        <KitBaseFormSelect v-model="DIRECTION" :options="direction_options" />
+        <KitFormSelect v-model="DIRECTION" :options="direction_options" />
       </KitFormControl>
     </div>
     <KitFormU8

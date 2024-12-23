@@ -38,7 +38,7 @@ watchEffect(catchNotifySync(() => {
     </h1>
     <div class="flex gap-2">
       <KitFormControl title="Variant">
-        <KitBaseFormSelect v-model="variant" :options="variant_options" />
+        <KitFormSelect v-model="variant" :options="variant_options" />
       </KitFormControl>
     </div>
     <KitFormU8

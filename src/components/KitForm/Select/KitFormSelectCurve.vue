@@ -2,6 +2,7 @@
 defineOptions({ name: 'KitFormSelectCurve' });
 
 const {
+  title = 'Curve',
   options: curve_options = [
     { label: 'sm2p256v1', value: sm2p256v1 },
     { label: 'secp192k1', value: secp192k1 },
@@ -29,9 +30,9 @@ const curve = defineModel<typeof secp256r1>();
 </script>
 
 <template>
-  <div class="flex gap-2">
-    <KitFormControl :title="title || 'Curve'">
-      <KitBaseFormSelect v-model="curve" :options="curve_options" />
-    </KitFormControl>
-  </div>
+  <KitFormSelect
+    v-model="curve"
+    :options="curve_options"
+    :title="title"
+  />
 </template>

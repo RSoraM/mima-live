@@ -41,5 +41,9 @@ const format = computed({
 </script>
 
 <template>
-  <KitBaseFormSelect v-model="format" :options="codec_options" :title="title || 'Codec'" />
+  <KitFormSelect
+    v-model="format"
+    :options="codec_options"
+    :title="title"
+  />
 </template>

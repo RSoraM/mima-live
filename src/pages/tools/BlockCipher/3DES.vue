@@ -24,7 +24,7 @@ const init = {
     </h1>
 
     <KitFormControl title="Key Size (bit)">
-      <KitBaseFormSelect v-model="b" :options="variant_options" />
+      <KitFormSelect v-model="b" :options="variant_options" />
     </KitFormControl>
 
     <KitDivider>

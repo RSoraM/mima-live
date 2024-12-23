@@ -246,7 +246,7 @@ onMounted(async () => nextTick(() => {
         Encryption Scheme
       </template>
       <KitFormControl title="Encryption Scheme">
-        <KitBaseFormSelect v-model="es" :options="es_options" />
+        <KitFormSelect v-model="es" :options="es_options" />
       </KitFormControl>
       <div v-if="es === 'RSAES-OAEP'">
         <KitDivider class="divider-start">
@@ -257,7 +257,7 @@ onMounted(async () => nextTick(() => {
           # 2: Mask Generation Function
         </KitDivider>
         <KitFormControl title="MGF">
-          <KitBaseFormSelect v-model="oaep_mgf" :options="mgf_options" />
+          <KitFormSelect v-model="oaep_mgf" :options="mgf_options" />
         </KitFormControl>
         <KitFormSelectHash v-model="oaep_mgf_hash" title="MGF Hash" />
         <KitDivider class="divider-start">
@@ -277,7 +277,7 @@ onMounted(async () => nextTick(() => {
         Signature Scheme
       </template>
       <KitFormControl title="Signature Scheme">
-        <KitBaseFormSelect v-model="ssa" :options="ssa_options" />
+        <KitFormSelect v-model="ssa" :options="ssa_options" />
       </KitFormControl>
       <div v-if="ssa === 'RSASSA-PSS'">
         <KitDivider class="divider-start">
@@ -288,7 +288,7 @@ onMounted(async () => nextTick(() => {
           # 2: Mask Generation Function
         </KitDivider>
         <KitFormControl title="MGF">
-          <KitBaseFormSelect v-model="pss_mgf" :options="mgf_options" />
+          <KitFormSelect v-model="pss_mgf" :options="mgf_options" />
         </KitFormControl>
         <KitFormSelectHash v-model="pss_mgf_hash" title="MGF Hash" />
         <KitDivider class="divider-start">

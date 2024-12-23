@@ -82,14 +82,14 @@ const verify = catchNotify(() => {
     title="IV"
   />
 
-  <div class="divider my-8">
+  <KitDivider>
     <KitButton @click="encrypt">
       Encrypt
     </KitButton>/
     <KitButton @click="decrypt">
       Decrypt
     </KitButton>
-  </div>
+  </KitDivider>
   <KitFormU8
     v-model="P"
     :codec="HEX"
@@ -103,17 +103,14 @@ const verify = catchNotify(() => {
     textarea
   />
 
-  <div
-    v-if="mode.ALGORITHM === 'GCM'"
-    class="divider my-8"
-  >
+  <KitDivider v-if="mode.ALGORITHM === 'GCM'">
     <KitButton @click="sign">
       Sign
     </KitButton>/
     <KitButton @click="verify">
       Verify
     </KitButton>
-  </div>
+  </KitDivider>
   <KitFormU8
     v-if="mode.ALGORITHM === 'GCM'"
     v-model="A"

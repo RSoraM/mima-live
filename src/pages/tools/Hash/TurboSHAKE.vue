@@ -33,7 +33,7 @@ watchEffect(catchNotifySync(() => {
       TurboSHAKE
     </h1>
     <KitFormControl title="Variant">
-      <KitBaseFormSelect v-model="variant" :options="variant_options" />
+      <KitFormSelect v-model="variant" :options="variant_options" />
     </KitFormControl>
     <div class="flex gap-2">
       <KitFormNumber v-model="t" title="Digest Size (bit)" />

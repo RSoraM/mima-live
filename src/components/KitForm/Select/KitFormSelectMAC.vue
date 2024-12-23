@@ -10,7 +10,7 @@ const {
     { label: 'KMAC256XOF', value: 'KMAC256XOF' },
   ],
 } = defineProps<{
-  title: string;
+  title?: string;
   options?: SelectOption[];
 }>();
 
@@ -70,9 +70,11 @@ watchEffect(catchNotifySync(() => {
 
 <template>
   <div>
-    <KitFormControl :title="title">
-      <KitBaseFormSelect v-model="mac_alg" :options="mac_options" />
-    </KitFormControl>
+    <KitFormSelect
+      v-model="mac_alg"
+      :options="mac_options"
+      :title="title"
+    />
     <KitCollapse class="my-2 bg-base-300">
       <template #header>
         Mac Config

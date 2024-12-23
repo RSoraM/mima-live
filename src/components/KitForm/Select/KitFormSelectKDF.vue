@@ -2,13 +2,14 @@
 defineOptions({ name: 'KitFormSelectKDF' });
 
 const {
+  title = 'KDF',
   options: kdf_options = [
     { label: 'ANSI X9.63', value: 'ANSI X9.63' },
     { label: 'HKDF', value: 'HKDF' },
     { label: 'PBKDF2', value: 'PBKDF2' },
   ],
 } = defineProps<{
-  title: string;
+  title?: string;
   options?: SelectOption[];
 }>();
 
@@ -40,51 +41,51 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <div>
-    <KitFormControl :title="title">
-      <KitBaseFormSelect v-model="kdf_alg" :options="kdf_options" />
-    </KitFormControl>
-    <KitCollapse class="input-bordered my-2 border bg-base-300">
-      <template #header>
-        <span class="text-sm font-bold">KDF Config</span>
-      </template>
-      <template v-if="show_hash">
-        <div class="divider divider-start my-4 text-sm">
-          # 1: Hash
-        </div>
-        <KitFormSelectHash
-          v-model="kdf_hash"
-          :title="`${title} Hash`"
-        />
-      </template>
-      <template v-if="show_mac">
-        <div class="divider divider-start my-4 text-sm">
-          # 1: Mac
-        </div>
-        <KitFormSelectMAC
-          v-model="kdf_mac"
-          :title="`${title} MAC`"
-        />
-      </template>
-      <template v-if="show_salt">
-        <div class="divider divider-start my-4 text-sm">
-          # 2: Salt
-        </div>
-        <KitFormU8
-          v-model="kdf_salt"
-          :title="`${title} Salt`"
-          :codec="UTF8"
-        />
-      </template>
-      <template v-if="show_iterations">
-        <div class="divider divider-start my-4 text-sm">
-          # 3: Iterations
-        </div>
-        <KitFormNumber
-          v-model="kdf_iterations"
-          :title="`${title} Iterations`"
-        />
-      </template>
-    </KitCollapse>
-  </div>
+  <KitFormSelect
+    v-model="kdf_alg"
+    :options="kdf_options"
+    :title="title"
+  />
+  <KitCollapse class="input-bordered my-2 border bg-base-300">
+    <template #header>
+      <span class="text-sm font-bold">KDF Config</span>
+    </template>
+    <template v-if="show_hash">
+      <div class="divider divider-start my-4 text-sm">
+        # 1: Hash
+      </div>
+      <KitFormSelectHash
+        v-model="kdf_hash"
+        title="Hash"
+      />
+    </template>
+    <template v-if="show_mac">
+      <div class="divider divider-start my-4 text-sm">
+        # 1: Mac
+      </div>
+      <KitFormSelectMAC
+        v-model="kdf_mac"
+        title="MAC"
+      />
+    </template>
+    <template v-if="show_salt">
+      <div class="divider divider-start my-4 text-sm">
+        # 2: Salt
+      </div>
+      <KitFormU8
+        v-model="kdf_salt"
+        title="Salt"
+        :codec="UTF8"
+      />
+    </template>
+    <template v-if="show_iterations">
+      <div class="divider divider-start my-4 text-sm">
+        # 3: Iterations
+      </div>
+      <KitFormNumber
+        v-model="kdf_iterations"
+        title="Iterations"
+      />
+    </template>
+  </KitCollapse>
 </template>

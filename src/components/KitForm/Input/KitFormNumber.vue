@@ -2,10 +2,10 @@
 defineOptions({ name: 'KitFormNumber' });
 
 const { title, type = 'number' } = defineProps<{
-  title: string;
+  title?: string;
   type?: string;
 }>();
-const step = title.endsWith('(bit)') ? 8 : 1;
+const step = title?.endsWith('(bit)') ? 8 : 1;
 
 const model = defineModel<string | number>();
 </script>

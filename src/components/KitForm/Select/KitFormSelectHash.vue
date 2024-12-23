@@ -170,9 +170,11 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <KitFormControl :title="title || 'Hash'">
-    <KitBaseFormSelect v-model="alg" :options="hash_options" />
-  </KitFormControl>
+  <KitFormSelect
+    v-model="alg"
+    :options="hash_options"
+    :title="title "
+  />
   <KitCollapse v-if="show_config" class="input-bordered my-2 border bg-base-300">
     <template #header>
       Hash Config

@@ -43,26 +43,24 @@ onMounted(() => nextTick(() => convert()));
 </script>
 
 <template>
-  <div>
-    <KitFormToggle v-model="key.Q.isInfinity" :title="`Public Key Q${title}.isInfinity`" />
-    <!-- Compression -->
-    <div class="divider my-6">
-      <KitButton @click="recover()">
-        Recover
-      </KitButton>/
-      <KitButton @click="convert()">
-        Convert
-      </KitButton>
-    </div>
-    <KitFormU8
-      v-model="compressed_p"
-      :codec="HEX"
-      :title="`Compressed Q${title} (${compressed_p.length << 3} bit)`"
-    />
-    <KitFormU8
-      v-model="uncompressed_p"
-      :codec="HEX"
-      :title="`Uncompressed Q${title} (${uncompressed_p.length << 3} bit)`"
-    />
-  </div>
+  <KitFormToggle v-model="key.Q.isInfinity" :title="`Public Key Q${title}.isInfinity`" />
+  <!-- Compression -->
+  <KitDivider>
+    <KitButton @click="recover()">
+      Recover
+    </KitButton>/
+    <KitButton @click="convert()">
+      Convert
+    </KitButton>
+  </KitDivider>
+  <KitFormU8
+    v-model="compressed_p"
+    :codec="HEX"
+    :title="`Compressed Q${title} (${compressed_p.length << 3} bit)`"
+  />
+  <KitFormU8
+    v-model="uncompressed_p"
+    :codec="HEX"
+    :title="`Uncompressed Q${title} (${uncompressed_p.length << 3} bit)`"
+  />
 </template>

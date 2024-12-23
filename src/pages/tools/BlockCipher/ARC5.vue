@@ -29,7 +29,7 @@ const init = {
 
     <div class="flex gap-2">
       <KitFormControl title="Word Size (byte)">
-        <KitBaseFormSelect v-model="b" :options="variant_options" />
+        <KitFormSelect v-model="b" :options="variant_options" />
       </KitFormControl>
       <KitFormNumber v-model="r" title="Rounds" />
     </div>

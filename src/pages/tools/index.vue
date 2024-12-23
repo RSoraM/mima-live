@@ -11,7 +11,7 @@ onBeforeRouteUpdate(() => theKitMenu.value?.close());
     <div class="flex h-dvh w-full flex-col overflow-y-scroll">
       <div id="notify" class="toast toast-center toast-top w-full max-w-xs md:toast-end" />
       <!-- Open the modal using ID.showModal() method -->
-      <button class="btn btn-primary btn-lg m-8 md:hidden" onclick="theKitMenu.showModal()">
+      <button class="btn btn-primary btn-lg m-8 mb-4 md:hidden" onclick="theKitMenu.showModal()">
         Menu
       </button>
       <dialog id="theKitMenu" ref="theKitMenu" class="modal">

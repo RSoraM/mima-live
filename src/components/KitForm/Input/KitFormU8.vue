@@ -3,7 +3,7 @@ defineOptions({ name: 'KitFormU8' });
 
 const { textarea = false, immediate = false } = defineProps<{
   codec: typeof HEX;
-  title: string;
+  title?: string;
   textarea?: boolean;
   immediate?: boolean;
 }>();

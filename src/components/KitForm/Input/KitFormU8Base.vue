@@ -32,8 +32,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="join" :class="{ 'join-vertical': textarea }">
-    <KitBaseFormSelectCodec v-model="text_codec" class="join-item" />
+  <div class="join" :class="{ 'join-vertical': textarea, 'join-vertical md:join-horizontal': !textarea }">
+    <KitFormSelectCodec v-model="text_codec" class="join-item" />
     <textarea
       v-if="textarea"
       v-model="text" class="join-item textarea textarea-bordered h-24 text-xs"

@@ -1,13 +1,31 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormControl' });
-defineProps<{ title: string }>();
+const { type = 'text' } = defineProps<{
+  title?: string;
+  type?: 'text' | 'toggle';
+}>();
+
+/**
+ * This component is a wrapper for form controls.
+ * if the title prop is provided, it will render a label with the title.
+ * else, it will render the slot.
+ */
 </script>
 
 <template>
-  <label class="form-control w-full">
-    <div v-show="title" class="label">
-      <span class="label-text text-xs">{{ title }}</span>
+  <template v-if="title">
+    <label v-if="type === 'text'" class="form-control w-full">
+      <div class="label">
+        <span class="label-text text-xs">{{ title }}</span>
+      </div>
+      <slot />
+    </label>
+    <div v-else class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text text-xs">{{ title }}</span>
+        <slot />
+      </label>
     </div>
-    <slot />
-  </label>
+  </template>
+  <slot v-else />
 </template>

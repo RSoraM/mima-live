@@ -2,7 +2,7 @@
 defineOptions({ name: 'KitFormU8Array' });
 
 const { immediate = false } = defineProps<{
-  title: string;
+  title?: string;
   immediate?: boolean;
 }>();
 const model = defineModel<{ value: InstanceType<typeof U8> }[]>();
