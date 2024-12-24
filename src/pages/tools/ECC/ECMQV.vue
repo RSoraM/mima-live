@@ -94,79 +94,77 @@ onMounted(() => nextTick(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      ECMQV
-    </h1>
-    <KitFormSelectCurve v-model="curve" />
-    <div class="divider my-8">
-      Key Exchange
-    </div>
-    <!-- Alice -->
-    <KitCollapse class="bg-base-200" open>
-      <template #header>
-        Alice
-      </template>
-      <KitFormECKey
-        v-model="k_a"
-        :curve="curve"
-        :fold="true"
-        title="A"
-      />
-      <KitFormECKey
-        v-model="k_x"
-        :curve="curve"
-        :fold="true"
-        title="X"
-      />
-      <div class="divider my-8">
-        <KitButton
-          :disabled="!isSAComputeAble"
-          @click="s_a = ecmqv(k_a, k_x, k_b, k_y)"
-        >
-          ECMQV
-        </KitButton>
-      </div>
-      <KitFormBigint
-        v-model="s_a"
-        :title="`S (${getBIBits(s_a)} bit)`"
-      />
-    </KitCollapse>
-    <!-- Bob -->
-    <KitCollapse class="mt-4 bg-base-200" open>
-      <template #header>
-        Bob
-      </template>
-      <KitFormECKey
-        v-model="k_b"
-        :curve="curve"
-        :fold="true"
-        title="B"
-      />
-      <KitFormECKey
-        v-model="k_y"
-        :curve="curve"
-        :fold="true"
-        title="Y"
-      />
-      <div class="divider my-8">
-        <KitButton
-          :disabled="!isSBComputeAble"
-          @click="s_b = ecmqv(k_b, k_y, k_a, k_x)"
-        >
-          ECMQV
-        </KitButton>
-      </div>
-      <KitFormBigint
-        v-model="s_b"
-        :title="`S (${getBIBits(s_b)} bit)`"
-      />
-    </KitCollapse>
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    ECMQV
+  </h1>
+  <KitFormSelectCurve v-model="curve" />
+  <KitDivider>
+    Key Exchange
+  </KitDivider>
+  <!-- Alice -->
+  <KitCollapse class="bg-base-200" open>
+    <template #header>
+      Alice
+    </template>
+    <KitFormECKey
+      v-model="k_a"
+      :curve="curve"
+      :fold="true"
+      name="A"
+    />
+    <KitFormECKey
+      v-model="k_x"
+      :curve="curve"
+      :fold="true"
+      name="X"
+    />
+    <KitDivider>
+      <KitButton
+        :disabled="!isSAComputeAble"
+        @click="s_a = ecmqv(k_a, k_x, k_b, k_y)"
+      >
+        ECMQV
+      </KitButton>
+    </KitDivider>
+    <KitFormBigint
+      v-model="s_a"
+      :title="`S (${getBIBits(s_a)} bit)`"
+    />
+  </KitCollapse>
+  <!-- Bob -->
+  <KitCollapse class="mt-4 bg-base-200" open>
+    <template #header>
+      Bob
+    </template>
+    <KitFormECKey
+      v-model="k_b"
+      :curve="curve"
+      :fold="true"
+      name="B"
+    />
+    <KitFormECKey
+      v-model="k_y"
+      :curve="curve"
+      :fold="true"
+      name="Y"
+    />
+    <KitDivider>
+      <KitButton
+        :disabled="!isSBComputeAble"
+        @click="s_b = ecmqv(k_b, k_y, k_a, k_x)"
+      >
+        ECMQV
+      </KitButton>
+    </KitDivider>
+    <KitFormBigint
+      v-model="s_b"
+      :title="`S (${getBIBits(s_b)} bit)`"
+    />
+  </KitCollapse>
 
-    <!-- Curve Parameters -->
-    <div class="divider my-8">
-      Curve Parameters
-    </div>
-    <KitCurveTable :curve="curve" :codec="HEX" />
-  </div>
+  <!-- Curve Parameters -->
+  <KitDivider>
+    Curve Parameters
+  </KitDivider>
+  <KitCurveTable :curve="curve" :codec="HEX" />
 </template>

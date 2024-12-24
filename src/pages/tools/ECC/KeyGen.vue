@@ -12,21 +12,19 @@ const key = ref({
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      Key Generation
-    </h1>
-    <KitFormSelectCurve v-model="curve" />
-    <KitFormECKey
-      v-model="key"
-      :curve="curve"
-      :fold="false"
-    />
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    Key Generation
+  </h1>
+  <KitFormSelectCurve v-model="curve" />
+  <KitFormECKey
+    v-model="key"
+    :curve="curve"
+    :fold="false"
+  />
 
-    <!-- Curve Parameters -->
-    <div class="divider my-8">
-      Curve Parameters
-    </div>
-    <KitCurveTable :curve="curve" :codec="codec" />
-  </div>
+  <!-- Curve Parameters -->
+  <KitDivider>
+    Curve Parameters
+  </KitDivider>
+  <KitCurveTable :curve="curve" :codec="codec" />
 </template>

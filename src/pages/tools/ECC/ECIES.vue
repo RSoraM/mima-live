@@ -98,123 +98,126 @@ onMounted(() => nextTick(() => encrypt()));
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      ECIES
-    </h1>
-    <KitFormSelectCurve v-model="curve" />
-    <div class="divider my-8">
-      Components Config
-    </div>
-    <!-- Key Generation -->
-    <KitCollapse class="bg-base-200" open>
-      <template #header>
-        Key
-      </template>
-      <KitFormECKey
-        v-model="key"
-        :curve="curve"
-        :fold="true"
-      />
-    </KitCollapse>
-    <!-- Cipher Config -->
-    <KitCollapse class="mt-4 bg-base-200">
-      <template #header>
-        Cipher
-      </template>
-      <KitFormSelectBlockCipher
-        v-model="cipher_alg"
-        title="Cipher"
-      />
-      <!-- Mode Config -->
-      <div class="divider my-4">
-        Operation Mode Config
-      </div>
-      <div class="flex gap-2">
-        <KitFormSelectMode
-          v-model="cipher_mode"
-          :blocksize="cipher_alg.BLOCK_SIZE"
-          title="Mode"
-        />
-        <KitFormSelectPadding
-          v-model="cipher_padding"
-          :mode="cipher_mode"
-        />
-      </div>
-    </KitCollapse>
-    <!-- Mac Config -->
-    <KitCollapse class="mt-4 bg-base-200">
-      <template #header>
-        Mac
-      </template>
-      <KitFormSelectMAC v-model="mac" title="Mac" />
-    </KitCollapse>
-    <!-- KDF -->
-    <KitCollapse class="mt-4 bg-base-200">
-      <template #header>
-        KDF
-      </template>
-      <KitFormSelectKDF v-model="kdf" title="KDF" />
-    </KitCollapse>
-    <!-- Additional Data -->
-    <KitCollapse class="mt-4 bg-base-200">
-      <template #header>
-        Additional Data
-      </template>
-      <KitFormU8
-        v-model="S1"
-        :codec="UTF8"
-        title="S1"
-      />
-      <KitFormU8
-        v-model="S2"
-        :codec="UTF8"
-        title="S2"
-      />
-      <KitFormU8
-        v-if="cipher_mode !== ecb"
-        v-model="cipher_iv"
-        :codec="UTF8"
-        title="IV"
-      />
-    </KitCollapse>
-    <!-- Encryption -->
-    <div class="divider my-8">
-      <KitButton @click="encrypt()">
-        Encrypt
-      </KitButton>/
-      <KitButton @click="decrypt()">
-        Decrypt
-      </KitButton>
-    </div>
-    <KitFormU8
-      v-model="M"
-      :codec="UTF8"
-      title="Plaintext"
-      textarea
-    />
-    <KitFormU8
-      v-model="C"
-      :codec="HEX"
-      title="Ciphertext"
-      textarea
-    />
-    <KitFormU8
-      v-model="D"
-      :codec="HEX"
-      title="Tag"
-    />
-    <KitFormECPointCompress
-      v-model="r"
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    ECIES
+  </h1>
+  <KitFormSelectCurve v-model="curve" />
+  <KitDivider>
+    Components Config
+  </KitDivider>
+  <!-- Key Generation -->
+  <KitCollapse class="bg-base-200" open>
+    <template #header>
+      Key
+    </template>
+    <KitFormECKey
+      v-model="key"
       :curve="curve"
       :fold="true"
-      title="R"
     />
-
-    <!-- Curve Parameters -->
-    <div class="divider my-8">
-      Curve Parameters
+  </KitCollapse>
+  <!-- Cipher Config -->
+  <KitCollapse class="mt-4 bg-base-200">
+    <template #header>
+      Cipher
+    </template>
+    <KitFormSelectBlockCipher
+      v-model="cipher_alg"
+      title="Cipher"
+    />
+    <!-- Mode Config -->
+    <KitDivider>
+      Operation Mode Config
+    </KitDivider>
+    <div class="flex flex-col md:flex-row md:gap-2">
+      <KitFormSelectMode
+        v-model="cipher_mode"
+        :blocksize="cipher_alg.BLOCK_SIZE"
+        title="Mode"
+      />
+      <KitFormSelectPadding
+        v-model="cipher_padding"
+        :mode="cipher_mode"
+        title="Padding"
+      />
     </div>
-    <KitCurveTable :curve="curve" :codec="HEX" />
-  </div>
+  </KitCollapse>
+  <!-- Mac Config -->
+  <KitCollapse class="mt-4 bg-base-200">
+    <template #header>
+      Mac
+    </template>
+    <KitFormSelectMAC v-model="mac" title="Mac" />
+  </KitCollapse>
+  <!-- KDF -->
+  <KitCollapse class="mt-4 bg-base-200">
+    <template #header>
+      KDF
+    </template>
+    <KitFormSelectKDF v-model="kdf" title="KDF" />
+  </KitCollapse>
+  <!-- Additional Data -->
+  <KitCollapse class="mt-4 bg-base-200">
+    <template #header>
+      Additional Data
+    </template>
+    <KitFormU8
+      v-model="S1"
+      :codec="UTF8"
+      title="S1"
+    />
+    <KitFormU8
+      v-model="S2"
+      :codec="UTF8"
+      title="S2"
+    />
+    <KitFormU8
+      v-if="cipher_mode !== ecb"
+      v-model="cipher_iv"
+      :codec="UTF8"
+      title="IV"
+    />
+  </KitCollapse>
+  <!-- Encryption -->
+  <KitDivider>
+    <KitButton @click="encrypt()">
+      Encrypt
+    </KitButton>/
+    <KitButton @click="decrypt()">
+      Decrypt
+    </KitButton>
+  </KitDivider>
+  <KitFormU8
+    v-model="M"
+    :codec="UTF8"
+    title="Plaintext"
+    textarea
+  />
+  <KitFormU8
+    v-model="C"
+    :codec="HEX"
+    title="Ciphertext"
+    textarea
+  />
+  <KitFormU8
+    v-model="D"
+    :codec="HEX"
+    title="Tag"
+  />
+  <KitDivider class="divider-start">
+    One-Time Public Key R
+  </KitDivider>
+  <KitFormECKey
+    v-model="r"
+    :curve="curve"
+    :fold="true"
+    :point-only="true"
+    name="R"
+  />
+
+  <!-- Curve Parameters -->
+  <KitDivider>
+    Curve Parameters
+  </KitDivider>
+  <KitCurveTable :curve="curve" :codec="HEX" />
 </template>

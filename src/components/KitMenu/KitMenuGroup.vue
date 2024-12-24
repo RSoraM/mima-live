@@ -19,7 +19,9 @@ watchEffect(() => {
       class="menu-dropdown-toggle"
       @click="isOpenInside = !isOpenInside"
     >
-      {{ title }}
+      <slot name="title">
+        {{ title }}
+      </slot>
     </span>
     <ul
       class="menu-dropdown"

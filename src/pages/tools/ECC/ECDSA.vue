@@ -51,46 +51,44 @@ onMounted(() => nextTick(() => sign()));
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      ECDSA
-    </h1>
-    <KitFormSelectCurve v-model="curve" />
-    <KitFormSelectHash v-model="hash" />
-    <!-- Key Generation -->
-    <KitFormECKey
-      v-model="key"
-      :curve="curve"
-      :fold="true"
-    />
-    <!-- Signature -->
-    <div class="divider my-8">
-      <KitButton @click="sign()">
-        sign
-      </KitButton>/
-      <KitButton @click="verify()">
-        verify
-      </KitButton>
-    </div>
-    <KitFormU8
-      v-model="M"
-      :codec="UTF8"
-      title="Message"
-      textarea
-    />
-    <KitFormBigint
-      v-model="R"
-      :title="`Signature r (${getBIBits(R)} bit)`"
-    />
-    <KitFormBigint
-      v-model="S"
-      :title="`Signature s (${getBIBits(S)} bit)`"
-    />
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    ECDSA
+  </h1>
+  <KitFormSelectCurve v-model="curve" />
+  <KitFormSelectHash v-model="hash" title="Hash" />
+  <!-- Key Generation -->
+  <KitFormECKey
+    v-model="key"
+    :curve="curve"
+    :fold="true"
+  />
+  <!-- Signature -->
+  <KitDivider>
+    <KitButton @click="sign()">
+      sign
+    </KitButton>/
+    <KitButton @click="verify()">
+      verify
+    </KitButton>
+  </KitDivider>
+  <KitFormU8
+    v-model="M"
+    :codec="UTF8"
+    title="Input"
+    textarea
+  />
+  <KitFormBigint
+    v-model="R"
+    :title="`Signature r (${getBIBits(R)} bit)`"
+  />
+  <KitFormBigint
+    v-model="S"
+    :title="`Signature s (${getBIBits(S)} bit)`"
+  />
 
-    <!-- Curve Parameters -->
-    <div class="divider my-8">
-      Curve Parameters
-    </div>
-    <KitCurveTable :curve="curve" :codec="HEX" />
-  </div>
+  <!-- Curve Parameters -->
+  <KitDivider>
+    Curve Parameters
+  </KitDivider>
+  <KitCurveTable :curve="curve" :codec="HEX" />
 </template>

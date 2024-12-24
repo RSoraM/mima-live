@@ -13,3 +13,14 @@ export function getBIBits(n: bigint) {
   }
   return bytes;
 }
+
+export const themes = [
+  'light',
+  'dark',
+  'synthwave',
+  'lofi',
+  'dracula',
+  'cmyk',
+  'business',
+  'acid',
+];

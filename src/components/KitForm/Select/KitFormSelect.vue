@@ -10,12 +10,13 @@ const model = defineModel();
 </script>
 
 <template>
-  <KitFormControl :title="title">
+  <KitFormControl :title="title" :="$attrs">
     <select
       v-model="model"
-      class="select text-xs"
+      class="join-item select text-xs"
       :class="{ 'select-bordered': border }"
       name="selector"
+      :="$attrs"
     >
       <option
         v-for="option in options" :key="option.label"

@@ -192,6 +192,7 @@ declare global {
   const t_des: typeof import('./node_modules/.pnpm/mima-kit@0.0.8/node_modules/mima-kit/dist/index.mjs')['t_des']
   const tea: typeof import('./node_modules/.pnpm/mima-kit@0.0.8/node_modules/mima-kit/dist/index.mjs')['tea']
   const templateRef: typeof import('@vueuse/core')['templateRef']
+  const themes: typeof import('./src/composables/utils')['themes']
   const throttledRef: typeof import('@vueuse/core')['throttledRef']
   const throttledWatch: typeof import('@vueuse/core')['throttledWatch']
   const toRaw: typeof import('vue')['toRaw']
@@ -599,6 +600,7 @@ declare module 'vue' {
     readonly t_des: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.8/node_modules/mima-kit/dist/index.mjs')['t_des']>
     readonly tea: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.8/node_modules/mima-kit/dist/index.mjs')['tea']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
+    readonly themes: UnwrapRef<typeof import('./src/composables/utils')['themes']>
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>
     readonly throttledWatch: UnwrapRef<typeof import('@vueuse/core')['throttledWatch']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>

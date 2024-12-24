@@ -60,87 +60,85 @@ onMounted(() => nextTick(() => {
 </script>
 
 <template>
-  <div>
-    <h1 class="mx-auto text-4xl font-bold md:my-8">
-      ECDH / ECCDH
-    </h1>
-    <KitFormSelectCurve v-model="curve" />
-    <div class="divider my-8">
-      Key Exchange
-    </div>
-    <!-- Alice -->
-    <KitCollapse class="bg-base-200" open>
-      <template #header>
-        Alice
-      </template>
-      <KitFormECKey
-        v-model="k_a"
-        :curve="curve"
-        :fold="true"
-        title="A"
-      />
-      <div class="divider my-8">
-        <KitButton
-          :disabled="!isSAComputeAble"
-          @click="eccdh_s_a = eccdh(k_a, k_b)"
-        >
-          ECCDH
-        </KitButton>/
-        <KitButton
-          :disabled="!isSAComputeAble"
-          @click="ecdh_s_a = ecdh(k_a, k_b)"
-        >
-          ECDH
-        </KitButton>
-      </div>
-      <KitFormBigint
-        v-model="ecdh_s_a"
-        :title="`S = (dA * QB).x: (${getBIBits(ecdh_s_a)} bit)`"
-      />
-      <KitFormBigint
-        v-model="eccdh_s_a"
-        :title="`S = (dA * QB * h).x: (${getBIBits(eccdh_s_a)} bit)`"
-      />
-    </KitCollapse>
-    <!-- Bob -->
-    <KitCollapse class="mt-4 bg-base-200" open>
-      <template #header>
-        Bob
-      </template>
-      <KitFormECKey
-        v-model="k_b"
-        :curve="curve"
-        :fold="true"
-        title="B"
-      />
-      <div class="divider my-8">
-        <KitButton
-          :disabled="!isSBComputeAble"
-          @click="eccdh_s_b = eccdh(k_b, k_a)"
-        >
-          ECCDH
-        </KitButton>/
-        <KitButton
-          :disabled="!isSBComputeAble"
-          @click="ecdh_s_b = ecdh(k_b, k_a)"
-        >
-          ECDH
-        </KitButton>
-      </div>
-      <KitFormBigint
-        v-model="ecdh_s_b"
-        :title="`S = (dB * QA).x: (${getBIBits(ecdh_s_b)} bit)`"
-      />
-      <KitFormBigint
-        v-model="eccdh_s_b"
-        :title="`S = (dB * QA * h).x: (${getBIBits(eccdh_s_b)} bit)`"
-      />
-    </KitCollapse>
+  <h1 class="mx-auto text-4xl font-bold md:my-8">
+    ECDH / ECCDH
+  </h1>
+  <KitFormSelectCurve v-model="curve" />
+  <KitDivider>
+    Key Exchange
+  </KitDivider>
+  <!-- Alice -->
+  <KitCollapse class="bg-base-200" open>
+    <template #header>
+      Alice
+    </template>
+    <KitFormECKey
+      v-model="k_a"
+      :curve="curve"
+      :fold="true"
+      name="A"
+    />
+    <KitDivider>
+      <KitButton
+        :disabled="!isSAComputeAble"
+        @click="eccdh_s_a = eccdh(k_a, k_b)"
+      >
+        ECCDH
+      </KitButton>/
+      <KitButton
+        :disabled="!isSAComputeAble"
+        @click="ecdh_s_a = ecdh(k_a, k_b)"
+      >
+        ECDH
+      </KitButton>
+    </KitDivider>
+    <KitFormBigint
+      v-model="ecdh_s_a"
+      :title="`S = (dA * QB).x: (${getBIBits(ecdh_s_a)} bit)`"
+    />
+    <KitFormBigint
+      v-model="eccdh_s_a"
+      :title="`S = (dA * QB * h).x: (${getBIBits(eccdh_s_a)} bit)`"
+    />
+  </KitCollapse>
+  <!-- Bob -->
+  <KitCollapse class="mt-4 bg-base-200" open>
+    <template #header>
+      Bob
+    </template>
+    <KitFormECKey
+      v-model="k_b"
+      :curve="curve"
+      :fold="true"
+      name="B"
+    />
+    <KitDivider>
+      <KitButton
+        :disabled="!isSBComputeAble"
+        @click="eccdh_s_b = eccdh(k_b, k_a)"
+      >
+        ECCDH
+      </KitButton>/
+      <KitButton
+        :disabled="!isSBComputeAble"
+        @click="ecdh_s_b = ecdh(k_b, k_a)"
+      >
+        ECDH
+      </KitButton>
+    </KitDivider>
+    <KitFormBigint
+      v-model="ecdh_s_b"
+      :title="`S = (dB * QA).x: (${getBIBits(ecdh_s_b)} bit)`"
+    />
+    <KitFormBigint
+      v-model="eccdh_s_b"
+      :title="`S = (dB * QA * h).x: (${getBIBits(eccdh_s_b)} bit)`"
+    />
+  </KitCollapse>
 
-    <!-- Curve Parameters -->
-    <div class="divider my-8">
-      Curve Parameters
-    </div>
-    <KitCurveTable :curve="curve" :codec="HEX" />
-  </div>
+  <!-- Curve Parameters -->
+  <KitDivider>
+    Curve Parameters
+  </KitDivider>
+  <KitCurveTable :curve="curve" :codec="HEX" />
 </template>

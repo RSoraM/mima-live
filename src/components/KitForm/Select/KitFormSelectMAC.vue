@@ -75,40 +75,23 @@ watchEffect(catchNotifySync(() => {
       :options="mac_options"
       :title="title"
     />
-    <KitCollapse class="my-2 bg-base-300">
-      <template #header>
-        Mac Config
-      </template>
-      <template v-if="mac_alg === 'HMAC'">
-        <KitDivider class="divider-start">
-          # 1 Hash
-        </KitDivider>
-        <KitFormSelectHash
-          v-model="mac_hash"
-          title="Hash"
-        />
-      </template>
-      <template v-else>
-        <KitDivider class="divider-start">
-          # 1 KMAC Config
-        </KitDivider>
-        <KitFormU8
-          v-model="mac_custom"
-          :codec="UTF8"
-          title="Customization"
-        />
-      </template>
-      <KitDivider class="divider-start">
-        # 2 MAC Info
-      </KitDivider>
-      <KitFormNumber
-        v-model="mac_digest_size"
-        title="Digest Size (bit)"
+    <template v-if="mac_alg === 'HMAC'">
+      <KitFormSelectHash v-model="mac_hash" title="Hash" />
+    </template>
+    <template v-else>
+      <KitFormU8
+        v-model="mac_custom"
+        :codec="UTF8"
+        title="Customization"
       />
-      <KitFormNumber
-        v-model="mac_key_size"
-        title="Key Size (bit)"
-      />
-    </KitCollapse>
+    </template>
+    <KitFormNumber
+      v-model="mac_digest_size"
+      title="Digest Size (bit)"
+    />
+    <KitFormNumber
+      v-model="mac_key_size"
+      title="Key Size (bit)"
+    />
   </div>
 </template>

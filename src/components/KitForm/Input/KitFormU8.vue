@@ -14,9 +14,12 @@ const buffer = defineModel<InstanceType<typeof U8>>({ required: true });
   <KitFormControl :title="title">
     <KitFormU8Base
       v-model="buffer"
+      :="$attrs"
       :codec="codec"
       :textarea="textarea"
       :immediate="immediate"
-    />
+    >
+      <slot />
+    </KitFormU8Base>
   </KitFormControl>
 </template>

@@ -26,7 +26,7 @@ const init = {
     ARC5-{{ b }}/{{ r }}
   </h1>
 
-  <div class="flex gap-2">
+  <div class="flex flex-col md:flex-row md:gap-2">
     <KitFormSelect
       v-model="b"
       :options="variant_options"

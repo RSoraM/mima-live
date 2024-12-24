@@ -8,7 +8,9 @@ const { textarea = false, codec = HEX, immediate = false } = defineProps<{
 }>();
 const buffer = defineModel<InstanceType<typeof U8>>({ required: true });
 const text_codec = ref(codec);
-const text = ref<string>('');
+const auto = useTextareaAutosize({ styleProp: 'minHeight' });
+const text = auto.input;
+const size = auto.textarea;
 
 const t2b = () => buffer.value = text_codec.value(text.value);
 watch(
@@ -32,18 +34,30 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="join" :class="{ 'join-vertical': textarea, 'join-vertical md:join-horizontal': !textarea }">
-    <KitFormSelectCodec v-model="text_codec" class="join-item" />
+  <div
+    v-if="textarea"
+    class="join join-vertical"
+  >
+    <KitFormSelectCodec v-model="text_codec" />
     <textarea
-      v-if="textarea"
-      v-model="text" class="join-item textarea textarea-bordered h-24 text-xs"
+      ref="size"
+      v-model="text"
+      class="join-item textarea textarea-bordered h-24 w-full text-xs"
       name="textarea"
+      spellcheck="false"
       @change="t2b"
     />
+  </div>
+  <div
+    v-else
+    class="join join-vertical md:join-horizontal"
+  >
+    <KitFormSelectCodec v-model="text_codec" />
     <input
-      v-else
-      v-model="text" type="text" class="input join-item input-bordered w-full text-xs"
+      v-model="text" type="text"
+      class="input join-item input-bordered w-full text-xs"
       name="text"
+      spellcheck="false"
       @change="t2b"
     >
     <slot />

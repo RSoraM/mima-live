@@ -37,7 +37,7 @@ watchEffect(catchNotifySync(() => {
     :options="variant_options"
     title="Variant"
   />
-  <div class="flex gap-2">
+  <div class="flex flex-col md:flex-row md:gap-2">
     <KitFormNumber v-model="t" title="Digest Size (bit)" />
     <KitFormNumber v-model="d" title="Domain Separator" />
   </div>

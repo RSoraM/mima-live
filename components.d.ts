@@ -37,6 +37,7 @@ declare module 'vue' {
     KitMenuItem: typeof import('./src/components/KitMenu/KitMenuItem.vue')['default']
     KitRefLink: typeof import('./src/components/KitRefLink.vue')['default']
     KitStat: typeof import('./src/components/KitStat.vue')['default']
+    KitTheme: typeof import('./src/components/KitTheme.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheKitMenu: typeof import('./src/components/TheKitMenu.vue')['default']

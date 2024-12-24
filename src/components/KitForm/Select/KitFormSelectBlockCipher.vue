@@ -2,7 +2,7 @@
 defineOptions({ name: 'KitFormSelectKDF' });
 
 const {
-  options: cipher_alg = [
+  options: cipher_option = [
     { label: 'SM4', value: 'SM4' },
     { label: 'AES', value: 'AES' },
     { label: 'ARIA', value: 'ARIA' },
@@ -96,23 +96,23 @@ watchEffect(catchNotifySync(() => {
   <div>
     <KitFormSelect
       v-model="alg"
-      :options="cipher_alg"
+      :options="cipher_option"
       :title="title"
     />
     <KitFormSelect
-      v-show="show_key_size_option"
+      v-if="show_key_size_option"
       v-model="key_size"
       :options="key_size_option"
-      title="Key Size"
+      title="Key Size (bit)"
     />
-    <div v-show="show_arc5_option" class="flex gap-2">
+    <div v-if="show_arc5_option" class="flex flex-col md:flex-row md:gap-2">
       <KitFormSelect
         v-model="arc5_ws"
         :options="arc5_ws_option"
-        title="Word Size (byte)"
+        title="Word Size (bit)"
       />
       <KitFormNumber v-model="arc5_r" title="Rounds" />
     </div>
-    <KitFormNumber v-show="show_tea_r" v-model="tea_r" title="Rounds" />
+    <KitFormNumber v-if="show_tea_r" v-model="tea_r" title="Rounds" />
   </div>
 </template>

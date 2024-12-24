@@ -66,7 +66,7 @@ const verify = catchNotify(() => {
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div class="flex flex-col md:flex-row md:gap-2">
     <KitFormSelectMode
       v-model="mode"
       :blocksize="block_cipher.BLOCK_SIZE"

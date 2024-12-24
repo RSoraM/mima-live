@@ -38,7 +38,7 @@ const cipher = catchNotify(() => {
   <h1 class="mx-auto text-4xl font-bold md:my-8">
     ZUC
   </h1>
-  <div class="flex gap-2">
+  <div class="flex flex-col md:flex-row md:gap-2">
     <KitFormNumber v-model="BEARER" title="Bearer" />
     <KitFormSelect
       v-model="DIRECTION"

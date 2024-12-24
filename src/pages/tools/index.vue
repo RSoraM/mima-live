@@ -5,11 +5,11 @@ onBeforeRouteUpdate(() => theKitMenu.value?.close());
 
 <template>
   <div class="flex h-dvh w-dvw font-mono">
+    <div id="notify" class="toast toast-center toast-top z-50 w-full max-w-xs md:toast-end " />
     <div class="hidden min-w-56 flex-col overflow-y-auto bg-base-200 md:flex">
       <TheKitMenu />
     </div>
     <div class="flex h-dvh w-full flex-col overflow-y-scroll">
-      <div id="notify" class="toast toast-center toast-top w-full max-w-xs md:toast-end" />
       <!-- Open the modal using ID.showModal() method -->
       <button class="btn btn-primary btn-lg m-8 mb-4 md:hidden" onclick="theKitMenu.showModal()">
         Menu

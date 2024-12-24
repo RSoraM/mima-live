@@ -33,18 +33,7 @@ const isBlockCipherGroupOpen = computed(() => route.path.startsWith('/tools/Bloc
 const isStreamCipherGroupOpen = computed(() => route.path.startsWith('/tools/StreamCipher'));
 
 const routeName = computed(() => route.path.split('/').pop());
-
 const currentTheme = useLocalStorage('theme', 'dark');
-const themes = [
-  'light',
-  'dark',
-  'synthwave',
-  'lofi',
-  'dracula',
-  'cmyk',
-  'business',
-  'acid',
-];
 </script>
 
 <template>
@@ -54,24 +43,26 @@ const themes = [
         Home
       </RouterLink>
     </KitMenuItem>
-    <KitMenuItem class="dropdown">
-      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
-        Theme
-        <span class="icon-[carbon--color-palette] size-4" />
-      </div>
-      <ul tabindex="0" class="dropdown-content z-[99] w-52 rounded-box bg-base-300 p-2 shadow-2xl">
-        <li v-for="t in themes" :key="t">
+    <KitMenuGroup title="Theme">
+      <template #title>
+        <div class="flex items-center justify-center gap-2">
+          Theme
+          <span class="icon-[carbon--color-palette] size-4" />
+        </div>
+      </template>
+      <KitMenuItem v-for="t in themes" :key="t">
+        <label>
+          {{ t.toUpperCase() }}
           <input
             v-model="currentTheme"
             type="radio"
-            name="theme-dropdown"
-            class="theme-controller btn btn-ghost btn-sm btn-block justify-start"
-            :aria-label="t"
+            name="theme-option"
+            class="theme-controller hidden"
             :value="t"
           >
-        </li>
-      </ul>
-    </KitMenuItem>
+        </label>
+      </KitMenuItem>
+    </KitMenuGroup>
     <!-- Hash -->
     <KitMenuGroup title="Hash" :is-open="isHashGroupOpen">
       <KitMenuItem v-for="h in Hash" :key="h.name">

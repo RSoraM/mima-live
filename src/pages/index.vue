@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const currentTheme = useLocalStorage('theme', 'dark');
+</script>
+
 <template>
   <div class="hero min-h-screen bg-base-200 font-mono">
     <div class="hero-content flex-col text-center">
@@ -6,7 +10,8 @@
         mima-live
       </h1>
       <p>
-        An online cryptography tool based on
+        Cryptography tool based on
+        <br>
         <a class="link" href="https://github.com/RSoraM/mima-kit" target="_blank">
           mima-kit
         </a>
@@ -29,4 +34,9 @@
       </div>
     </div>
   </div>
+  <input
+    v-model="currentTheme"
+    type="radio" class="theme-controller hidden" name="theme"
+    :value="currentTheme"
+  >
 </template>

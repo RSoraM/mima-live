@@ -21,19 +21,19 @@ function del(index: number) {
 
 <template>
   <KitFormControl :title="title">
-    <div class="join join-vertical flex flex-col">
-      <KitFormU8Base
+    <div class="mb-2 flex flex-col gap-2">
+      <KitFormU8
         v-for="(m, i) in model" :key="i"
         v-model="m.value" :codec="UTF8"
         :immediate="immediate"
       >
-        <button class="btn btn-outline join-item" @click="del(i)">
-          Delete
+        <button class="btn btn-outline join-item input-bordered" @click="del(i)">
+          DELETE
         </button>
-      </KitFormU8Base>
-      <button class="btn btn-outline join-item" @click="add">
-        ADD
-      </button>
+      </KitFormU8>
     </div>
   </KitFormControl>
+  <button class="btn btn-outline" @click="add">
+    ADD
+  </button>
 </template>

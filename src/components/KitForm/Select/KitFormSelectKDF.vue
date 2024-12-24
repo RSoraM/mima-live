@@ -51,27 +51,24 @@ watchEffect(catchNotifySync(() => {
       <span class="text-sm font-bold">KDF Config</span>
     </template>
     <template v-if="show_hash">
-      <div class="divider divider-start my-4 text-sm">
+      <KitDivider class="divider-start">
         # 1: Hash
-      </div>
-      <KitFormSelectHash
-        v-model="kdf_hash"
-        title="Hash"
-      />
+      </KitDivider>
+      <KitFormSelectHash v-model="kdf_hash" class="w-full" />
     </template>
     <template v-if="show_mac">
-      <div class="divider divider-start my-4 text-sm">
+      <KitDivider class="divider-start">
         # 1: Mac
-      </div>
+      </KitDivider>
       <KitFormSelectMAC
         v-model="kdf_mac"
         title="MAC"
       />
     </template>
     <template v-if="show_salt">
-      <div class="divider divider-start my-4 text-sm">
+      <KitDivider class="divider-start">
         # 2: Salt
-      </div>
+      </KitDivider>
       <KitFormU8
         v-model="kdf_salt"
         title="Salt"
@@ -79,9 +76,9 @@ watchEffect(catchNotifySync(() => {
       />
     </template>
     <template v-if="show_iterations">
-      <div class="divider divider-start my-4 text-sm">
+      <KitDivider class="divider-start">
         # 3: Iterations
-      </div>
+      </KitDivider>
       <KitFormNumber
         v-model="kdf_iterations"
         title="Iterations"

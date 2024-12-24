@@ -2,10 +2,16 @@
 defineOptions({ name: 'KitFormECKey' });
 
 // props
-const { curve, name = '', fold = true } = defineProps<{
+const {
+  curve,
+  name = '',
+  fold = true,
+  pointOnly: point_only = false,
+} = defineProps<{
   curve: typeof secp256r1;
   name?: string;
   fold?: boolean;
+  pointOnly?: boolean;
 }>();
 
 const ec = computed(() => FpECC(curve));
@@ -53,19 +59,21 @@ onMounted(() => nextTick(() => genKey()));
 </script>
 
 <template>
-  <KitDivider :class="name ? 'divider-start' : ''">
-    {{ name ? `# Key ${name}:` : '' }}
-    <KitButton @click="clearKey">
-      Clear
-    </KitButton>/
-    <KitButton @click="genKey">
-      Generate
-    </KitButton>
-  </KitDivider>
-  <KitFormBigint
-    v-model="key.d"
-    :title="`Private Key d${name} (${getBIBits(key.d)} bit)`"
-  />
+  <template v-if="!point_only">
+    <KitDivider :class="name ? 'divider-start' : ''">
+      {{ name ? `# Key ${name}:` : '' }}
+      <KitButton @click="clearKey">
+        Clear
+      </KitButton>/
+      <KitButton @click="genKey">
+        Generate
+      </KitButton>
+    </KitDivider>
+    <KitFormBigint
+      v-model="key.d"
+      :title="`Private Key d${name} (${getBIBits(key.d)} bit)`"
+    />
+  </template>
   <KitFormBigint
     v-model="key.Q.x"
     :title="`Public Key Q${name}.x (${getBIBits(key.Q.x)} bit)`"

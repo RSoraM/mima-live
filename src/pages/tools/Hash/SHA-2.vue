@@ -39,7 +39,7 @@ watchEffect(catchNotifySync(() => {
   <h1 class="mx-auto text-4xl font-bold md:my-8">
     SHA-2
   </h1>
-  <div class="flex gap-2">
+  <div class="flex flex-col md:flex-row md:gap-2">
     <KitFormSelect
       v-model="variant"
       :options="variant_options"

@@ -185,13 +185,14 @@ watchEffect(catchNotifySync(() => {
   <KitFormSelect
     v-model="alg"
     :options="hash_options"
-    :title="title "
+    :title="title"
+    :="$attrs"
   />
   <KitCollapse v-if="show_config" class="input-bordered my-2 border bg-base-300">
     <template #header>
       Hash Config
     </template>
-    <div class="flex gap-2">
+    <div class="flex flex-col md:flex-row md:gap-2">
       <KitFormNumber
         v-if="show_t"
         v-model="t"
