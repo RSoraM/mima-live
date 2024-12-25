@@ -20,7 +20,7 @@ const init = {
     Operation Mode Config
   </KitDivider>
 
-  <KitFormModeConfig :block-cipher="des" :init="init" />
+  <KitFormMode :block-cipher="des" :init="init" />
 
   <div class="stats stats-vertical my-6 shadow">
     <KitStat title="Specification">

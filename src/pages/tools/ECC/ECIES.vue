@@ -27,11 +27,8 @@ const r = ref({
 });
 
 // CIPHER
-const cipher_iv = ref(new U8());
 const cipher_alg = ref(sm4);
-const cipher_mode = ref(cbc);
-const cipher_padding = ref(PKCS7_PAD);
-const cipher = computed(() => cipher_mode.value(cipher_alg.value, cipher_padding.value));
+const cipher = ref(cbc(sm4));
 
 // MAC
 const mac = ref(hmac(sha256));
@@ -40,20 +37,20 @@ const mac = ref(hmac(sha256));
 const kdf = ref(x963kdf(sha256));
 
 // ECIES
+const iv = ref(new U8());
 const S1 = ref(new U8());
 const S2 = ref(new U8());
 const encrypt = catchNotifySync(() => {
   if (!(cipher.value || mac.value || kdf.value)) {
     return;
   }
-  const iv = cipher_iv.value.length ? cipher_iv.value : undefined;
   const ecies = ec.value.ecies({
     cipher: cipher.value,
     mac: mac.value,
     kdf: kdf.value,
     S1: S1.value,
     S2: S2.value,
-    iv,
+    iv: iv.value.length ? iv.value : undefined,
   });
   const ciphertext = ecies.encrypt(key.value, M.value);
   C.value = U8.from(ciphertext.C);
@@ -71,14 +68,13 @@ const decrypt = catchNotifySync(() => {
   if (!(cipher.value || mac.value || kdf.value)) {
     return;
   }
-  const iv = cipher_iv.value.length ? cipher_iv.value : undefined;
   const ecies = ec.value.ecies({
     cipher: cipher.value,
     mac: mac.value,
     kdf: kdf.value,
     S1: S1.value,
     S2: S2.value,
-    iv,
+    iv: iv.value.length ? iv.value : undefined,
   });
   const ciphertext = {
     C: C.value,
@@ -129,18 +125,10 @@ onMounted(() => nextTick(() => encrypt()));
     <KitDivider>
       Operation Mode Config
     </KitDivider>
-    <div class="flex flex-col md:flex-row md:gap-2">
-      <KitFormSelectMode
-        v-model="cipher_mode"
-        :blocksize="cipher_alg.BLOCK_SIZE"
-        title="Mode"
-      />
-      <KitFormSelectPadding
-        v-model="cipher_padding"
-        :mode="cipher_mode"
-        title="Padding"
-      />
-    </div>
+    <KitFormModeConfig
+      v-model="cipher"
+      :block-cipher="cipher_alg"
+    />
   </KitCollapse>
   <!-- Mac Config -->
   <KitCollapse class="mt-4 bg-base-200">
@@ -172,8 +160,8 @@ onMounted(() => nextTick(() => encrypt()));
       title="S2"
     />
     <KitFormU8
-      v-if="cipher_mode !== ecb"
-      v-model="cipher_iv"
+      v-if="!cipher.ALGORITHM.startsWith('ECB')"
+      v-model="iv"
       :codec="UTF8"
       title="IV"
     />

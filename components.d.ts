@@ -17,6 +17,7 @@ declare module 'vue' {
     KitFormControl: typeof import('./src/components/KitForm/Input/KitFormControl.vue')['default']
     KitFormECKey: typeof import('./src/components/KitForm/KitFormECKey.vue')['default']
     KitFormECPointCompress: typeof import('./src/components/KitForm/KitFormECPointCompress.vue')['default']
+    KitFormMode: typeof import('./src/components/KitForm/KitFormMode.vue')['default']
     KitFormModeConfig: typeof import('./src/components/KitForm/KitFormModeConfig.vue')['default']
     KitFormNumber: typeof import('./src/components/KitForm/Input/KitFormNumber.vue')['default']
     KitFormSelect: typeof import('./src/components/KitForm/Select/KitFormSelect.vue')['default']

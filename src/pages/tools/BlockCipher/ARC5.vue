@@ -39,7 +39,7 @@ const init = {
     Operation Mode Config
   </KitDivider>
 
-  <KitFormModeConfig :block-cipher="alg" :init="init" />
+  <KitFormMode :block-cipher="alg" :init="init" />
 
   <div class="mx-auto my-6 text-xl font-bold">
     Suggestions Spec

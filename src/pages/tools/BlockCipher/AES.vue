@@ -33,7 +33,7 @@ const init = {
     Operation Mode Config
   </KitDivider>
 
-  <KitFormModeConfig :block-cipher="alg" :init="init" />
+  <KitFormMode :block-cipher="alg" :init="init" />
 
   <div class="stats stats-vertical my-6 shadow">
     <KitStat title="Specification">

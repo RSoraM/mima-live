@@ -151,11 +151,7 @@ const verify = catchNotify(() => {
     });
   }
   else {
-    $notify({
-      title: 'Verification',
-      message: 'Verification failed',
-      type: 'error',
-    });
+    throw new Error('Verification failed');
   }
 });
 

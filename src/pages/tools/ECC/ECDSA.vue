@@ -15,13 +15,13 @@ const M = ref(UTF8('mima-kit'));
 const S = ref(0n);
 const R = ref(0n);
 const hash = ref(sha256);
-function sign() {
+const sign = catchNotify(() => {
   const dsa = ec.value.ecdsa(hash.value);
   const sign = dsa.sign(key.value, M.value);
   S.value = sign.s;
   R.value = sign.r;
-}
-function verify() {
+});
+const verify = catchNotify(() => {
   const dsa = ec.value.ecdsa(hash.value);
   const sign = { r: R.value, s: S.value };
   if (dsa.verify(key.value, M.value, sign)) {
@@ -32,13 +32,9 @@ function verify() {
     });
   }
   else {
-    $notify({
-      title: 'Verification',
-      message: 'Verification failed',
-      type: 'error',
-    });
+    throw new Error('Verification failed');
   }
-}
+});
 
 watch(
   curve,
