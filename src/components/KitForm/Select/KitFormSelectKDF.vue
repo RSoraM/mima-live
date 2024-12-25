@@ -45,44 +45,30 @@ watchEffect(catchNotifySync(() => {
     v-model="kdf_alg"
     :options="kdf_options"
     :title="title"
+    :="$attrs"
   />
-  <KitCollapse class="input-bordered my-2 border bg-base-300">
-    <template #header>
-      <span class="text-sm font-bold">KDF Config</span>
-    </template>
-    <template v-if="show_hash">
-      <KitDivider class="divider-start">
-        # 1: Hash
-      </KitDivider>
-      <KitFormSelectHash v-model="kdf_hash" class="w-full" />
-    </template>
-    <template v-if="show_mac">
-      <KitDivider class="divider-start">
-        # 1: Mac
-      </KitDivider>
-      <KitFormSelectMAC
-        v-model="kdf_mac"
-        title="MAC"
-      />
-    </template>
-    <template v-if="show_salt">
-      <KitDivider class="divider-start">
-        # 2: Salt
-      </KitDivider>
-      <KitFormU8
-        v-model="kdf_salt"
-        title="Salt"
-        :codec="UTF8"
-      />
-    </template>
-    <template v-if="show_iterations">
-      <KitDivider class="divider-start">
-        # 3: Iterations
-      </KitDivider>
-      <KitFormNumber
-        v-model="kdf_iterations"
-        title="Iterations"
-      />
-    </template>
-  </KitCollapse>
+  <template v-if="show_hash">
+    <KitDivider class="divider-start">
+      # 1: Hash
+    </KitDivider>
+    <KitFormSelectHash v-model="kdf_hash" class="w-full" />
+  </template>
+  <template v-if="show_mac">
+    <KitDivider class="divider-start">
+      # 1: Mac
+    </KitDivider>
+    <KitFormSelectMAC v-model="kdf_mac" class="w-full" />
+  </template>
+  <template v-if="show_salt">
+    <KitDivider class="divider-start">
+      # 2: Salt
+    </KitDivider>
+    <KitFormU8 v-model="kdf_salt" :codec="UTF8" class="w-full" />
+  </template>
+  <template v-if="show_iterations">
+    <KitDivider class="divider-start">
+      # 3: Iterations
+    </KitDivider>
+    <KitFormNumber v-model="kdf_iterations" class="w-full" />
+  </template>
 </template>

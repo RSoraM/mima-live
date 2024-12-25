@@ -98,6 +98,7 @@ watchEffect(catchNotifySync(() => {
       v-model="alg"
       :options="cipher_option"
       :title="title"
+      :="$attrs"
     />
     <KitFormSelect
       v-if="show_key_size_option"

@@ -16,6 +16,7 @@ const model = defineModel<string | number>();
       v-model="model" :type="type" :step="step"
       class="input input-bordered text-xs"
       name="number"
+      :="$attrs"
     >
   </KitFormControl>
 </template>

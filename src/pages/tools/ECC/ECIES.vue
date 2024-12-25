@@ -123,7 +123,7 @@ onMounted(() => nextTick(() => encrypt()));
     </template>
     <KitFormSelectBlockCipher
       v-model="cipher_alg"
-      title="Cipher"
+      class="w-full"
     />
     <!-- Mode Config -->
     <KitDivider>
@@ -147,14 +147,14 @@ onMounted(() => nextTick(() => encrypt()));
     <template #header>
       Mac
     </template>
-    <KitFormSelectMAC v-model="mac" title="Mac" />
+    <KitFormSelectMAC v-model="mac" class="w-full" />
   </KitCollapse>
   <!-- KDF -->
   <KitCollapse class="mt-4 bg-base-200">
     <template #header>
       KDF
     </template>
-    <KitFormSelectKDF v-model="kdf" title="KDF" />
+    <KitFormSelectKDF v-model="kdf" class="w-full" />
   </KitCollapse>
   <!-- Additional Data -->
   <KitCollapse class="mt-4 bg-base-200">

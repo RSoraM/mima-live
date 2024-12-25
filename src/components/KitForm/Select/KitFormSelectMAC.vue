@@ -74,6 +74,7 @@ watchEffect(catchNotifySync(() => {
       v-model="mac_alg"
       :options="mac_options"
       :title="title"
+      :="$attrs"
     />
     <template v-if="mac_alg === 'HMAC'">
       <KitFormSelectHash v-model="mac_hash" title="Hash" />

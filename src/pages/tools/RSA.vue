@@ -244,20 +244,16 @@ onMounted(async () => nextTick(() => {
     <template #header>
       Encryption Scheme
     </template>
-    <KitFormControl title="Encryption Scheme">
-      <KitFormSelect v-model="es" :options="es_options" />
-    </KitFormControl>
+    <KitFormSelect v-model="es" :options="es_options" class="w-full" />
     <div v-if="es === 'RSAES-OAEP'">
       <KitDivider class="divider-start">
         # 1: Hash
       </KitDivider>
-      <KitFormSelectHash v-model="oaep_hash" title="Hash" />
+      <KitFormSelectHash v-model="oaep_hash" class="w-full" />
       <KitDivider class="divider-start">
         # 2: Mask Generation Function
       </KitDivider>
-      <KitFormControl title="MGF">
-        <KitFormSelect v-model="oaep_mgf" :options="mgf_options" />
-      </KitFormControl>
+      <KitFormSelect v-model="oaep_mgf" :options="mgf_options" class="w-full" />
       <KitFormSelectHash v-model="oaep_mgf_hash" title="MGF Hash" />
       <KitDivider class="divider-start">
         # 3: Label
@@ -265,7 +261,7 @@ onMounted(async () => nextTick(() => {
       <KitFormU8
         v-model="oaep_label"
         :codec="UTF8"
-        title="Label"
+        class="w-full"
       />
     </div>
   </KitCollapse>
@@ -275,25 +271,21 @@ onMounted(async () => nextTick(() => {
     <template #header>
       Signature Scheme
     </template>
-    <KitFormControl title="Signature Scheme">
-      <KitFormSelect v-model="ssa" :options="ssa_options" />
-    </KitFormControl>
+    <KitFormSelect v-model="ssa" :options="ssa_options" class="w-full" />
     <div v-if="ssa === 'RSASSA-PSS'">
       <KitDivider class="divider-start">
         # 1: Hash Algorithm
       </KitDivider>
-      <KitFormSelectHash v-model="pss_hash" title="Hash" />
+      <KitFormSelectHash v-model="pss_hash" class="w-full" />
       <KitDivider class="divider-start">
         # 2: Mask Generation Function
       </KitDivider>
-      <KitFormControl title="MGF">
-        <KitFormSelect v-model="pss_mgf" :options="mgf_options" />
-      </KitFormControl>
+      <KitFormSelect v-model="pss_mgf" :options="mgf_options" class="w-full" />
       <KitFormSelectHash v-model="pss_mgf_hash" title="MGF Hash" />
       <KitDivider class="divider-start">
         # 3: Salt Length
       </KitDivider>
-      <KitFormNumber v-model="pss_salt_length" title="Salt Length" />
+      <KitFormNumber v-model="pss_salt_length" class="w-full" />
     </div>
     <div v-if="ssa === 'RSASSA-PKCS1-v1_5'">
       <KitDivider class="divider-start">
