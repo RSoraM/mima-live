@@ -12,7 +12,7 @@ const init = {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
+  <h1 class="mx-auto mb-4 text-4xl font-bold md:my-8 md:mb-0">
     SM4
   </h1>
 

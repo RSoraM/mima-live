@@ -63,7 +63,7 @@ const cipher = catchNotify(() => {
     title="Input"
     textarea
   />
-  <KitDivider>
+  <KitDivider class="mt-6">
     <KitButton @click="swap">
       Swap
     </KitButton>/

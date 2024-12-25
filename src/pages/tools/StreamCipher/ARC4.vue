@@ -27,7 +27,7 @@ const decrypt = catchNotify(() => {
     :codec="HEX"
     title="Key"
   />
-  <KitDivider>
+  <KitDivider class="mt-6">
     <KitButton @click="encrypt">
       Encrypt
     </KitButton>/
