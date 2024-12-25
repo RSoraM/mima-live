@@ -30,8 +30,8 @@ watchEffect(() => {
       v-if="mode === gcm"
       v-model="t_size"
       :max="16"
-      class="col-span-2"
-      title="Tag Size (max: 16 bytes)"
+      class="md:col-span-2"
+      title="GCM Tag Size (max: 16 bytes)"
     />
   </div>
 </template>
