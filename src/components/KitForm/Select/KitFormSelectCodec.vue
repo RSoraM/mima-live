@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineOptions({ name: 'KitFormCodecSelect' });
+defineOptions({ name: 'KitFormSelectCodec' });
 
 const {
   options: codec_options = [

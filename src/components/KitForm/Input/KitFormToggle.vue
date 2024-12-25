@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormToggle' });
+
 defineProps<{ title?: string }>();
 const model = defineModel<boolean>();
 </script>

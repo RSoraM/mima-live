@@ -60,7 +60,7 @@ onMounted(() => nextTick(() => genKey()));
 
 <template>
   <template v-if="!point_only">
-    <KitDivider :class="name ? 'divider-start' : ''">
+    <KitDivider :class="{ 'divider-start': name }">
       {{ name ? `# Key ${name}:` : '' }}
       <KitButton @click="clearKey">
         Clear
@@ -82,15 +82,14 @@ onMounted(() => nextTick(() => genKey()));
     v-model="key.Q.y"
     :title="`Public Key Q${name}.y (${getBIBits(key.Q.y)} bit)`"
   />
-  <KitCollapse v-if="fold" class="my-2 bg-base-300">
+  <KitCollapse
+    v-if="fold"
+    class="my-2 bg-base-300"
+  >
     <template #header>
       Point Compression
     </template>
-    <KitFormECPointCompress
-      v-model="key"
-      :curve="curve"
-      :title="name"
-    />
+    <KitFormECPointCompress v-model="key" :curve="curve" :title="name" />
   </KitCollapse>
   <KitFormECPointCompress
     v-else

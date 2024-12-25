@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitRefLink' });
+
 defineProps<{
   texts?: string[];
   icon?: string;

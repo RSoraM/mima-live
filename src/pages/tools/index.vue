@@ -1,4 +1,6 @@
 <script setup lang="ts">
+defineOptions({ name: 'Tools' });
+
 const theKitMenu = ref<HTMLDialogElement>();
 onBeforeRouteUpdate(() => theKitMenu.value?.close());
 </script>
@@ -11,7 +13,7 @@ onBeforeRouteUpdate(() => theKitMenu.value?.close());
     </div>
     <div class="flex h-dvh w-full flex-col overflow-y-scroll">
       <!-- Open the modal using ID.showModal() method -->
-      <button class="btn btn-primary btn-lg m-8 mb-4 md:hidden" onclick="theKitMenu.showModal()">
+      <button class="btn btn-primary btn-lg m-8 md:hidden" onclick="theKitMenu.showModal()">
         Menu
       </button>
       <dialog id="theKitMenu" ref="theKitMenu" class="modal">

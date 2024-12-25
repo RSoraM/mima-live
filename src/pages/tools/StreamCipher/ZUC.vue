@@ -35,7 +35,7 @@ const cipher = catchNotify(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto text-4xl font-bold md:my-8">
+  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
     ZUC
   </h1>
   <div class="flex flex-col md:flex-row md:gap-2">

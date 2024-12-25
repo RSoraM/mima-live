@@ -6,7 +6,6 @@ const { title, type = 'number' } = defineProps<{
   type?: string;
 }>();
 const step = title?.endsWith('(bit)') ? 8 : 1;
-
 const model = defineModel<string | number>();
 </script>
 

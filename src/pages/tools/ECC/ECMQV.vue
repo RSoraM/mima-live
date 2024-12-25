@@ -94,7 +94,7 @@ onMounted(() => nextTick(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto text-4xl font-bold md:my-8">
+  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
     ECMQV
   </h1>
   <KitFormSelectCurve v-model="curve" />

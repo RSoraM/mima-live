@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormBigint' });
-const { title } = defineProps<{ title?: string }>();
 
+const { title } = defineProps<{ title?: string }>();
 const bi = defineModel<bigint>({ required: true });
 const u8 = ref(new U8());
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormControl' });
+
 const { type = 'text' } = defineProps<{
   title?: string;
   type?: 'text' | 'toggle';

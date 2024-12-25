@@ -15,7 +15,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+  <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2">
     <KitFormSelectMode
       v-model="mode"
       :blocksize="block_cipher.BLOCK_SIZE"

@@ -12,7 +12,7 @@ const key = ref({
 </script>
 
 <template>
-  <h1 class="mx-auto text-4xl font-bold md:my-8">
+  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
     Key Generation
   </h1>
   <KitFormSelectCurve v-model="curve" />

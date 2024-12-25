@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineOptions({ name: 'KitFormModeConfig' });
+defineOptions({ name: 'KitFormMode' });
 
 const { blockCipher: block_cipher, init } = defineProps<{
   blockCipher: typeof sm4;
@@ -63,10 +63,9 @@ const verify = catchNotify(() => {
 <template>
   <KitFormModeConfig v-model="mode_cipher" :block-cipher="block_cipher" />
   <KitFormU8 v-model="K" :codec="HEX" title="Key" />
-  <KitFormU8
-    v-if="!mode_cipher.ALGORITHM.startsWith('ECB')" v-model="IV" :codec="HEX"
-    title="IV"
-  />
+  <template v-if="!mode_cipher.ALGORITHM.startsWith('ECB')">
+    <KitFormU8 v-model="IV" :codec="HEX" title="IV" />
+  </template>
 
   <KitDivider>
     <KitButton @click="encrypt">
@@ -76,29 +75,19 @@ const verify = catchNotify(() => {
       Decrypt
     </KitButton>
   </KitDivider>
-  <KitFormU8
-    v-model="P" :codec="HEX" title="Plain text"
-    textarea
-  />
-  <KitFormU8
-    v-model="C" :codec="HEX" title="Cipher text"
-    textarea
-  />
+  <KitFormU8 v-model="P" :codec="HEX" title="Plain text" textarea />
+  <KitFormU8 v-model="C" :codec="HEX" title="Cipher text" textarea />
 
-  <KitDivider v-if="mode_cipher.ALGORITHM.startsWith('GCM')">
-    <KitButton @click="sign">
-      Sign
-    </KitButton>/
-    <KitButton @click="verify">
-      Verify
-    </KitButton>
-  </KitDivider>
-  <KitFormU8
-    v-if="mode_cipher.ALGORITHM.startsWith('GCM')" v-model="A" :codec="HEX"
-    title="Additional Data"
-  />
-  <KitFormU8
-    v-if="mode_cipher.ALGORITHM.startsWith('GCM')" v-model="T" :codec="HEX"
-    title="Auth Tag"
-  />
+  <template v-if="mode_cipher.ALGORITHM.startsWith('GCM')">
+    <KitDivider>
+      <KitButton @click="sign">
+        Sign
+      </KitButton>/
+      <KitButton @click="verify">
+        Verify
+      </KitButton>
+    </KitDivider>
+    <KitFormU8 v-model="A" :codec="HEX" title="Additional Data" />
+    <KitFormU8 v-model="T" :codec="HEX" title="Auth Tag" />
+  </template>
 </template>

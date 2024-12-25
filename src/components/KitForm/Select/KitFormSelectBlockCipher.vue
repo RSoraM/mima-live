@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineOptions({ name: 'KitFormSelectKDF' });
+defineOptions({ name: 'KitFormSelectBlockCipher' });
 
 const {
   options: cipher_option = [

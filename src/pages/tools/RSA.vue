@@ -168,19 +168,9 @@ onMounted(async () => nextTick(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto text-4xl font-bold md:my-8">
+  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
     RSA
   </h1>
-
-  <div role="alert" class="alert alert-warning mb-4">
-    <span class="icon-[carbon--warning-alt-filled] size-6" />
-    <span class="text-sm">
-      The speed of Key Generation depends on the local machine.
-      Please enter a reasonable <b>Key Size</b> to prevent the browser from crashing.
-      Generate <b>4096 bit</b> RSA key pair on 2.3 GHz Quad-Core Intel Core i5, 8GB RAM.
-      Cost about <b>1.7-6s</b>
-    </span>
-  </div>
 
   <!-- Key Generation -->
   <KitCollapse class="bg-base-200" open>
@@ -326,6 +316,16 @@ onMounted(async () => nextTick(() => {
     title="Signature"
     textarea
   />
+
+  <div role="alert" class="alert alert-warning mt-4">
+    <span class="icon-[carbon--warning-alt-filled] size-6" />
+    <span class="text-sm">
+      The speed of Key Generation depends on the local machine.
+      Please enter a reasonable <b>Key Size</b> to prevent the browser from crashing.
+      Generate <b>4096 bit</b> RSA key pair on 2.3 GHz Quad-Core Intel Core i5, 8GB RAM.
+      Cost about <b>1.7-6s</b>
+    </span>
+  </div>
 
   <div class="stats stats-vertical my-6 shadow">
     <KitStat title="Specification">

@@ -43,7 +43,10 @@ onMounted(() => nextTick(() => convert()));
 </script>
 
 <template>
-  <KitFormToggle v-model="key.Q.isInfinity" :title="`Public Key Q${title}.isInfinity`" />
+  <KitFormToggle
+    v-model="key.Q.isInfinity"
+    :title="`Public Key Q${title}.isInfinity`"
+  />
   <!-- Compression -->
   <KitDivider>
     <KitButton @click="recover()">

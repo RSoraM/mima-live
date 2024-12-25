@@ -1,4 +1,6 @@
 <script setup lang="ts">
+defineOptions({ name: 'Home' });
+
 const currentTheme = useLocalStorage('theme', 'dark');
 </script>
 
