@@ -8,11 +8,15 @@ interface MenuLink {
   name: string;
   path: string;
 }
+const SM2: MenuLink[] = [];
 const ECC: MenuLink[] = [];
 const Hash: MenuLink[] = [];
 const BlockCipher: MenuLink[] = [];
 const StreamCipher: MenuLink[] = [];
 router.getRoutes().forEach((route) => {
+  if (route.path.startsWith('/tools/SM2')) {
+    SM2.push({ name: route.name?.toString() || route.path.split('/').pop() || '', path: route.path });
+  }
   if (route.path.startsWith('/tools/ECC')) {
     ECC.push({ name: route.name?.toString() || route.path.split('/').pop() || '', path: route.path });
   }
@@ -27,6 +31,7 @@ router.getRoutes().forEach((route) => {
   }
 });
 
+const isSM2GroupOpen = computed(() => route.path.startsWith('/tools/SM2'));
 const isECCGroupOpen = computed(() => route.path.startsWith('/tools/ECC'));
 const isHashGroupOpen = computed(() => route.path.startsWith('/tools/Hash'));
 const isBlockCipherGroupOpen = computed(() => route.path.startsWith('/tools/BlockCipher'));
@@ -116,6 +121,26 @@ const currentTheme = useLocalStorage('theme', 'dark');
         </RouterLink>
       </KitMenuItem>
     </KitMenuGroup>
+    <!-- SM2 -->
+    <KitMenuGroup title="SM2" :is-open="isSM2GroupOpen">
+      <KitMenuItem v-for="h in SM2" :key="h.name">
+        <RouterLink
+          :to="h.path"
+          :class="routeName === h.name ? 'active' : ''"
+        >
+          {{ h.name }}
+        </RouterLink>
+      </KitMenuItem>
+    </KitMenuGroup>
+    <!-- X25519 -->
+    <KitMenuItem>
+      <RouterLink
+        to="/tools/X25519"
+        :class="routeName === 'X25519' ? 'active' : ''"
+      >
+        X25519
+      </RouterLink>
+    </KitMenuItem>
     <!-- Text Codec -->
     <KitMenuItem>
       <RouterLink

@@ -24,7 +24,20 @@ export default defineConfig({
         /\.vue\?vue/, // .vue
         /\.md$/, // .md
       ],
-      imports: ['vue', '@vueuse/core', 'vue-router'],
+      imports: [
+        'vue',
+        '@vueuse/core',
+        'vue-router',
+        'pinia',
+        {
+          from: 'mima-kit',
+          imports: [
+            'FpECPoint',
+            'ECKeyPair',
+          ],
+          type: true,
+        },
+      ],
       dirs: [
         './src/composables/**',
       ],

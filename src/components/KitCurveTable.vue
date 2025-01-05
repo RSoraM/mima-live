@@ -2,7 +2,7 @@
 defineOptions({ name: 'KitFormCurveTable' });
 
 defineProps<{
-  curve: typeof secp256k1;
+  curve: typeof secp256k1 | typeof curve25519;
   codec: typeof HEX;
 }>();
 </script>
@@ -18,6 +18,10 @@ defineProps<{
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td>type</td>
+          <td>{{ curve.type }}</td>
+        </tr>
         <tr>
           <td>p</td>
           <td>{{ codec(U8.fromBI(curve.p)) }}</td>

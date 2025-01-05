@@ -34,6 +34,18 @@ const routes = [
         ],
       },
       {
+        path: 'SM2',
+        children: [
+          { name: 'SM2DH', path: 'ECDH', component: () => import('./pages/tools/SM2/ECDH.vue') },
+          { name: 'SM2DSA', path: 'ECDSA', component: () => import('./pages/tools/SM2/ECDSA.vue') },
+          { name: 'SM2ES', path: 'ECIES', component: () => import('./pages/tools/SM2/ECES.vue') },
+        ],
+      },
+      {
+        path: 'X25519',
+        component: () => import('./pages/tools/X25519.vue'),
+      },
+      {
         path: 'Hash',
         children: [
           { name: 'SM3', path: 'SM3', component: () => import('./pages/tools/Hash/SM3.vue') },
@@ -84,6 +96,8 @@ const router = createRouter({
   routes,
 });
 
+const pinia = createPinia();
 createApp(App)
+  .use(pinia)
   .use(router)
   .mount('#app');

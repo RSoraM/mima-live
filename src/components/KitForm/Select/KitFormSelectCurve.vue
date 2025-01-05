@@ -21,12 +21,14 @@ const {
     { label: 'RFC 5639 Brainpool 320r1', value: bp320r1 },
     { label: 'RFC 5639 Brainpool 384r1', value: bp384r1 },
     { label: 'RFC 5639 Brainpool 512r1', value: bp512r1 },
+    { label: 'Curve 25519', value: curve25519 },
+    { label: 'Curve 448', value: curve448 },
   ],
 } = defineProps<{
   title?: string;
   options?: SelectOption[];
 }>();
-const curve = defineModel<typeof secp256r1>();
+const curve = defineModel<typeof secp256r1 | typeof curve25519>();
 </script>
 
 <template>

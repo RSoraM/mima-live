@@ -1,35 +1,26 @@
 <script setup lang="ts">
-defineOptions({ name: 'ECDH' });
+defineOptions({ name: 'X25519DH' });
 
 // Curve
-const curve = ref(secp256r1);
-const ec = computed(() => FpECC(curve.value));
+const curve = ref(curve25519);
+const options: SelectOption[] = [
+  { label: 'Curve 25519', value: curve25519 },
+  { label: 'Curve 448', value: curve448 },
+];
+const ec = computed(() => curve.value === curve25519 ? x25519 : x448);
 // defineEntity
 function defineEntity(name: string) {
-  return defineStore(`ecdh-${name}`, {
+  return defineStore(`x25519-key-${name}`, {
     state: () => ({
       key: {
         d: new U8(),
-        Q: U8Point(),
+        Q: new U8(),
       },
-      secret_dh: new U8(),
-      secret_cdh: new U8(),
+      secret: new U8(),
     }),
     getters: {
-      d_bit(state) {
-        return getBIBits(state.key.d.toBI());
-      },
-      x_bit(state) {
-        return getBIBits(state.key.Q.x.toBI());
-      },
-      y_bit(state) {
-        return getBIBits(state.key.Q.y.toBI());
-      },
-      dh_bit(state) {
-        return getBIBits(state.secret_dh.toBI());
-      },
-      cdh_bit(state) {
-        return getBIBits(state.secret_cdh.toBI());
+      secretBit(state) {
+        return getBIBits(state.secret.toBI());
       },
     },
     actions: {
@@ -38,11 +29,8 @@ function defineEntity(name: string) {
         this.key = ec.value.gen();
       },
       dh(pk: typeof this.key) {
-        this.secret_dh = catchNotifySync(
-          () => ec.value.dh(this.key, pk).x,
-        )();
-        this.secret_cdh = catchNotifySync(
-          () => ec.value.cdh(this.key, pk).x,
+        this.secret = catchNotifySync(
+          () => ec.value.dh(this.key, pk),
         )();
       },
     },
@@ -71,12 +59,12 @@ onMounted(async () => {
 
 <template>
   <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    ECDH / ECCDH
+    {{ curve === curve25519 ? 'X25519' : 'X448' }}
   </h1>
   <KitDivider class="divider-start">
     # Step 0: Choose Curve
   </KitDivider>
-  <KitFormSelectCurve v-model="curve" title="" />
+  <KitFormSelectCurve v-model="curve" :options="options" title="" />
   <KitDivider class="divider-start">
     # Step 1: Alice
   </KitDivider>
@@ -96,14 +84,12 @@ onMounted(async () => {
     <KitFormU8
       v-model="alice.key.d"
       :codec="HEX"
-      :title="`dA (${alice.d_bit} bit)`"
+      title="dA"
     />
-    <KitFormECCPoint
+    <KitFormU8
       v-model="alice.key.Q"
-      :curve="curve"
-      name="QA"
-      :x-bit="alice.x_bit"
-      :y-bit="alice.y_bit"
+      :codec="HEX"
+      title="QA"
     />
   </div>
   <KitDivider class="divider-start">
@@ -127,12 +113,10 @@ onMounted(async () => {
       :codec="HEX"
       title="dB"
     />
-    <KitFormECCPoint
+    <KitFormU8
       v-model="bob.key.Q"
-      :curve="curve"
-      name="QB"
-      :x-bit="bob.x_bit"
-      :y-bit="bob.y_bit"
+      :codec="HEX"
+      title="QB"
     />
   </div>
   <KitDivider class="divider-start">
@@ -145,29 +129,14 @@ onMounted(async () => {
       </KitButton>
     </div>
     <KitFormU8
-      v-model="alice.secret_dh"
+      v-model="alice.secret"
       :codec="HEX"
-      :title="`Alice's Secret = dA * QB (${alice.dh_bit} bit)`"
+      :title="`Alice's Secret = dA * QB (${alice.secretBit} bit)`"
     />
     <KitFormU8
-      v-model="bob.secret_dh"
+      v-model="bob.secret"
       :codec="HEX"
-      :title="`Bob's Secret = dB * QA (${bob.dh_bit} bit)`"
-    />
-  </div>
-  <KitDivider class="divider-start">
-    # Appendix: ECCDH Result
-  </KitDivider>
-  <div class="border-l px-4">
-    <KitFormU8
-      v-model="alice.secret_cdh"
-      :codec="HEX"
-      :title="`Alice's Secret = dA * QB * h (${alice.cdh_bit} bit)`"
-    />
-    <KitFormU8
-      v-model="bob.secret_cdh"
-      :codec="HEX"
-      :title="`Bob's Secret = dB * QA * h (${bob.cdh_bit} bit)`"
+      :title="`Bob's Secret = dB * QA (${bob.secretBit} bit)`"
     />
   </div>
 

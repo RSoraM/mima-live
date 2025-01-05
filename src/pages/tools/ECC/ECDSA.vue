@@ -1,30 +1,23 @@
 <script setup lang="ts">
 defineOptions({ name: 'ECMQV' });
 
-const curve = ref(secp256r1);
+const key = useECCKey();
+const { curve } = storeToRefs(key);
 const ec = computed(() => FpECC(curve.value));
-const key = ref({
-  d: 0n,
-  Q: {
-    isInfinity: true,
-    x: 0n,
-    y: 0n,
-  },
-});
 const M = ref(UTF8('mima-kit'));
-const S = ref(0n);
-const R = ref(0n);
+const S = ref(new U8());
+const R = ref(new U8());
 const hash = ref(sha256);
 const sign = catchNotify(() => {
-  const dsa = ec.value.ecdsa(hash.value);
-  const sign = dsa.sign(key.value, M.value);
+  const signer = ec.value.dsa(hash.value);
+  const sign = signer.sign(key, M.value);
   S.value = sign.s;
   R.value = sign.r;
 });
 const verify = catchNotify(() => {
-  const dsa = ec.value.ecdsa(hash.value);
+  const signer = ec.value.dsa(hash.value);
   const sign = { r: R.value, s: S.value };
-  if (dsa.verify(key.value, M.value, sign)) {
+  if (signer.verify(key, M.value, sign)) {
     $notify({
       title: 'Verification',
       message: 'Verification success',
@@ -39,11 +32,14 @@ const verify = catchNotify(() => {
 watch(
   curve,
   catchNotifySync(() => {
-    R.value = 0n;
-    S.value = 0n;
+    R.value = new U8();
+    S.value = new U8();
   }),
 );
-onMounted(() => nextTick(() => sign()));
+onMounted(() => nextTick(() => {
+  key.gen();
+  sign();
+}));
 </script>
 
 <template>
@@ -53,16 +49,31 @@ onMounted(() => nextTick(() => sign()));
   <KitFormSelectCurve v-model="curve" />
   <KitFormSelectHash v-model="hash" title="Hash" />
   <!-- Key Generation -->
-  <KitFormECKey
-    v-model="key"
+  <KitDivider>
+    <KitButton @click="key.$reset()">
+      Clear
+    </KitButton>
+    <KitButton @click="key.gen()">
+      Generate
+    </KitButton>
+  </KitDivider>
+  <KitFormU8
+    v-model="key.d"
+    :codec="HEX"
+    :title="`Private Key dA (${key.d_bit} bit)`"
+  />
+  <KitFormECCPoint
+    v-model="key.Q"
     :curve="curve"
-    :fold="true"
+    name="Public Key QA"
+    :x-bit="key.x_bit"
+    :y-bit="key.y_bit"
   />
   <!-- Signature -->
   <KitDivider>
     <KitButton @click="sign()">
       sign
-    </KitButton>/
+    </KitButton>
     <KitButton @click="verify()">
       verify
     </KitButton>
@@ -73,13 +84,15 @@ onMounted(() => nextTick(() => sign()));
     title="Input"
     textarea
   />
-  <KitFormBigint
+  <KitFormU8
     v-model="R"
-    :title="`Signature r (${getBIBits(R)} bit)`"
+    :codec="HEX"
+    :title="`Signature r (${getBIBits(R.toBI())} bit)`"
   />
-  <KitFormBigint
+  <KitFormU8
     v-model="S"
-    :title="`Signature s (${getBIBits(S)} bit)`"
+    :codec="HEX"
+    :title="`Signature s (${getBIBits(S.toBI())} bit)`"
   />
 
   <!-- Curve Parameters -->

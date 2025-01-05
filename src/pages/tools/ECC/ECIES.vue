@@ -1,29 +1,17 @@
 <script setup lang="ts">
 defineOptions({ name: 'ECIES' });
 
-const curve = ref(secp256r1);
+const key = useECCKey();
+const { curve } = storeToRefs(key);
 const ec = computed(() => FpECC(curve.value));
 
-// KEY
-const key = ref({
-  d: 0n,
-  Q: {
-    isInfinity: true,
-    x: 0n,
-    y: 0n,
-  },
-});
 // ENCRYPTION
 const M = ref(UTF8('mima-kit'));
 const C = ref(new U8());
 const D = ref(new U8());
 const r = ref({
-  d: 0n,
-  Q: {
-    isInfinity: true,
-    x: 0n,
-    y: 0n,
-  },
+  d: new U8(),
+  Q: U8Point(),
 });
 
 // CIPHER
@@ -44,7 +32,7 @@ const encrypt = catchNotifySync(() => {
   if (!(cipher.value || mac.value || kdf.value)) {
     return;
   }
-  const ecies = ec.value.ecies({
+  const ecies = ec.value.ies({
     cipher: cipher.value,
     mac: mac.value,
     kdf: kdf.value,
@@ -52,23 +40,19 @@ const encrypt = catchNotifySync(() => {
     S2: S2.value,
     iv: iv.value.length ? iv.value : undefined,
   });
-  const ciphertext = ecies.encrypt(key.value, M.value);
+  const ciphertext = ecies.encrypt(key, M.value);
   C.value = U8.from(ciphertext.C);
   D.value = U8.from(ciphertext.D);
   r.value = {
-    d: 0n,
-    Q: {
-      isInfinity: ciphertext.R.Q.isInfinity || false,
-      x: ciphertext.R.Q.x,
-      y: ciphertext.R.Q.y,
-    },
+    d: new U8(),
+    Q: U8Point(ciphertext.R.Q),
   };
 });
 const decrypt = catchNotifySync(() => {
   if (!(cipher.value || mac.value || kdf.value)) {
     return;
   }
-  const ecies = ec.value.ecies({
+  const ecies = ec.value.ies({
     cipher: cipher.value,
     mac: mac.value,
     kdf: kdf.value,
@@ -79,18 +63,15 @@ const decrypt = catchNotifySync(() => {
   const ciphertext = {
     C: C.value,
     D: D.value,
-    R: {
-      Q: {
-        isInfinity: r.value.Q.isInfinity,
-        x: r.value.Q.x,
-        y: r.value.Q.y,
-      },
-    },
+    R: { Q: U8Point(r.value.Q) },
   };
-  M.value = ecies.decrypt(key.value, ciphertext);
+  M.value = ecies.decrypt(key, ciphertext);
 });
 
-onMounted(() => nextTick(() => encrypt()));
+onMounted(() => nextTick(() => {
+  key.gen();
+  encrypt();
+}));
 </script>
 
 <template>
@@ -106,10 +87,25 @@ onMounted(() => nextTick(() => encrypt()));
     <template #header>
       Key
     </template>
-    <KitFormECKey
-      v-model="key"
-      :curve="curve"
-      :fold="true"
+    <KitDivider class="mt-0">
+      <KitButton @click="key.$reset()">
+        Clear
+      </KitButton>
+      <KitButton @click="key.gen()">
+        Generate
+      </KitButton>
+    </KitDivider>
+    <KitFormU8
+      v-model="key.d"
+      :codec="HEX"
+      :title="`Private Key dA (${key.d_bit} bit)`"
+    />
+    <KitFormECCPoint
+      v-model="key.Q"
+      :curve="key.curve"
+      name="Public Key QA"
+      :x-bit="key.x_bit"
+      :y-bit="key.y_bit"
     />
   </KitCollapse>
   <!-- Cipher Config -->
@@ -195,11 +191,9 @@ onMounted(() => nextTick(() => encrypt()));
   <KitDivider class="divider-start">
     One-Time Public Key R
   </KitDivider>
-  <KitFormECKey
-    v-model="r"
+  <KitFormECCPoint
+    v-model="r.Q"
     :curve="curve"
-    :fold="true"
-    :point-only="true"
     name="R"
   />
 
