@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ECPublicKey } from 'mima-kit';
+
 defineOptions({ name: 'ECDH' });
 
 // Curve
@@ -6,52 +8,71 @@ const curve = ref(secp256r1);
 const ec = computed(() => FpECC(curve.value));
 // defineEntity
 function defineEntity(name: string) {
-  return defineStore(`ecdh-${name}`, {
-    state: () => ({
-      key: {
-        d: new U8(),
-        Q: U8Point(),
+  return defineStore(`ecdh-${name}`, () => {
+    const key = ref({
+      d: new U8(),
+      Q: U8Point(),
+    });
+    const secret_dh = ref(new U8());
+    const secret_cdh = ref(new U8());
+
+    const d_bi = computed(() => key.value.d.toBI());
+    const d_bit = computed(() => getBIBits(d_bi.value));
+    const x_bi = computed(() => key.value.Q.x.toBI());
+    const x_bit = computed(() => getBIBits(x_bi.value));
+    const y_bi = computed(() => key.value.Q.y.toBI());
+    const y_bit = computed(() => getBIBits(y_bi.value));
+    const dh_bit = computed(() => getBIBits(secret_dh.value.toBI()));
+    const cdh_bit = computed(() => getBIBits(secret_cdh.value.toBI()));
+    const key_bi = computed(() => ({
+      d: d_bi.value,
+      Q: {
+        isInfinity: key.value.Q.isInfinity,
+        x: x_bi.value,
+        y: y_bi.value,
       },
-      secret_dh: new U8(),
-      secret_cdh: new U8(),
-    }),
-    getters: {
-      d_bit(state) {
-        return getBIBits(state.key.d.toBI());
-      },
-      x_bit(state) {
-        return getBIBits(state.key.Q.x.toBI());
-      },
-      y_bit(state) {
-        return getBIBits(state.key.Q.y.toBI());
-      },
-      dh_bit(state) {
-        return getBIBits(state.secret_dh.toBI());
-      },
-      cdh_bit(state) {
-        return getBIBits(state.secret_cdh.toBI());
-      },
-    },
-    actions: {
-      gen() {
-        this.$reset();
-        this.key = ec.value.gen();
-      },
-      dh(pk: typeof this.key) {
-        this.secret_dh = catchNotifySync(
-          () => ec.value.dh(this.key, pk).x,
-        )();
-        this.secret_cdh = catchNotifySync(
-          () => ec.value.cdh(this.key, pk).x,
-        )();
-      },
-    },
+    }));
+
+    const gen = () => {
+      const k = ec.value.gen();
+      key.value.d = k.d;
+      key.value.Q = k.Q;
+    };
+    const dh = (pk: ECPublicKey) => {
+      secret_dh.value = ec.value.dh(key_bi.value, pk).x;
+    };
+    const cdh = (pk: ECPublicKey) => {
+      secret_cdh.value = ec.value.cdh(key_bi.value, pk).x;
+    };
+    return {
+      key,
+      key_bi,
+      secret_dh,
+      secret_cdh,
+      d_bit,
+      x_bit,
+      y_bit,
+      dh_bit,
+      cdh_bit,
+      gen,
+      dh,
+      cdh,
+    };
   });
 }
 // Alice
 const alice = defineEntity('alice')();
 // Bob
 const bob = defineEntity('bob')();
+
+async function dh() {
+  alice.dh(bob.key_bi);
+  bob.dh(alice.key_bi);
+}
+async function cdh() {
+  alice.cdh(bob.key_bi);
+  bob.cdh(alice.key_bi);
+}
 
 watch(
   curve,
@@ -64,8 +85,8 @@ watch(
 onMounted(async () => {
   alice.gen();
   bob.gen();
-  alice.dh(bob.key);
-  bob.dh(alice.key);
+  alice.dh(bob.key_bi);
+  bob.dh(alice.key_bi);
 });
 </script>
 
@@ -140,7 +161,7 @@ onMounted(async () => {
   </KitDivider>
   <div class="border-l px-4">
     <div class="flex justify-center gap-4 pb-4">
-      <KitButton @click="alice.dh(bob.key), bob.dh(alice.key)">
+      <KitButton @click="dh()">
         Compute Secret
       </KitButton>
     </div>
@@ -159,6 +180,11 @@ onMounted(async () => {
     # Appendix: ECCDH Result
   </KitDivider>
   <div class="border-l px-4">
+    <div class="flex justify-center gap-4 pb-4">
+      <KitButton @click="cdh()">
+        Compute Secret
+      </KitButton>
+    </div>
     <KitFormU8
       v-model="alice.secret_cdh"
       :codec="HEX"
