@@ -42,6 +42,7 @@ onMounted(() => {
     <textarea
       ref="size"
       v-model="text"
+      :="$attrs"
       class="join-item textarea textarea-bordered h-24 w-full text-xs"
       name="textarea"
       spellcheck="false"
@@ -55,6 +56,7 @@ onMounted(() => {
     <KitFormSelectCodec v-model="text_codec" />
     <input
       v-model="text" type="text"
+      :="$attrs"
       class="input join-item input-bordered w-full text-xs"
       name="text"
       spellcheck="false"

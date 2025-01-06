@@ -96,23 +96,17 @@ onMounted(async () => {
   <KitDivider class="divider-start">
     # Step 0: Choose Curve
   </KitDivider>
-  <KitFormSelectCurve v-model="curve" title="" />
+  <div class="border-l pl-4">
+    <KitFormSelectCurve v-model="curve" title="" class="w-full" />
+  </div>
   <KitDivider class="divider-start">
     # Step 1: Alice
   </KitDivider>
-  <div class="border-l px-4">
+  <div class="border-l pl-4">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dA</u></b>.</li>
       <li>Compute <b><u>QA</u></b>.</li>
     </ul>
-    <div class="flex justify-center gap-4 py-4">
-      <KitButton @click="alice.clearX()">
-        Clear
-      </KitButton>
-      <KitButton @click="alice.genX()">
-        Generate
-      </KitButton>
-    </div>
     <KitFormU8
       v-model="alice.key_x.d"
       :codec="HEX"
@@ -125,24 +119,24 @@ onMounted(async () => {
       :x-bit="alice.x_x_bit"
       :y-bit="alice.x_y_bit"
     />
+    <div class="flex justify-end gap-4 py-4">
+      <KitButton @click="alice.clearX()">
+        Clear
+      </KitButton>
+      <KitButton @click="alice.genX()">
+        Generate
+      </KitButton>
+    </div>
   </div>
   <KitDivider class="divider-start">
     # Step 2: Alice
   </KitDivider>
-  <div class="border-l px-4">
+  <div class="border-l pl-4">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dX</u></b>.</li>
       <li>Compute <b><u>QX</u></b>.</li>
       <li>Send <b><u>QA</u></b> and <b><u>QX</u></b> to <b><u>Bob</u></b>.</li>
     </ul>
-    <div class="flex justify-center gap-4 py-4">
-      <KitButton @click="alice.clearY()">
-        Clear
-      </KitButton>
-      <KitButton @click="alice.genY()">
-        Generate
-      </KitButton>
-    </div>
     <KitFormU8
       v-model="alice.key_y.d"
       :codec="HEX"
@@ -155,23 +149,23 @@ onMounted(async () => {
       :x-bit="alice.y_x_bit"
       :y-bit="alice.y_y_bit"
     />
+    <div class="flex justify-end gap-4 py-4">
+      <KitButton @click="alice.clearY()">
+        Clear
+      </KitButton>
+      <KitButton @click="alice.genY()">
+        Generate
+      </KitButton>
+    </div>
   </div>
   <KitDivider class="divider-start">
     # Step 3: Bob
   </KitDivider>
-  <div class="border-l px-4">
+  <div class="border-l pl-4">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dB</u></b>.</li>
       <li>Compute <b><u>QB</u></b>.</li>
     </ul>
-    <div class="flex justify-center gap-4 py-4">
-      <KitButton @click="bob.clearX()">
-        Clear
-      </KitButton>
-      <KitButton @click="bob.genX()">
-        Generate
-      </KitButton>
-    </div>
     <KitFormU8
       v-model="bob.key_x.d"
       :codec="HEX"
@@ -184,24 +178,24 @@ onMounted(async () => {
       :x-bit="bob.x_x_bit"
       :y-bit="bob.x_y_bit"
     />
+    <div class="flex justify-end gap-4 py-4">
+      <KitButton @click="bob.clearX()">
+        Clear
+      </KitButton>
+      <KitButton @click="bob.genX()">
+        Generate
+      </KitButton>
+    </div>
   </div>
   <KitDivider class="divider-start">
     # Step 4: Bob
   </KitDivider>
-  <div class="border-l px-4">
+  <div class="border-l pl-4">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dY</u></b>.</li>
       <li>Compute <b><u>QY</u></b>.</li>
       <li>Send <b><u>QB</u></b> and <b><u>QY</u></b> to <b><u>Alice</u></b>.</li>
     </ul>
-    <div class="flex justify-center gap-4 py-4">
-      <KitButton @click="bob.clearY()">
-        Clear
-      </KitButton>
-      <KitButton @click="bob.genY()">
-        Generate
-      </KitButton>
-    </div>
     <KitFormU8
       v-model="bob.key_y.d"
       :codec="HEX"
@@ -214,16 +208,19 @@ onMounted(async () => {
       :x-bit="bob.y_x_bit"
       :y-bit="bob.y_y_bit"
     />
+    <div class="flex justify-end gap-4 py-4">
+      <KitButton @click="bob.clearY()">
+        Clear
+      </KitButton>
+      <KitButton @click="bob.genY()">
+        Generate
+      </KitButton>
+    </div>
   </div>
   <KitDivider class="divider-start">
     # Step 5: Compute Shared Secret
   </KitDivider>
-  <div class="border-l px-4">
-    <div class="flex justify-center gap-4 pb-4">
-      <KitButton @click="alice.mqv(bob.key_x, bob.key_y), bob.mqv(alice.key_x, alice.key_y)">
-        Compute Secret
-      </KitButton>
-    </div>
+  <div class="border-l pl-4">
     <KitFormU8
       v-model="alice.secret"
       :codec="HEX"
@@ -234,6 +231,11 @@ onMounted(async () => {
       :codec="HEX"
       :title="`Bob's Secret (${bob.secret_bit} bit)`"
     />
+    <div class="flex justify-end gap-4 py-4">
+      <KitButton @click="alice.mqv(bob.key_x, bob.key_y), bob.mqv(alice.key_x, alice.key_y)">
+        Compute Secret
+      </KitButton>
+    </div>
   </div>
 
   <!-- Curve Parameters -->

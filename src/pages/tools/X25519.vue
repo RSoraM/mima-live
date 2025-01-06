@@ -64,16 +64,20 @@ onMounted(async () => {
   <KitDivider class="divider-start">
     # Step 0: Choose Curve
   </KitDivider>
-  <KitFormSelectCurve v-model="curve" :options="options" title="" />
+  <div class="border-l pl-4">
+    <KitFormSelectCurve v-model="curve" :options="options" title="" class="w-full" />
+  </div>
   <KitDivider class="divider-start">
     # Step 1: Alice
   </KitDivider>
-  <div class="border-l px-4">
+  <div class="border-l pl-4">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dA</u></b>.</li>
       <li>Compute and Send PublicKey <b><u>QA</u></b> to <b><u>Bob</u></b>.</li>
     </ul>
-    <div class="flex justify-center gap-4 py-4">
+    <KitFormU8 v-model="alice.key.d" :codec="HEX" title="dA" />
+    <KitFormU8 v-model="alice.key.Q" :codec="HEX" title="QA" />
+    <div class="flex justify-end gap-4 py-4">
       <KitButton @click="alice.$reset()">
         Clear
       </KitButton>
@@ -81,26 +85,18 @@ onMounted(async () => {
         Generate
       </KitButton>
     </div>
-    <KitFormU8
-      v-model="alice.key.d"
-      :codec="HEX"
-      title="dA"
-    />
-    <KitFormU8
-      v-model="alice.key.Q"
-      :codec="HEX"
-      title="QA"
-    />
   </div>
   <KitDivider class="divider-start">
     # Step 2: Bob
   </KitDivider>
-  <div class="border-l px-4">
+  <div class="border-l pl-4">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dB</u></b>.</li>
       <li>Compute and Send PublicKey <b><u>QB</u></b> to <b><u>Alice</u></b>.</li>
     </ul>
-    <div class="flex justify-center gap-4 py-4">
+    <KitFormU8 v-model="bob.key.d" :codec="HEX" title="dB" />
+    <KitFormU8 v-model="bob.key.Q" :codec="HEX" title="QB" />
+    <div class="flex justify-end gap-4 py-4">
       <KitButton @click="bob.$reset()">
         Clear
       </KitButton>
@@ -108,36 +104,22 @@ onMounted(async () => {
         Generate
       </KitButton>
     </div>
-    <KitFormU8
-      v-model="bob.key.d"
-      :codec="HEX"
-      title="dB"
-    />
-    <KitFormU8
-      v-model="bob.key.Q"
-      :codec="HEX"
-      title="QB"
-    />
   </div>
   <KitDivider class="divider-start">
     # Step 3: Compute Shared Secret
   </KitDivider>
-  <div class="border-l px-4">
-    <div class="flex justify-center gap-4 pb-4">
-      <KitButton @click="alice.dh(bob.key), bob.dh(alice.key)">
-        Compute Secret
-      </KitButton>
-    </div>
+  <div class="border-l pl-4">
     <KitFormU8
       v-model="alice.secret"
       :codec="HEX"
       :title="`Alice's Secret = dA * QB (${alice.secretBit} bit)`"
     />
-    <KitFormU8
-      v-model="bob.secret"
-      :codec="HEX"
-      :title="`Bob's Secret = dB * QA (${bob.secretBit} bit)`"
-    />
+    <KitFormU8 v-model="bob.secret" :codec="HEX" :title="`Bob's Secret = dB * QA (${bob.secretBit} bit)`" />
+    <div class="flex justify-end gap-4 py-4">
+      <KitButton @click="alice.dh(bob.key), bob.dh(alice.key)">
+        Compute Secret
+      </KitButton>
+    </div>
   </div>
 
   <!-- Curve Parameters -->
