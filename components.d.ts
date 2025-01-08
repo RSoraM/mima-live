@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CollapseTransition: typeof import('./src/components/CollapseTransition.vue')['default']
     KitAlert: typeof import('./src/components/KitAlert.vue')['default']
     KitBaseFormSelect: typeof import('./src/components/KitForm/Select/KitBaseFormSelect.vue')['default']
     KitBaseFormSelectCodec: typeof import('./src/components/KitForm/Select/KitBaseFormSelectCodec.vue')['default']
@@ -41,6 +42,7 @@ declare module 'vue' {
     KitMenuItem: typeof import('./src/components/KitMenu/KitMenuItem.vue')['default']
     KitRefLink: typeof import('./src/components/KitRefLink.vue')['default']
     KitStat: typeof import('./src/components/KitStat.vue')['default']
+    KitStep: typeof import('./src/components/KitStep.vue')['default']
     KitTheme: typeof import('./src/components/KitTheme.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
