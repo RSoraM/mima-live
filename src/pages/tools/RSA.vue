@@ -317,15 +317,12 @@ onMounted(async () => nextTick(() => {
     textarea
   />
 
-  <div role="alert" class="alert alert-warning mt-4">
-    <span class="icon-[carbon--warning-alt-filled] size-6" />
-    <span class="text-sm">
-      The speed of Key Generation depends on the local machine.
-      Please enter a reasonable <b>Key Size</b> to prevent the browser from crashing.
-      Generate <b>4096 bit</b> RSA key pair on 2.3 GHz Quad-Core Intel Core i5, 8GB RAM.
-      Cost about <b>1.7-6s</b>
-    </span>
-  </div>
+  <KitAlert class="mt-4">
+    The speed of Key Generation depends on the local machine.
+    Please enter a reasonable <b>Key Size</b> to prevent the browser from crashing.
+    Generate <b>4096 bit</b> RSA key pair on 2.3 GHz Quad-Core Intel Core i5, 8GB RAM.
+    Cost about <b>1.7-6s</b>
+  </KitAlert>
 
   <div class="stats stats-vertical my-6 shadow">
     <KitStat title="Specification">

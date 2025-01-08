@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    KitAlert: typeof import('./src/components/KitAlert.vue')['default']
     KitBaseFormSelect: typeof import('./src/components/KitForm/Select/KitBaseFormSelect.vue')['default']
     KitBaseFormSelectCodec: typeof import('./src/components/KitForm/Select/KitBaseFormSelectCodec.vue')['default']
     KitButton: typeof import('./src/components/KitButton.vue')['default']

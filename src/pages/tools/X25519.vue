@@ -122,6 +122,13 @@ onMounted(async () => {
     </div>
   </div>
 
+  <KitAlert class="mt-4">
+    <b><u>x25519</u></b> and <b><u>x448</u></b> provided by <b><u>mima-kit</u></b> may not be fully compatible with other implementations.
+    This is because <b><u>RFC 7748</u></b> specifies <b><u>little-endian</u></b> as the encoding method,
+    while <b><u>mima-kit</u></b> uses <b><u>big-endian</u></b> as the encoding method.
+    By converting the <b><u>endian</u></b>, it should be compatible with other implementations.
+  </KitAlert>
+
   <!-- Curve Parameters -->
   <KitDivider>
     Curve Parameters

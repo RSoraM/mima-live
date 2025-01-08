@@ -84,15 +84,12 @@ const cipher = catchNotify(() => {
     textarea
   />
 
-  <div role="alert" class="alert alert-warning my-4">
-    <span class="icon-[carbon--warning-alt-filled] size-6" />
-    <span class="text-sm">
-      In the original specification,
-      the <b>Input Length</b> is calculated using the <b>sizeof</b> operator in C.
-      However, in JavaScript, there is no equivalent operation to <b>sizeof</b>,
-      so it needs to be specified manually.
-    </span>
-  </div>
+  <KitAlert class="mt-4">
+    In the original specification,
+    the <b>Input Length</b> is calculated using the <b>sizeof</b> operator in C.
+    However, in JavaScript, there is no equivalent operation to <b>sizeof</b>,
+    so it needs to be specified manually.
+  </KitAlert>
 
   <div class="stats stats-vertical my-6 shadow">
     <KitStat title="Specification">
