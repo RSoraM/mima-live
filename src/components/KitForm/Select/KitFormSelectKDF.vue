@@ -2,7 +2,6 @@
 defineOptions({ name: 'KitFormSelectKDF' });
 
 const {
-  title = 'KDF',
   options: kdf_options = [
     { label: 'ANSI X9.63', value: 'ANSI X9.63' },
     { label: 'HKDF', value: 'HKDF' },
@@ -48,27 +47,23 @@ watchEffect(catchNotifySync(() => {
     :="$attrs"
   />
   <template v-if="show_hash">
-    <KitDivider class="divider-start">
-      # 1: Hash
-    </KitDivider>
-    <KitFormSelectHash v-model="kdf_hash" class="w-full" />
+    <KitStep num="1" title="Hash Algorithm">
+      <KitFormSelectHash v-model="kdf_hash" class="w-full" />
+    </KitStep>
   </template>
   <template v-if="show_mac">
-    <KitDivider class="divider-start">
-      # 1: Mac
-    </KitDivider>
-    <KitFormSelectMAC v-model="kdf_mac" class="w-full" />
+    <KitStep num="1" title="Mac Algorithm">
+      <KitFormSelectMAC v-model="kdf_mac" class="w-full" />
+    </KitStep>
   </template>
   <template v-if="show_salt">
-    <KitDivider class="divider-start">
-      # 2: Salt
-    </KitDivider>
-    <KitFormU8 v-model="kdf_salt" :codec="UTF8" class="w-full" />
+    <KitStep num="2" title="Salt">
+      <KitFormU8 v-model="kdf_salt" :codec="UTF8" class="w-full" />
+    </KitStep>
   </template>
   <template v-if="show_iterations">
-    <KitDivider class="divider-start">
-      # 3: Iterations
-    </KitDivider>
-    <KitFormNumber v-model="kdf_iterations" class="w-full" />
+    <KitStep num="3" title="Iterations">
+      <KitFormNumber v-model="kdf_iterations" class="w-full" />
+    </KitStep>
   </template>
 </template>

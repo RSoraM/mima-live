@@ -61,66 +61,50 @@ onMounted(async () => {
   <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
     {{ curve === curve25519 ? 'X25519' : 'X448' }}
   </h1>
-  <KitDivider class="divider-start">
-    # Step 0: Choose Curve
-  </KitDivider>
-  <div class="border-l pl-4">
+  <KitStep num="0" title="Choose Curve">
     <KitFormSelectCurve v-model="curve" :options="options" title="" class="w-full" />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 1: Alice
-  </KitDivider>
-  <div class="border-l pl-4">
+  </KitStep>
+  <KitStep num="1" title="Alice">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dA</u></b>.</li>
       <li>Compute and Send PublicKey <b><u>QA</u></b> to <b><u>Bob</u></b>.</li>
     </ul>
     <KitFormU8 v-model="alice.key.d" :codec="HEX" title="dA" />
     <KitFormU8 v-model="alice.key.Q" :codec="HEX" title="QA" />
-    <div class="flex justify-end gap-4 py-4">
+    <template #action>
       <KitButton @click="alice.$reset()">
         Clear
       </KitButton>
       <KitButton @click="alice.gen()">
         Generate
       </KitButton>
-    </div>
-  </div>
-  <KitDivider class="divider-start">
-    # Step 2: Bob
-  </KitDivider>
-  <div class="border-l pl-4">
+    </template>
+  </KitStep>
+  <KitStep num="2" title="Bob">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dB</u></b>.</li>
       <li>Compute and Send PublicKey <b><u>QB</u></b> to <b><u>Alice</u></b>.</li>
     </ul>
     <KitFormU8 v-model="bob.key.d" :codec="HEX" title="dB" />
     <KitFormU8 v-model="bob.key.Q" :codec="HEX" title="QB" />
-    <div class="flex justify-end gap-4 py-4">
+    <template #action>
       <KitButton @click="bob.$reset()">
         Clear
       </KitButton>
       <KitButton @click="bob.gen()">
         Generate
       </KitButton>
-    </div>
-  </div>
-  <KitDivider class="divider-start">
-    # Step 3: Compute Shared Secret
-  </KitDivider>
-  <div class="border-l pl-4">
-    <KitFormU8
-      v-model="alice.secret"
-      :codec="HEX"
-      :title="`Alice's Secret = dA * QB (${alice.secretBit} bit)`"
-    />
+    </template>
+  </KitStep>
+  <KitStep num="3" title="Compute Shared Secret">
+    <KitFormU8 v-model="alice.secret" :codec="HEX" :title="`Alice's Secret = dA * QB (${alice.secretBit} bit)`" />
     <KitFormU8 v-model="bob.secret" :codec="HEX" :title="`Bob's Secret = dB * QA (${bob.secretBit} bit)`" />
-    <div class="flex justify-end gap-4 py-4">
+    <template #action>
       <KitButton @click="alice.dh(bob.key), bob.dh(alice.key)">
         Compute Secret
       </KitButton>
-    </div>
-  </div>
+    </template>
+  </KitStep>
 
   <KitAlert class="mt-4">
     <b><u>x25519</u></b> and <b><u>x448</u></b> provided by <b><u>mima-kit</u></b> may not be fully compatible with other implementations.

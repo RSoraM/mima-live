@@ -5,7 +5,7 @@ const transition = computed(() => {
     transitionRef.value?.style.height.replace('px', '') ?? 0,
   );
   const unit = Math.ceil(height / 16);
-  const duration = Math.max(unit * 25, 250);
+  const duration = Math.max(unit * 20, 250);
   return `${duration}ms height ease-in-out, ${duration}ms padding-top ease-in-out, ${duration}ms padding-bottom ease-in-out`;
 });
 function beforeEnter(el?: HTMLElement) {

@@ -94,110 +94,85 @@ onMounted(async () => {
   <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
     ECDH / ECCDH
   </h1>
-  <KitDivider class="divider-start">
-    # Step 0: Choose Curve
-  </KitDivider>
-  <div class="border-l pl-4">
+  <KitStep num="0" title="Choose Curve">
     <KitFormSelectCurve v-model="curve" title="" class="w-full" />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 1: Alice
-  </KitDivider>
-  <div class="border-l pl-4">
+  </KitStep>
+  <KitStep num="1" title="Alice">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dA</u></b>.</li>
       <li>Compute and Send PublicKey <b><u>QA</u></b> to <b><u>Bob</u></b>.</li>
     </ul>
     <KitFormU8
-      v-model="alice.key.d"
-      :codec="HEX"
+      v-model="alice.key.d" :codec="HEX"
       :title="`dA (${alice.d_bit} bit)`"
     />
     <KitFormECCPoint
-      v-model="alice.key.Q"
-      :curve="curve"
+      v-model="alice.key.Q" :curve="curve"
+      :x-bit="alice.x_bit" :y-bit="alice.y_bit"
       name="QA"
-      :x-bit="alice.x_bit"
-      :y-bit="alice.y_bit"
     />
-    <div class="flex justify-end gap-4 py-4">
+    <template #action>
       <KitButton @click="alice.$reset()">
         Clear
       </KitButton>
       <KitButton @click="alice.gen()">
         Generate
       </KitButton>
-    </div>
-  </div>
-  <KitDivider class="divider-start">
-    # Step 2: Bob
-  </KitDivider>
-  <div class="border-l pl-4">
+    </template>
+  </KitStep>
+  <KitStep num="2" title="Bob">
     <ul class="mx-8 list-decimal text-sm">
       <li>Generate PrivateKey <b><u>dB</u></b>.</li>
       <li>Compute and Send PublicKey <b><u>QB</u></b> to <b><u>Alice</u></b>.</li>
     </ul>
     <KitFormU8
-      v-model="bob.key.d"
-      :codec="HEX"
-      title="dB"
+      v-model="bob.key.d" :codec="HEX"
+      :title="`dB (${bob.d_bit} bit)`"
     />
     <KitFormECCPoint
-      v-model="bob.key.Q"
-      :curve="curve"
+      v-model="bob.key.Q" :curve="curve"
+      :x-bit="bob.x_bit" :y-bit="bob.y_bit"
       name="QB"
-      :x-bit="bob.x_bit"
-      :y-bit="bob.y_bit"
     />
-    <div class="flex justify-end gap-4 py-4">
+    <template #action>
       <KitButton @click="bob.$reset()">
         Clear
       </KitButton>
       <KitButton @click="bob.gen()">
         Generate
       </KitButton>
-    </div>
-  </div>
-  <KitDivider class="divider-start">
-    # Step 3: Compute Shared Secret
-  </KitDivider>
-  <div class="border-l pl-4">
+    </template>
+  </KitStep>
+  <KitStep num="3" title="Compute Shared Secret">
     <KitFormU8
-      v-model="alice.secret_dh"
-      :codec="HEX"
-      :title="`Alice's Secret = dA * QB (${alice.dh_bit} bit)`"
+      v-model="alice.secret_dh" :codec="HEX"
+      :title="`Alice's Secret (${alice.dh_bit} bit)`"
     />
     <KitFormU8
-      v-model="bob.secret_dh"
-      :codec="HEX"
-      :title="`Bob's Secret = dB * QA (${bob.dh_bit} bit)`"
+      v-model="bob.secret_dh" :codec="HEX"
+      :title="`Bob's Secret (${bob.dh_bit} bit)`"
     />
     <div class="flex justify-end gap-4 py-4">
       <KitButton @click="dh()">
         Compute Secret
       </KitButton>
     </div>
-  </div>
-  <KitDivider class="divider-start">
-    # Appendix: ECCDH Result
-  </KitDivider>
-  <div class="border-l pl-4">
+  </KitStep>
+  <KitStep num="Appendix" title="ECCDH Result">
     <KitFormU8
-      v-model="alice.secret_cdh"
-      :codec="HEX"
+      v-model="alice.secret_cdh" :codec="HEX"
       :title="`Alice's Secret = dA * QB * h (${alice.cdh_bit} bit)`"
     />
     <KitFormU8
-      v-model="bob.secret_cdh"
-      :codec="HEX"
+      v-model="bob.secret_cdh" :codec="HEX"
       :title="`Bob's Secret = dB * QA * h (${bob.cdh_bit} bit)`"
     />
-    <div class="flex justify-end gap-4 py-4">
+    <template #action>
       <KitButton @click="cdh()">
         Compute Secret
       </KitButton>
-    </div>
-  </div>
+    </template>
+  </KitStep>
 
   <!-- Curve Parameters -->
   <KitDivider>

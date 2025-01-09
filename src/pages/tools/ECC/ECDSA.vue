@@ -46,72 +46,41 @@ onMounted(() => nextTick(() => {
   <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
     ECDSA
   </h1>
-  <KitDivider class="divider-start">
-    # Step 0: Choose Curve
-  </KitDivider>
-  <div class="border-l pl-4">
+  <KitStep num="0" title="Choose Curve">
     <KitFormSelectCurve v-model="curve" title="" class="w-full" />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 1: Choose Hash Algorithm
-  </KitDivider>
-  <div class="border-l pl-4">
+  </KitStep>
+  <KitStep num="1" title="Choose Hash Algorithm">
     <KitFormSelectHash v-model="hash" title="" class="w-full" />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 2: Key Generation
-  </KitDivider>
-  <div class="border-l pl-4">
-    <KitFormU8
-      v-model="key.d"
-      :codec="HEX"
-      :title="`Private Key dA (${key.d_bit} bit)`"
-    />
+  </KitStep>
+  <KitStep num="2" title="Key Generation">
+    <KitFormU8 v-model="key.d" :codec="HEX" :title="`Private Key dA (${key.d_bit} bit)`" />
     <KitFormECCPoint
-      v-model="key.Q"
-      :curve="curve"
+      v-model="key.Q" :curve="curve"
+      :x-bit="key.x_bit" :y-bit="key.y_bit"
       name="Public Key QA"
-      :x-bit="key.x_bit"
-      :y-bit="key.y_bit"
     />
-    <div class="flex justify-end gap-4 py-4">
+    <template #action>
       <KitButton @click="key.$reset()">
         Clear
       </KitButton>
       <KitButton @click="key.gen()">
         Generate
       </KitButton>
-    </div>
-  </div>
-  <KitDivider class="divider-start">
-    # Step 3: Signature
-  </KitDivider>
-  <div class="border-l pl-4">
-    <KitFormU8
-      v-model="M"
-      :codec="UTF8"
-      title="Input"
-      textarea
-    />
-    <KitFormU8
-      v-model="R"
-      :codec="HEX"
-      :title="`Signature r (${getBIBits(R.toBI())} bit)`"
-    />
-    <KitFormU8
-      v-model="S"
-      :codec="HEX"
-      :title="`Signature s (${getBIBits(S.toBI())} bit)`"
-    />
-    <div class="flex justify-end gap-4 py-4">
+    </template>
+  </KitStep>
+  <KitStep num="3" title="Signature">
+    <KitFormU8 v-model="M" :codec="UTF8" title="Input" textarea />
+    <KitFormU8 v-model="R" :codec="HEX" :title="`Signature r (${getBIBits(R.toBI())} bit)`" />
+    <KitFormU8 v-model="S" :codec="HEX" :title="`Signature s (${getBIBits(S.toBI())} bit)`" />
+    <template #action>
       <KitButton @click="sign()">
         Sign
       </KitButton>
       <KitButton @click="verify()">
         Verify
       </KitButton>
-    </div>
-  </div>
+    </template>
+  </KitStep>
 
   <!-- Curve Parameters -->
   <KitDivider>

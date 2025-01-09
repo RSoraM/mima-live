@@ -188,40 +188,35 @@ watchEffect(catchNotifySync(() => {
     :title="title"
     :="$attrs"
   />
-  <KitCollapse v-if="show_config" class="input-bordered my-2 border bg-base-300">
-    <template #header>
-      Hash Config
-    </template>
+  <KitFoldCard
+    v-if="show_config" title="Hash Config"
+    class="mt-2 bg-base-300"
+  >
     <div class="flex flex-col md:flex-row md:gap-2">
       <KitFormNumber
-        v-if="show_t"
-        v-model="t"
+        v-if="show_t" v-model="t"
         title="Digest Size (bit)"
       />
       <KitFormNumber
-        v-if="show_block_size"
-        v-model="block_size"
+        v-if="show_block_size" v-model="block_size"
         title="Block Size (bit)"
       />
       <KitFormNumber
-        v-if="show_ds"
-        v-model="ds"
+        v-if="show_ds" v-model="ds"
         title="Domain Separator"
       />
     </div>
     <KitFormU8
       v-if="show_fn"
-      v-model="fn"
-      :codec="UTF8"
+      v-model="fn" :codec="UTF8"
       :immediate="true"
       title="Function-Name"
     />
     <KitFormU8
       v-if="show_ct"
-      v-model="ct"
-      :codec="UTF8"
+      v-model="ct" :codec="UTF8"
       :immediate="true"
       title="Customization"
     />
-  </KitCollapse>
+  </KitFoldCard>
 </template>

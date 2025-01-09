@@ -9,6 +9,9 @@ defineOptions({ name: 'KitCollapse' });
     </summary>
     <div class="collapse-content">
       <slot />
+      <div v-if="$slots.action" class="mt-4 flex justify-end gap-4">
+        <slot name="action" />
+      </div>
     </div>
   </details>
 </template>

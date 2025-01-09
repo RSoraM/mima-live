@@ -10,37 +10,25 @@ onMounted(async () => key.gen());
   <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
     Key Generation
   </h1>
-  <KitDivider class="divider-start">
-    # Step 0: Choose Curve
-  </KitDivider>
-  <div class="border-l pl-4">
+  <KitStep num="0" title="Choose Curve">
     <KitFormSelectCurve v-model="curve" title="" class="w-full" />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 1: Key Generation
-  </KitDivider>
-  <div class="border-l pl-4">
-    <KitFormU8
-      v-model="key.d"
-      :codec="HEX"
-      :title="`Private Key dA (${key.d_bit} bit)`"
-    />
+  </KitStep>
+  <KitStep num="1" title="Key Generation">
+    <KitFormU8 v-model="key.d" :codec="HEX" :title="`Private Key dA (${key.d_bit} bit)`" />
     <KitFormECCPoint
-      v-model="key.Q"
-      :curve="key.curve"
+      v-model="key.Q" :curve="key.curve"
+      :x-bit="key.x_bit" :y-bit="key.y_bit"
       name="Public Key QA"
-      :x-bit="key.x_bit"
-      :y-bit="key.y_bit"
     />
-    <div class="flex justify-end gap-4 py-4">
+    <template #action>
       <KitButton @click="key.$reset()">
         Clear
       </KitButton>
       <KitButton @click="key.gen()">
         Generate
       </KitButton>
-    </div>
-  </div>
+    </template>
+  </KitStep>
 
   <!-- Curve Parameters -->
   <KitDivider>

@@ -15,6 +15,7 @@ declare module 'vue' {
     KitCollapse: typeof import('./src/components/KitCollapse.vue')['default']
     KitCurveTable: typeof import('./src/components/KitCurveTable.vue')['default']
     KitDivider: typeof import('./src/components/KitDivider.vue')['default']
+    KitFoldCard: typeof import('./src/components/KitFoldCard.vue')['default']
     KitFormBigint: typeof import('./src/components/KitForm/Input/KitFormBigint.vue')['default']
     KitFormControl: typeof import('./src/components/KitForm/Input/KitFormControl.vue')['default']
     KitFormECCPoint: typeof import('./src/components/KitForm/KitFormECCPoint.vue')['default']

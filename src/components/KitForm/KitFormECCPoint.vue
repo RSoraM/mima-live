@@ -34,41 +34,33 @@ onMounted(() => nextTick(() => convert()));
 
 <template>
   <KitFormU8
-    v-model="point.x"
-    :codec="HEX"
+    v-model="point.x" :codec="HEX"
     :title="`${name}.x (${xBit ?? getBIBits(point.x.toBI())} bit)`"
   />
   <KitFormU8
-    v-model="point.y"
-    :codec="HEX"
+    v-model="point.y" :codec="HEX"
     :title="`${name}.y (${yBit ?? getBIBits(point.y.toBI())} bit)`"
   />
-  <KitCollapse class="my-2 bg-base-300">
+  <KitFoldCard class="my-2 bg-base-200">
     <template #header>
       {{ name }} Compression
     </template>
-    <KitFormToggle
-      v-model="point.isInfinity"
-      :title="`${name}.isInfinity`"
+    <KitFormToggle v-model="point.isInfinity" :title="`${name}.isInfinity`" />
+    <KitFormU8
+      v-model="compressed_p" :codec="HEX"
+      :title="`Compressed ${name} (${compressed_p.length} byte)`"
     />
-    <!-- Compression -->
-    <KitDivider>
+    <KitFormU8
+      v-model="uncompressed_p" :codec="HEX"
+      :title="`Uncompressed ${name} (${uncompressed_p.length} byte)`"
+    />
+    <template #action>
       <KitButton @click="recover()">
         Recover
       </KitButton>
       <KitButton @click="convert()">
         Convert
       </KitButton>
-    </KitDivider>
-    <KitFormU8
-      v-model="compressed_p"
-      :codec="HEX"
-      :title="`Compressed ${name} (${compressed_p.length} byte)`"
-    />
-    <KitFormU8
-      v-model="uncompressed_p"
-      :codec="HEX"
-      :title="`Uncompressed ${name} (${uncompressed_p.length} byte)`"
-    />
-  </KitCollapse>
+    </template>
+  </KitFoldCard>
 </template>
