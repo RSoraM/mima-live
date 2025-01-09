@@ -36,9 +36,9 @@ const routes = [
       {
         path: 'SM2',
         children: [
-          { name: 'SM2DH', path: 'SM2DH', component: () => import('./pages/tools/SM2/ECDH.vue') },
-          { name: 'SM2DSA', path: 'SM2DSA', component: () => import('./pages/tools/SM2/ECDSA.vue') },
-          { name: 'SM2ES', path: 'SM2ES', component: () => import('./pages/tools/SM2/ECES.vue') },
+          { name: 'SM2DH', path: 'SM2DH', component: () => import('./pages/tools/SM2/SM2DH.vue') },
+          { name: 'SM2DSA', path: 'SM2DSA', component: () => import('./pages/tools/SM2/SM2DSA.vue') },
+          { name: 'SM2ES', path: 'SM2ES', component: () => import('./pages/tools/SM2/SM2ES.vue') },
         ],
       },
       {
