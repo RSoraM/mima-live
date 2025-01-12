@@ -75,16 +75,31 @@ const alice = defineEntity('alice')();
 // Bob
 const bob = defineEntity('bob')();
 
-async function dh() {
+function dh() {
   alice.dh(bob.key_bi);
   bob.dh(alice.key_bi);
 }
-async function cdh() {
+function cdh() {
   alice.cdh(bob.key_bi);
   bob.cdh(alice.key_bi);
 }
 
-// TODO add Appendix KDF
+const kdf = ref(x963kdf(sha256));
+const k_bit = ref(256);
+const okm_a_dh = ref(new U8());
+const okm_b_dh = ref(new U8());
+function execDHKDF() {
+  dh();
+  okm_a_dh.value = kdf.value(k_bit.value, alice.secret_dh);
+  okm_b_dh.value = kdf.value(k_bit.value, bob.secret_dh);
+}
+const okm_a_cdh = ref(new U8());
+const okm_b_cdh = ref(new U8());
+function execCDHKDF() {
+  cdh();
+  okm_a_cdh.value = kdf.value(k_bit.value, alice.secret_cdh);
+  okm_b_cdh.value = kdf.value(k_bit.value, bob.secret_cdh);
+}
 
 watch(
   curve,
@@ -169,7 +184,7 @@ onMounted(async () => {
         :title="`Bob's Secret (${bob.dh_bit} bit)`"
       />
     </KitFoldCard>
-    <KitFoldCard title="Appendix: ECCDH Result" :open="false">
+    <KitFoldCard title="Appendix: ECCDH" :open="false">
       <template #action>
         <span class="hidden md:block" />
         <KitButton class="col-span-2 md:col-span-1" @click="cdh()">
@@ -184,6 +199,47 @@ onMounted(async () => {
         v-model="bob.secret_cdh" :codec="HEX"
         :title="`Bob's Secret = dB * QA * h (${bob.cdh_bit} bit)`"
       />
+    </KitFoldCard>
+    <KitFoldCard title="Appendix: KDF" :open="false">
+      <KitFoldCard title="0: Output Key Size (bit)" :open="false">
+        <KitFormNumber v-model="k_bit" :step="8" class="w-full" />
+      </KitFoldCard>
+      <KitFoldCard title="1: KDF Algorithm" class="mt-2" :open="false">
+        <KitFormSelectKDF v-model="kdf" title-prefix="1." class="w-full" />
+      </KitFoldCard>
+      <!-- ECDH KDF -->
+      <KitFoldCard title="2: ECDH KDF" class="mt-2" :open="false">
+        <template #action>
+          <span class="hidden md:block" />
+          <KitButton class="col-span-2 md:col-span-1" @click="execDHKDF()">
+            Compute
+          </KitButton>
+        </template>
+        <KitFormU8
+          v-model="okm_a_dh" :codec="HEX"
+          :title="`KDF Alice (${okm_a_dh.length} byte)`" textarea
+        />
+        <KitFormU8
+          v-model="okm_b_dh" :codec="HEX"
+          :title="`KDF Bob (${okm_b_dh.length} byte)`" textarea
+        />
+      </KitFoldCard>
+      <KitFoldCard title="3: ECCDH KDF" class="mt-2" :open="false">
+        <template #action>
+          <span class="hidden md:block" />
+          <KitButton class="col-span-2 md:col-span-1" @click="execCDHKDF()">
+            Compute
+          </KitButton>
+        </template>
+        <KitFormU8
+          v-model="okm_a_cdh" :codec="HEX"
+          :title="`KDF Alice (${okm_a_cdh.length} byte)`" textarea
+        />
+        <KitFormU8
+          v-model="okm_b_cdh" :codec="HEX"
+          :title="`KDF Bob (${okm_b_cdh.length} byte)`" textarea
+        />
+      </KitFoldCard>
     </KitFoldCard>
 
     <!-- Curve Parameters -->

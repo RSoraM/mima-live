@@ -115,11 +115,12 @@ const k_bit = ref(256);
 const okm_a = ref(new U8());
 const okm_b = ref(new U8());
 function execKDF() {
+  dh();
   okm_a.value = kdf.value(k_bit.value, alice.secret);
   okm_b.value = kdf.value(k_bit.value, bob.secret);
 }
 
-async function dh() {
+function dh() {
   alice.dh(bob.key_x, bob.key_y, alice.di, bob.di);
   bob.dh(alice.key_x, alice.key_y, alice.di, bob.di);
 }
@@ -274,27 +275,28 @@ onMounted(async () => dh());
       />
     </KitFoldCard>
     <KitFoldCard title="Appendix: KDF" :open="false">
-      <template #action>
-        <span class="hidden md:block" />
-        <KitButton
-          class="col-span-2 md:col-span-1"
-          @click="execKDF()"
-        >
-          Compute
-        </KitButton>
-      </template>
-      <KitFormNumber v-model="k_bit" title="Output Key Size (bit)" />
-      <KitFoldCard title="KDF Algorithm" class="mt-2">
-        <KitFormSelectKDF v-model="kdf" class="w-full" />
+      <KitFoldCard title="0: Output Key Size (bit)" :open="false">
+        <KitFormNumber v-model="k_bit" :step="8" class="w-full" />
       </KitFoldCard>
-      <KitFormU8
-        v-model="okm_a" :codec="HEX"
-        :title="`KDF Alice (${okm_a.length} byte)`" textarea
-      />
-      <KitFormU8
-        v-model="okm_b" :codec="HEX"
-        :title="`KDF Bob (${okm_b.length} byte)`" textarea
-      />
+      <KitFoldCard title="1: KDF Algorithm" class="mt-2" :open="false">
+        <KitFormSelectKDF v-model="kdf" title-prefix="1." class="w-full" />
+      </KitFoldCard>
+      <KitFoldCard title="2: SM2 KDF" class="mt-2" :open="false">
+        <template #action>
+          <span class="hidden md:block" />
+          <KitButton class="col-span-2 md:col-span-1" @click="execKDF()">
+            Compute
+          </KitButton>
+        </template>
+        <KitFormU8
+          v-model="okm_a" :codec="HEX"
+          :title="`KDF Alice (${okm_a.length} byte)`" textarea
+        />
+        <KitFormU8
+          v-model="okm_b" :codec="HEX"
+          :title="`KDF Bob (${okm_b.length} byte)`" textarea
+        />
+      </KitFoldCard>
     </KitFoldCard>
 
     <!-- Curve Parameters -->

@@ -6,13 +6,17 @@ const {
   title = '',
   titleSuffix = '',
   type = 'number',
+  step: prop_step = 0,
 } = defineProps<{
   titlePrefix?: string;
   title?: string;
   titleSuffix?: string;
+  step?: number;
   type?: string;
 }>();
-const step = title?.endsWith('(bit)') ? 8 : 1;
+const step = prop_step || (title?.endsWith('(bit)')
+  ? 8
+  : 1);
 const model = defineModel<string | number>();
 </script>
 

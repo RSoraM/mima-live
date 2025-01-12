@@ -41,6 +41,21 @@ const alice = defineEntity('alice')();
 // Bob
 const bob = defineEntity('bob')();
 
+const kdf = ref(x963kdf(sha256));
+const k_bit = ref(256);
+const okm_a = ref(new U8());
+const okm_b = ref(new U8());
+function execKDF() {
+  dh();
+  okm_a.value = kdf.value(k_bit.value, alice.secret);
+  okm_b.value = kdf.value(k_bit.value, bob.secret);
+}
+
+function dh() {
+  alice.dh(bob.key);
+  bob.dh(alice.key);
+}
+
 watch(
   curve,
   catchNotifySync(() => {
@@ -59,6 +74,12 @@ onMounted(async () => {
 
 <template>
   <ToolsLayout :title="curve === curve25519 ? 'X25519' : 'X448'">
+    <KitAlert>
+      <b><u>x25519</u></b> and <b><u>x448</u></b> provided by <b><u>mima-kit</u></b> may not be fully compatible with other implementations.
+      This is because <b><u>RFC 7748</u></b> specifies <b><u>little-endian</u></b> as the encoding method,
+      while <b><u>mima-kit</u></b> uses <b><u>big-endian</u></b> as the encoding method.
+      By converting the <b><u>endian</u></b>, it should be compatible with other implementations.
+    </KitAlert>
     <KitFoldCard title="0: Elliptic Curve" :open="false">
       <KitFormSelectCurve v-model="curve" :options="options" class="w-full" />
     </KitFoldCard>
@@ -107,13 +128,30 @@ onMounted(async () => {
       <KitFormU8 v-model="alice.secret" :codec="HEX" :title="`Alice's Secret = dA * QB (${alice.secretBit} bit)`" />
       <KitFormU8 v-model="bob.secret" :codec="HEX" :title="`Bob's Secret = dB * QA (${bob.secretBit} bit)`" />
     </KitFoldCard>
-
-    <KitAlert>
-      <b><u>x25519</u></b> and <b><u>x448</u></b> provided by <b><u>mima-kit</u></b> may not be fully compatible with other implementations.
-      This is because <b><u>RFC 7748</u></b> specifies <b><u>little-endian</u></b> as the encoding method,
-      while <b><u>mima-kit</u></b> uses <b><u>big-endian</u></b> as the encoding method.
-      By converting the <b><u>endian</u></b>, it should be compatible with other implementations.
-    </KitAlert>
+    <KitFoldCard title="Appendix: KDF" :open="false">
+      <KitFoldCard title="0: Output Key Size (bit)" :open="false">
+        <KitFormNumber v-model="k_bit" :step="8" class="w-full" />
+      </KitFoldCard>
+      <KitFoldCard title="1: KDF Algorithm" class="mt-2" :open="false">
+        <KitFormSelectKDF v-model="kdf" title-prefix="1." class="w-full" />
+      </KitFoldCard>
+      <KitFoldCard title="2: X25519 KDF" class="mt-2" :open="false">
+        <template #action>
+          <span class="hidden md:block" />
+          <KitButton class="col-span-2 md:col-span-1" @click="execKDF()">
+            Compute
+          </KitButton>
+        </template>
+        <KitFormU8
+          v-model="okm_a" :codec="HEX"
+          :title="`KDF Alice (${okm_a.length} byte)`" textarea
+        />
+        <KitFormU8
+          v-model="okm_b" :codec="HEX"
+          :title="`KDF Bob (${okm_b.length} byte)`" textarea
+        />
+      </KitFoldCard>
+    </KitFoldCard>
 
     <!-- Curve Parameters -->
     <KitFoldCard title="Appendix: Curve Parameters" :open="false">
