@@ -14,37 +14,27 @@ const init = {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    TEA
-  </h1>
+  <ToolsLayout title="TEA">
+    <KitFormNumber v-model="r" title="Rounds" />
+    <KitFormMode :block-cipher="alg" :init="init" />
 
-  <KitFormNumber v-model="r" title="Rounds" />
-
-  <KitDivider>
-    Operation Mode Config
-  </KitDivider>
-
-  <KitFormMode :block-cipher="alg" :init="init" />
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['TEA']"
-        icon="icon-[carbon--pdf-reference]"
-        href="https://www.cix.co.uk/~klockstone/tea.pdf"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      1994
-    </KitStat>
-
-    <KitStat title="Key Size (byte)">
-      {{ alg.KEY_SIZE }}
-    </KitStat>
-
-    <KitStat title="Block Size (byte)">
-      {{ alg.BLOCK_SIZE }}
-    </KitStat>
-  </div>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['TEA']"
+          icon="icon-[carbon--pdf-reference]"
+          href="https://www.cix.co.uk/~klockstone/tea.pdf"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        1994
+      </KitStat>
+      <KitStat title="Key Size (byte)">
+        {{ alg.KEY_SIZE }}
+      </KitStat>
+      <KitStat title="Block Size (byte)">
+        {{ alg.BLOCK_SIZE }}
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>

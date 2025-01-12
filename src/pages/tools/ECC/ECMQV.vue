@@ -74,6 +74,8 @@ const alice = defineEntity('alice')();
 // Bob
 const bob = defineEntity('bob')();
 
+// TODO add Appendix KDF
+
 watch(
   curve,
   () => {
@@ -90,125 +92,131 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    ECMQV
-  </h1>
-  <KitStep num="0" title="Choose Curve">
-    <KitFormSelectCurve v-model="curve" title="" class="w-full" />
-  </KitStep>
-  <KitStep num="1" title="Alice">
-    <ul class="mx-8 list-decimal text-sm">
-      <li>Generate PrivateKey <b><u>dA</u></b>.</li>
-      <li>Compute <b><u>QA</u></b>.</li>
-    </ul>
-    <KitFormU8
-      v-model="alice.key_x.d" :codec="HEX"
-      :title="`dA (${alice.x_d_bit} bit)`"
-    />
-    <KitFormECCPoint
-      v-model="alice.key_x.Q" :curve="curve"
-      :x-bit="alice.x_x_bit" :y-bit="alice.x_y_bit"
-      name="QA"
-    />
-    <template #action>
-      <KitButton @click="alice.clearX()">
-        Clear
-      </KitButton>
-      <KitButton @click="alice.genX()">
-        Generate
-      </KitButton>
-    </template>
-  </KitStep>
-  <KitStep num="2" title="Alice">
-    <ul class="mx-8 list-decimal text-sm">
-      <li>Generate PrivateKey <b><u>dX</u></b>.</li>
-      <li>Compute <b><u>QX</u></b>.</li>
-      <li>Send <b><u>QA</u></b> and <b><u>QX</u></b> to <b><u>Bob</u></b>.</li>
-    </ul>
-    <KitFormU8
-      v-model="alice.key_y.d" :codec="HEX"
-      :title="`dX (${alice.y_d_bit} bit)`"
-    />
-    <KitFormECCPoint
-      v-model="alice.key_y.Q" :curve="curve"
-      :x-bit="alice.y_x_bit" :y-bit="alice.y_y_bit"
-      name="QX"
-    />
-    <template #action>
-      <KitButton @click="alice.clearY()">
-        Clear
-      </KitButton>
-      <KitButton @click="alice.genY()">
-        Generate
-      </KitButton>
-    </template>
-  </KitStep>
-  <KitStep num="3" title="Bob">
-    <ul class="mx-8 list-decimal text-sm">
-      <li>Generate PrivateKey <b><u>dB</u></b>.</li>
-      <li>Compute <b><u>QB</u></b>.</li>
-    </ul>
-    <KitFormU8
-      v-model="bob.key_x.d" :codec="HEX"
-      :title="`dB (${bob.x_d_bit} bit)`"
-    />
-    <KitFormECCPoint
-      v-model="bob.key_x.Q" :curve="curve"
-      :x-bit="bob.x_x_bit" :y-bit="bob.x_y_bit"
-      name="QB"
-    />
-    <template #action>
-      <KitButton @click="bob.clearX()">
-        Clear
-      </KitButton>
-      <KitButton @click="bob.genX()">
-        Generate
-      </KitButton>
-    </template>
-  </KitStep>
-  <KitStep num="4" title="Bob">
-    <ul class="mx-8 list-decimal text-sm">
-      <li>Generate PrivateKey <b><u>dY</u></b>.</li>
-      <li>Compute <b><u>QY</u></b>.</li>
-      <li>Send <b><u>QB</u></b> and <b><u>QY</u></b> to <b><u>Alice</u></b>.</li>
-    </ul>
-    <KitFormU8
-      v-model="bob.key_y.d" :codec="HEX"
-      :title="`dY (${bob.y_d_bit} bit)`"
-    />
-    <KitFormECCPoint
-      v-model="bob.key_y.Q" :curve="curve"
-      :x-bit="bob.y_x_bit" :y-bit="bob.y_y_bit"
-      name="QY"
-    />
-    <template #action>
-      <KitButton @click="bob.clearY()">
-        Clear
-      </KitButton>
-      <KitButton @click="bob.genY()">
-        Generate
-      </KitButton>
-    </template>
-  </KitStep>
-  <KitStep num="5" title="Compute Shared Secret">
-    <KitFormU8
-      v-model="alice.secret" :codec="HEX"
-      :title="`Alice's Secret (${alice.secret_bit} bit)`"
-    />
-    <KitFormU8
-      v-model="bob.secret" :codec="HEX"
-      :title="`Bob's Secret (${bob.secret_bit} bit)`"
-    />
-    <template #action>
-      <KitButton @click="alice.mqv(bob.key_x, bob.key_y), bob.mqv(alice.key_x, alice.key_y)">
-        Compute Secret
-      </KitButton>
-    </template>
-  </KitStep>
+  <ToolsLayout title="ECMQV">
+    <KitFoldCard title="0: Elliptic Curve" :open="false">
+      <KitFormSelectCurve v-model="curve" class="w-full" />
+    </KitFoldCard>
+    <KitFoldCard title="1: Alice's Components" :open="false">
+      <KitFoldCard title="1.1: Alice's Key A" :open="false">
+        <template #action>
+          <KitButton @click="alice.clearX()">
+            Clear
+          </KitButton>
+          <KitButton @click="alice.genX()">
+            Generate
+          </KitButton>
+        </template>
+        <ul class="mb-2 ml-6 list-disc text-xs">
+          <li>Generate PrivateKey <b><u>dA</u></b>.</li>
+          <li>Compute <b><u>QA</u></b>.</li>
+        </ul>
+        <KitFormU8
+          v-model="alice.key_x.d" :codec="HEX"
+          :title="`dA (${alice.x_d_bit} bit)`"
+        />
+        <KitFormECCPoint
+          v-model="alice.key_x.Q" :curve="curve"
+          :x-bit="alice.x_x_bit" :y-bit="alice.x_y_bit"
+          name="QA"
+        />
+      </KitFoldCard>
+      <KitFoldCard title="1.2: Alice's Key X" class="mt-2" :open="false">
+        <template #action>
+          <KitButton @click="alice.clearY()">
+            Clear
+          </KitButton>
+          <KitButton @click="alice.genY()">
+            Generate
+          </KitButton>
+        </template>
+        <ul class="mb-2 ml-6 list-disc text-xs">
+          <li>Generate PrivateKey <b><u>dX</u></b>.</li>
+          <li>Compute <b><u>QX</u></b>.</li>
+          <li>Send <b><u>QA</u></b> and <b><u>QX</u></b> to <b><u>Bob</u></b>.</li>
+        </ul>
+        <KitFormU8
+          v-model="alice.key_y.d" :codec="HEX"
+          :title="`dX (${alice.y_d_bit} bit)`"
+        />
+        <KitFormECCPoint
+          v-model="alice.key_y.Q" :curve="curve"
+          :x-bit="alice.y_x_bit" :y-bit="alice.y_y_bit"
+          name="QX"
+        />
+      </KitFoldCard>
+    </KitFoldCard>
+    <KitFoldCard title="2: Bob's Components" :open="false">
+      <KitFoldCard title="2.1: Bob's Key B" :open="false">
+        <template #action>
+          <KitButton @click="bob.clearX()">
+            Clear
+          </KitButton>
+          <KitButton @click="bob.genX()">
+            Generate
+          </KitButton>
+        </template>
+        <ul class="mb-2 ml-6 list-disc text-xs">
+          <li>Generate PrivateKey <b><u>dB</u></b>.</li>
+          <li>Compute <b><u>QB</u></b>.</li>
+        </ul>
+        <KitFormU8
+          v-model="bob.key_x.d" :codec="HEX"
+          :title="`dB (${bob.x_d_bit} bit)`"
+        />
+        <KitFormECCPoint
+          v-model="bob.key_x.Q" :curve="curve"
+          :x-bit="bob.x_x_bit" :y-bit="bob.x_y_bit"
+          name="QB"
+        />
+      </KitFoldCard>
+      <KitFoldCard title="2.2: Bob's Key Y" class="mt-2" :open="false">
+        <template #action>
+          <KitButton @click="bob.clearY()">
+            Clear
+          </KitButton>
+          <KitButton @click="bob.genY()">
+            Generate
+          </KitButton>
+        </template>
+        <ul class="mb-2 ml-6 list-disc text-xs">
+          <li>Generate PrivateKey <b><u>dY</u></b>.</li>
+          <li>Compute <b><u>QY</u></b>.</li>
+          <li>Send <b><u>QB</u></b> and <b><u>QY</u></b> to <b><u>Alice</u></b>.</li>
+        </ul>
+        <KitFormU8
+          v-model="bob.key_y.d" :codec="HEX"
+          :title="`dY (${bob.y_d_bit} bit)`"
+        />
+        <KitFormECCPoint
+          v-model="bob.key_y.Q" :curve="curve"
+          :x-bit="bob.y_x_bit" :y-bit="bob.y_y_bit"
+          name="QY"
+        />
+      </KitFoldCard>
+    </KitFoldCard>
+    <KitFoldCard title="3: Shared Secret" :open="false">
+      <template #action>
+        <span class="hidden md:block" />
+        <KitButton
+          class="col-span-2 md:col-span-1"
+          @click="alice.mqv(bob.key_x, bob.key_y), bob.mqv(alice.key_x, alice.key_y)"
+        >
+          Compute
+        </KitButton>
+      </template>
+      <KitFormU8
+        v-model="alice.secret" :codec="HEX"
+        :title="`Alice's Secret (${alice.secret_bit} bit)`"
+      />
+      <KitFormU8
+        v-model="bob.secret" :codec="HEX"
+        :title="`Bob's Secret (${bob.secret_bit} bit)`"
+      />
+    </KitFoldCard>
 
-  <!-- Curve Parameters -->
-  <KitDivider>
-    Curve Parameters
-  </KitDivider>
-  <KitCurveTable :curve="curve" :codec="HEX" />
+    <!-- Curve Parameters -->
+    <KitFoldCard title="Appendix: Curve Parameters" :open="false">
+      <KitCurveTable :curve="curve" :codec="HEX" />
+    </KitFoldCard>
+  </ToolsLayout>
 </template>

@@ -1,8 +1,15 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormControl' });
 
-const { type = 'text' } = defineProps<{
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+  type = 'text',
+} = defineProps<{
+  titlePrefix?: string;
   title?: string;
+  titleSuffix?: string;
   type?: 'text' | 'toggle';
 }>();
 
@@ -17,13 +24,13 @@ const { type = 'text' } = defineProps<{
   <template v-if="title">
     <label v-if="type === 'text'" :="$attrs" class="form-control w-full">
       <div class="label">
-        <span class="label-text text-xs">{{ title }}</span>
+        <span class="label-text text-xs">{{ titlePrefix + title + titleSuffix }}</span>
       </div>
       <slot />
     </label>
     <div v-else :="$attrs" class="form-control">
       <label class="label cursor-pointer">
-        <span class="label-text text-xs">{{ title }}</span>
+        <span class="label-text text-xs">{{ titlePrefix + title + titleSuffix }}</span>
         <slot />
       </label>
     </div>

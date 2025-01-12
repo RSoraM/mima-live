@@ -7,9 +7,14 @@ const {
     { label: 'HKDF', value: 'HKDF' },
     { label: 'PBKDF2', value: 'PBKDF2' },
   ],
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
 } = defineProps<{
-  title?: string;
   options?: SelectOption[];
+  titlePrefix?: string;
+  title?: string;
+  titleSuffix?: string;
 }>();
 
 const kdf_alg = ref('ANSI X9.63');
@@ -47,23 +52,23 @@ watchEffect(catchNotifySync(() => {
     :="$attrs"
   />
   <template v-if="show_hash">
-    <KitStep num="1" title="Hash Algorithm">
+    <KitFoldCard :title="`${titlePrefix}1: Hash Algorithm${titleSuffix}`" class="mt-2" :open="false">
       <KitFormSelectHash v-model="kdf_hash" class="w-full" />
-    </KitStep>
+    </KitFoldCard>
   </template>
   <template v-if="show_mac">
-    <KitStep num="1" title="Mac Algorithm">
-      <KitFormSelectMAC v-model="kdf_mac" class="w-full" />
-    </KitStep>
+    <KitFoldCard :title="`${titlePrefix}1: Mac Algorithm${titleSuffix}`" class="mt-2" :open="false">
+      <KitFormSelectMAC v-model="kdf_mac" :title-prefix="`${titlePrefix}1.`" class="w-full" />
+    </KitFoldCard>
   </template>
   <template v-if="show_salt">
-    <KitStep num="2" title="Salt">
+    <KitFoldCard :title="`${titlePrefix}2: Salt${titleSuffix}`" class="mt-2" :open="false">
       <KitFormU8 v-model="kdf_salt" :codec="UTF8" class="w-full" />
-    </KitStep>
+    </KitFoldCard>
   </template>
   <template v-if="show_iterations">
-    <KitStep num="3" title="Iterations">
+    <KitFoldCard :title="`${titlePrefix}3: Iterations${titleSuffix}`" class="mt-2" :open="false">
       <KitFormNumber v-model="kdf_iterations" class="w-full" />
-    </KitStep>
+    </KitFoldCard>
   </template>
 </template>

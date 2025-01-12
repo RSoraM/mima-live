@@ -1,8 +1,15 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormSelectPadding' });
 
-const { mode } = defineProps<{
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+  mode,
+} = defineProps<{
+  titlePrefix?: string;
   title?: string;
+  titleSuffix?: string;
   mode: typeof ecb | typeof cbc | typeof gcm;
 }>();
 const disable_no_pad = computed(() => ![cfb, ofb, ctr, gcm].includes(mode));
@@ -40,6 +47,8 @@ watchEffect(() => {
   <KitFormSelect
     v-model="alg"
     :options="options"
+    :title-prefix="titlePrefix"
     :title="title"
+    :title-suffix="titleSuffix"
   />
 </template>

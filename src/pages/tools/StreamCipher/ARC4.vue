@@ -19,50 +19,35 @@ const decrypt = catchNotify(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    ARC4
-  </h1>
-  <KitFormU8
-    v-model="K"
-    :codec="HEX"
-    title="Key"
-  />
-  <KitDivider class="mt-6">
-    <KitButton @click="encrypt">
-      Encrypt
-    </KitButton>/
-    <KitButton @click="decrypt">
-      Decrypt
-    </KitButton>
-  </KitDivider>
-  <KitFormU8
-    v-model="P"
-    :codec="UTF8"
-    title="Plain text"
-    textarea
-  />
-  <KitFormU8
-    v-model="C"
-    :codec="HEX"
-    title="Cipher text"
-    textarea
-  />
+  <ToolsLayout title="ARC4">
+    <KitFormU8 v-model="K" :codec="HEX" title="Key" />
+    <KitFoldCard title="Encryption">
+      <template #action>
+        <KitButton @click="encrypt">
+          Encrypt
+        </KitButton>
+        <KitButton @click="decrypt">
+          Decrypt
+        </KitButton>
+      </template>
+      <KitFormU8 v-model="P" title="Plain text" textarea :codec="UTF8" />
+      <KitFormU8 v-model="C" title="Cipher text" textarea :codec="HEX" />
+    </KitFoldCard>
 
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['ARC4']"
-        icon="icon-[carbon--html-reference]"
-        href="https://en.wikipedia.org/wiki/RC4"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      1994
-    </KitStat>
-
-    <KitStat title="Key Size (byte)">
-      5-256
-    </KitStat>
-  </div>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['ARC4']"
+          icon="icon-[carbon--html-reference]"
+          href="https://en.wikipedia.org/wiki/RC4"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        1994
+      </KitStat>
+      <KitStat title="Key Size (byte)">
+        {{ arc4.MIN_KEY_SIZE }}-{{ arc4.MAX_KEY_SIZE }}
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>

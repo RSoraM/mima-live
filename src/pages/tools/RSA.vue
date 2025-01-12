@@ -168,173 +168,121 @@ onMounted(async () => nextTick(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    RSA
-  </h1>
-
-  <!-- Key Generation -->
-  <KitCollapse class="bg-base-200" open>
-    <template #header>
-      Key Generation
-    </template>
+  <ToolsLayout title="RSA">
     <KitFormNumber v-model="b" title="Key Size (bit)" />
-    <KitDivider>
-      <KitButton @click="clearKey">
-        Clear
-      </KitButton>/
-      <KitButton @click="genKey">
-        Generate
-      </KitButton>
-    </KitDivider>
-    <KitFormBigint
-      v-model="key.n"
-      :title="`n: modulus (${getBIBits(key.n)} bit)`"
-    />
-    <KitFormBigint
-      v-model="key.e"
-      :title="`e: public exponent (${getBIBits(key.e)} bit)`"
-    />
-    <KitFormBigint
-      v-model="key.d"
-      :title="`d: private exponent (${getBIBits(key.d)} bit)`"
-    />
-    <KitCollapse class="mt-4 bg-base-300">
-      <template #header>
-        Extra Data
+    <KitAlert>
+      The speed of Key Generation depends on the local machine.
+      Please enter a reasonable <b>Key Size</b> to prevent the browser from crashing.
+      Generate <b>4096 bit</b> RSA key pair on 2.3 GHz Quad-Core Intel Core i5, 8GB RAM.
+      Cost about <b>1.7-6s</b>
+    </KitAlert>
+    <!-- Key Generation -->
+    <KitFoldCard title="Key Pair" :open="false">
+      <template #action>
+        <KitButton @click="clearKey">
+          Clear
+        </KitButton>
+        <KitButton @click="genKey">
+          Generate
+        </KitButton>
       </template>
-      <KitFormBigint
-        v-model="key.p"
-        :title="`p: prime1 (${getBIBits(key.p)} bit)`"
-      />
-      <KitFormBigint
-        v-model="key.q"
-        :title="`q: prime2 (${getBIBits(key.q)} bit)`"
-      />
-      <KitFormBigint
-        v-model="key.dP"
-        :title="`dP: p's CRT exponent (${getBIBits(key.dP)} bit)`"
-      />
-      <KitFormBigint
-        v-model="key.dQ"
-        :title="`dQ: q's CRT exponent (${getBIBits(key.dQ)} bit)`"
-      />
-      <KitFormBigint
-        v-model="key.qInv"
-        :title="`qInv: CRT coefficient (${getBIBits(key.qInv)} bit)`"
-      />
-    </KitCollapse>
-  </KitCollapse>
-
-  <!-- Encryption Scheme -->
-  <KitCollapse class="mt-4 bg-base-200">
-    <template #header>
-      Encryption Scheme
-    </template>
-    <KitFormSelect v-model="es" :options="es_options" class="w-full" />
-    <div v-if="es === 'RSAES-OAEP'">
-      <KitDivider class="divider-start">
-        # 1: Hash
-      </KitDivider>
-      <KitFormSelectHash v-model="oaep_hash" class="w-full" />
-      <KitDivider class="divider-start">
-        # 2: Mask Generation Function
-      </KitDivider>
-      <KitFormSelect v-model="oaep_mgf" :options="mgf_options" class="w-full" />
-      <KitFormSelectHash v-model="oaep_mgf_hash" title="MGF Hash" />
-      <KitDivider class="divider-start">
-        # 3: Label
-      </KitDivider>
+      <KitFormBigint v-model="key.n" :title="`n: modulus (${getBIBits(key.n)} bit)`" />
+      <KitFormBigint v-model="key.e" :title="`e: public exponent (${getBIBits(key.e)} bit)`" />
+      <KitFormBigint v-model="key.d" :title="`d: private exponent (${getBIBits(key.d)} bit)`" />
+      <KitFoldCard title="Extra Data" :open="false" class="mt-2">
+        <KitFormBigint v-model="key.p" :title="`p: prime1 (${getBIBits(key.p)} bit)`" />
+        <KitFormBigint v-model="key.q" :title="`q: prime2 (${getBIBits(key.q)} bit)`" />
+        <KitFormBigint v-model="key.dP" :title="`dP: p's CRT exponent (${getBIBits(key.dP)} bit)`" />
+        <KitFormBigint v-model="key.dQ" :title="`dQ: q's CRT exponent (${getBIBits(key.dQ)} bit)`" />
+        <KitFormBigint v-model="key.qInv" :title="`qInv: CRT coefficient (${getBIBits(key.qInv)} bit)`" />
+      </KitFoldCard>
+    </KitFoldCard>
+    <!-- Encryption Scheme -->
+    <KitFoldCard title="Encryption Scheme" :open="false">
+      <KitFormSelect v-model="es" :options="es_options" class="w-full" />
+      <div v-if="es === 'RSAES-OAEP'">
+        <KitFoldCard title="1: Hash Algorithm" class="mt-2" :open="false">
+          <KitFormSelectHash v-model="oaep_hash" class="w-full" />
+        </KitFoldCard>
+        <KitFoldCard title="2: Mask Generation Function" class="mt-2" :open="false">
+          <KitFormSelect v-model="oaep_mgf" :options="mgf_options" class="w-full" />
+          <KitFormSelectHash v-model="oaep_mgf_hash" title="MGF Hash" />
+        </KitFoldCard>
+        <KitFoldCard title="3: Label" class="mt-2" :open="false">
+          <KitFormU8 v-model="oaep_label" :codec="UTF8" class="w-full" />
+        </KitFoldCard>
+      </div>
+    </KitFoldCard>
+    <!-- Encryption -->
+    <KitFoldCard title="Encryption" :open="false">
+      <template #action>
+        <KitButton :disabled="!key.n || !key.e" @click="encrypt">
+          Encrypt
+        </KitButton>
+        <KitButton :disabled="!key.n || !key.d" @click="decrypt">
+          Decrypt
+        </KitButton>
+      </template>
+      <KitFormU8 v-model="M" title="Plain text" textarea :codec="UTF8" />
+      <KitFormU8 v-model="C" title="Cipher text" textarea :codec="HEX" />
+    </KitFoldCard>
+    <!-- Signature Scheme -->
+    <KitFoldCard title="Signature Scheme" :open="false">
+      <template #header>
+        Signature Scheme
+      </template>
+      <KitFormSelect v-model="ssa" :options="ssa_options" class="w-full" />
+      <div v-if="ssa === 'RSASSA-PSS'">
+        <KitFoldCard title="1: Hash Algorithm" class="mt-2" :open="false">
+          <KitFormSelectHash v-model="pss_hash" class="w-full" />
+        </KitFoldCard>
+        <KitFoldCard title="2: Mask Generation Function" class="mt-2" :open="false">
+          <KitFormSelect v-model="pss_mgf" :options="mgf_options" class="w-full" />
+          <KitFormSelectHash v-model="pss_mgf_hash" title="MGF Hash" />
+        </KitFoldCard>
+        <KitFoldCard title="3: Salt Length" class="mt-2" :open="false">
+          <KitFormNumber v-model="pss_salt_length" class="w-full" />
+        </KitFoldCard>
+      </div>
+      <div v-if="ssa === 'RSASSA-PKCS1-v1_5'">
+        <KitFoldCard title="1: Hash Algorithm" class="mt-2" :open="false">
+          <KitFormSelectHash v-model="v15_hash" class="w-full" />
+        </KitFoldCard>
+      </div>
+    </KitFoldCard>
+    <!-- Signature -->
+    <KitFoldCard title="Signature" :open="false">
+      <template #action>
+        <KitButton :disabled="!key.n || !key.d" @click="sign">
+          Sign
+        </KitButton>
+        <KitButton :disabled="!key.n || !key.e" @click="verify">
+          Verify
+        </KitButton>
+      </template>
       <KitFormU8
-        v-model="oaep_label"
-        :codec="UTF8"
-        class="w-full"
+        v-model="M" :codec="UTF8"
+        title="Message"
+        textarea
       />
-    </div>
-  </KitCollapse>
+      <KitFormU8
+        v-model="S" :codec="HEX"
+        title="Signature"
+        textarea
+      />
+    </KitFoldCard>
 
-  <!-- Signature Scheme -->
-  <KitCollapse class="mt-4 bg-base-200">
-    <template #header>
-      Signature Scheme
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['RFC 8017']"
+          icon="icon-[carbon--html-reference]"
+          href="https://www.rfc-editor.org/rfc/rfc8017"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        1977
+      </KitStat>
     </template>
-    <KitFormSelect v-model="ssa" :options="ssa_options" class="w-full" />
-    <div v-if="ssa === 'RSASSA-PSS'">
-      <KitDivider class="divider-start">
-        # 1: Hash Algorithm
-      </KitDivider>
-      <KitFormSelectHash v-model="pss_hash" class="w-full" />
-      <KitDivider class="divider-start">
-        # 2: Mask Generation Function
-      </KitDivider>
-      <KitFormSelect v-model="pss_mgf" :options="mgf_options" class="w-full" />
-      <KitFormSelectHash v-model="pss_mgf_hash" title="MGF Hash" />
-      <KitDivider class="divider-start">
-        # 3: Salt Length
-      </KitDivider>
-      <KitFormNumber v-model="pss_salt_length" class="w-full" />
-    </div>
-    <div v-if="ssa === 'RSASSA-PKCS1-v1_5'">
-      <KitDivider class="divider-start">
-        # 1: Hash Algorithm
-      </KitDivider>
-      <KitFormSelectHash v-model="v15_hash" title="Hash" />
-    </div>
-  </KitCollapse>
-
-  <!-- OP -->
-  <KitDivider>
-    <KitButton :disabled="!key.n || !key.e" @click="encrypt">
-      Encrypt
-    </KitButton>/
-    <KitButton :disabled="!key.n || !key.d" @click="decrypt">
-      Decrypt
-    </KitButton>
-  </KitDivider>
-  <KitFormU8
-    v-model="M"
-    :codec="UTF8"
-    title="Plain text"
-    textarea
-  />
-  <KitFormU8
-    v-model="C"
-    :codec="HEX"
-    title="Cipher text"
-    textarea
-  />
-  <KitDivider>
-    <KitButton :disabled="!key.n || !key.d" @click="sign">
-      Sign
-    </KitButton>/
-    <KitButton :disabled="!key.n || !key.e" @click="verify">
-      Verify
-    </KitButton>
-  </KitDivider>
-  <KitFormU8
-    v-model="S"
-    :codec="HEX"
-    title="Signature"
-    textarea
-  />
-
-  <KitAlert class="mt-4">
-    The speed of Key Generation depends on the local machine.
-    Please enter a reasonable <b>Key Size</b> to prevent the browser from crashing.
-    Generate <b>4096 bit</b> RSA key pair on 2.3 GHz Quad-Core Intel Core i5, 8GB RAM.
-    Cost about <b>1.7-6s</b>
-  </KitAlert>
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['RFC 8017']"
-        icon="icon-[carbon--html-reference]"
-        href="https://www.rfc-editor.org/rfc/rfc8017"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      1977
-    </KitStat>
-  </div>
+  </ToolsLayout>
 </template>

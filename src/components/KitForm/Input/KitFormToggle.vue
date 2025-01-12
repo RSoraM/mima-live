@@ -1,12 +1,25 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormToggle' });
 
-defineProps<{ title?: string }>();
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+} = defineProps<{
+  titlePrefix?: string;
+  title?: string;
+  titleSuffix?: string;
+}>();
 const model = defineModel<boolean>();
 </script>
 
 <template>
-  <KitFormControl :title="title" type="toggle">
+  <KitFormControl
+    :title-prefix="titlePrefix"
+    :title="title"
+    :title-suffix="titleSuffix"
+    type="toggle"
+  >
     <input
       v-model="model"
       type="checkbox"

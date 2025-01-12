@@ -48,5 +48,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheKitMenu: typeof import('./src/components/TheKitMenu.vue')['default']
+    ToolsLayout: typeof import('./src/components/ToolsLayout.vue')['default']
   }
 }

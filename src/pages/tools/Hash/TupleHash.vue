@@ -40,51 +40,39 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    TupleHash
-  </h1>
-  <div class="flex flex-col md:flex-row md:gap-2">
-    <KitFormSelect
-      v-model="variant"
-      :options="variant_options"
-      title="Variant"
-    />
-    <KitFormNumber
-      v-model="t"
-      title="Digest Size (bit)"
-    />
-  </div>
-  <KitFormU8 v-model="S" :codec="UTF8" :immediate="true" title="Customization" />
-  <KitFormU8Array v-model="i" :immediate="true" title="Input" />
-  <KitFormU8 v-model="O" :codec="HEX" title="Output" textarea />
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['NIST', 'SP.800-185']"
-        icon="icon-[carbon--pdf-reference]"
-        href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-185.pdf"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      2016
-    </KitStat>
-
-    <KitStat title="Digest Size (byte)">
-      {{ hash?.DIGEST_SIZE }}
-    </KitStat>
-
-    <KitStat title="Block Size (byte)">
-      {{ hash?.BLOCK_SIZE }}
-    </KitStat>
-
-    <KitStat title="Structure">
-      Sponge & Keccak-p
-    </KitStat>
-
-    <KitStat title="Round">
-      24
-    </KitStat>
-  </div>
+  <ToolsLayout title="TupleHash">
+    <template #body>
+      <div class="flex flex-col md:flex-row md:gap-2">
+        <KitFormSelect v-model="variant" title="Variant" :options="variant_options" />
+        <KitFormNumber v-model="t" title="Digest Size (bit)" />
+      </div>
+      <KitFormU8 v-model="S" title="Customization" :immediate="true" :codec="UTF8" />
+      <KitFormU8Array v-model="i" title="Input" :immediate="true" />
+      <KitFormU8 v-model="O" title="Output" textarea :codec="HEX" />
+    </template>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['NIST', 'SP.800-185']"
+          icon="icon-[carbon--pdf-reference]"
+          href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-185.pdf"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        2016
+      </KitStat>
+      <KitStat title="Digest Size (byte)">
+        {{ hash?.DIGEST_SIZE }}
+      </KitStat>
+      <KitStat title="Block Size (byte)">
+        {{ hash?.BLOCK_SIZE }}
+      </KitStat>
+      <KitStat title="Structure">
+        Sponge & Keccak-p
+      </KitStat>
+      <KitStat title="Round">
+        24
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>

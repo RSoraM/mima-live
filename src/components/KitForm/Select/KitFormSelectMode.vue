@@ -1,8 +1,15 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormSelectMode' });
 
-const { blocksize } = defineProps<{
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+  blocksize,
+} = defineProps<{
+  titlePrefix?: string;
   title?: string;
+  titleSuffix?: string;
   blocksize?: number;
 }>();
 const options = computed(() => {
@@ -59,6 +66,8 @@ watchEffect(() => {
   <KitFormSelect
     v-model="alg"
     :options="options"
+    :title-prefix="titlePrefix"
     :title="title"
+    :title-suffix="titleSuffix"
   />
 </template>

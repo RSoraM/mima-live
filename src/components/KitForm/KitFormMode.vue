@@ -61,33 +61,39 @@ const verify = catchNotify(() => {
 </script>
 
 <template>
-  <KitFormModeConfig v-model="mode_cipher" :block-cipher="block_cipher" />
-  <KitFormU8 v-model="K" :codec="HEX" title="Key" />
-  <template v-if="!mode_cipher.ALGORITHM.startsWith('ECB')">
-    <KitFormU8 v-model="IV" :codec="HEX" title="IV" />
-  </template>
+  <KitFoldCard :="$attrs" title="Mode Config">
+    <KitFormModeConfig v-model="mode_cipher" :block-cipher="block_cipher" />
+    <KitFormU8 v-model="K" title="Key" :codec="HEX" />
+    <template v-if="!mode_cipher.ALGORITHM.startsWith('ECB')">
+      <KitFormU8 v-model="IV" title="IV" :codec="HEX" />
+    </template>
+  </KitFoldCard>
 
-  <KitDivider>
-    <KitButton @click="encrypt">
-      Encrypt
-    </KitButton>/
-    <KitButton @click="decrypt">
-      Decrypt
-    </KitButton>
-  </KitDivider>
-  <KitFormU8 v-model="P" :codec="HEX" title="Plain text" textarea />
-  <KitFormU8 v-model="C" :codec="HEX" title="Cipher text" textarea />
+  <KitFoldCard title="Encryption">
+    <template #action>
+      <KitButton @click="encrypt">
+        Encrypt
+      </KitButton>
+      <KitButton @click="decrypt">
+        Decrypt
+      </KitButton>
+    </template>
+    <KitFormU8 v-model="P" title="Plain text" textarea :codec="HEX" />
+    <KitFormU8 v-model="C" title="Cipher text" textarea :codec="HEX" />
+  </KitFoldCard>
 
   <template v-if="mode_cipher.ALGORITHM.startsWith('GCM')">
-    <KitDivider>
-      <KitButton @click="sign">
-        Sign
-      </KitButton>/
-      <KitButton @click="verify">
-        Verify
-      </KitButton>
-    </KitDivider>
-    <KitFormU8 v-model="A" :codec="HEX" title="Additional Data" />
-    <KitFormU8 v-model="T" :codec="HEX" title="Auth Tag" />
+    <KitFoldCard title="Signature">
+      <template #action>
+        <KitButton @click="sign">
+          Sign
+        </KitButton>
+        <KitButton @click="verify">
+          Verify
+        </KitButton>
+      </template>
+      <KitFormU8 v-model="A" title="Additional Data" :codec="HEX" />
+      <KitFormU8 v-model="T" title="Auth Tag" :codec="HEX" />
+    </KitFoldCard>
   </template>
 </template>

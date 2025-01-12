@@ -15,9 +15,14 @@ const {
     { label: 'TEA', value: 'TEA' },
     { label: 'XTEA', value: 'XTEA' },
   ],
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
 } = defineProps<{
   options?: SelectOption[];
+  titlePrefix?: string;
   title?: string;
+  titleSuffix?: string;
 }>();
 
 const alg = ref('SM4');
@@ -97,7 +102,9 @@ watchEffect(catchNotifySync(() => {
     <KitFormSelect
       v-model="alg"
       :options="cipher_option"
+      :title-prefix="titlePrefix"
       :title="title"
+      :title-suffix="titleSuffix"
       :="$attrs"
     />
     <KitFormSelect

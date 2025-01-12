@@ -35,87 +35,60 @@ const cipher = catchNotify(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    ZUC
-  </h1>
-  <div class="flex flex-col md:flex-row md:gap-2">
-    <KitFormNumber v-model="BEARER" title="Bearer" />
-    <KitFormSelect
-      v-model="DIRECTION"
-      :options="direction_options"
-      title="Direction"
-    />
-  </div>
-  <KitFormU8
-    v-model="COUNTER"
-    :codec="HEX"
-    title="Counter"
-  />
-  <KitFormU8
-    v-model="K"
-    :codec="HEX"
-    title="Key"
-  />
-  <KitFormNumber v-model="I_LENGTH" title="Input Length (bit)" />
-  <KitFormU8
-    v-model="I"
-    :codec="HEX"
-    title="Input"
-    textarea
-  />
-  <KitDivider class="mt-6">
-    <KitButton @click="swap">
-      Swap
-    </KitButton>/
-    <KitButton @click="cipher">
-      Cipher
-    </KitButton>
-  </KitDivider>
-  <KitFormU8
-    v-model="O"
-    :codec="HEX"
-    title="Output"
-    textarea
-  />
-  <KitFormU8
-    v-model="T"
-    :codec="HEX"
-    title="Mac"
-    textarea
-  />
+  <ToolsLayout title="ZUC">
+    <KitFoldCard title="Config">
+      <div class="flex flex-col md:flex-row md:gap-2">
+        <KitFormNumber v-model="BEARER" title="Bearer" />
+        <KitFormSelect v-model="DIRECTION" title="Direction" :options="direction_options" />
+      </div>
+      <KitFormU8 v-model="COUNTER" title="Counter" :codec="HEX" />
+      <KitFormU8 v-model="K" title="Key" :codec="HEX" />
+      <KitFormNumber v-model="I_LENGTH" title="Input Length (bit)" />
+    </KitFoldCard>
+    <KitAlert>
+      In the original specification,
+      the <b>Input Length</b> is calculated using the <b>sizeof</b> operator in C.
+      However, in JavaScript, there is no equivalent operation to <b>sizeof</b>,
+      so it needs to be specified manually.
+    </KitAlert>
+    <KitFoldCard title="Encryption">
+      <template #action>
+        <KitButton @click="swap">
+          Swap
+        </KitButton>
+        <KitButton @click="cipher">
+          Cipher
+        </KitButton>
+      </template>
+      <KitFormU8 v-model="I" title="Input" textarea :codec="HEX" />
+      <KitFormU8 v-model="O" title="Output" textarea :codec="HEX" />
+      <KitFormU8 v-model="T" title="Mac" textarea :codec="HEX" />
+    </KitFoldCard>
 
-  <KitAlert class="mt-4">
-    In the original specification,
-    the <b>Input Length</b> is calculated using the <b>sizeof</b> operator in C.
-    However, in JavaScript, there is no equivalent operation to <b>sizeof</b>,
-    so it needs to be specified manually.
-  </KitAlert>
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['GB/T', '33133.1-2016']"
-        icon="icon-[carbon--html-reference]"
-        href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C41A3AEECCA52B5C0011C8010CF0715"
-      />
-      <KitRefLink
-        :texts="['33133.2-2016']"
-        icon="icon-[carbon--html-reference]"
-        href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=5D3CBA3ADEC7989344BD1E63006EF2B3"
-      />
-      <KitRefLink
-        :texts="['33133.3-2016']"
-        icon="icon-[carbon--html-reference]"
-        href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=C6D60AE0A7578E970EF2280ABD49F4F0"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      2016
-    </KitStat>
-
-    <KitStat title="Key Size (byte)">
-      16
-    </KitStat>
-  </div>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['GB/T', '33133.1-2016']"
+          icon="icon-[carbon--html-reference]"
+          href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C41A3AEECCA52B5C0011C8010CF0715"
+        />
+        <KitRefLink
+          :texts="['33133.2-2016']"
+          icon="icon-[carbon--html-reference]"
+          href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=5D3CBA3ADEC7989344BD1E63006EF2B3"
+        />
+        <KitRefLink
+          :texts="['33133.3-2016']"
+          icon="icon-[carbon--html-reference]"
+          href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=C6D60AE0A7578E970EF2280ABD49F4F0"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        2016
+      </KitStat>
+      <KitStat title="Key Size (byte)">
+        16
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>

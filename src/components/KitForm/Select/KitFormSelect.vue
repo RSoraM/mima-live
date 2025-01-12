@@ -1,16 +1,28 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormSelect' });
 
-const { border = true } = defineProps<{
-  options: SelectOption[];
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+  border = true,
+} = defineProps<{
+  titlePrefix?: string;
   title?: string;
+  titleSuffix?: string;
+  options: SelectOption[];
   border?: boolean;
 }>();
 const model = defineModel();
 </script>
 
 <template>
-  <KitFormControl :title="title" :="$attrs">
+  <KitFormControl
+    :="$attrs"
+    :title-prefix="titlePrefix"
+    :title="title"
+    :title-suffix="titleSuffix"
+  >
     <select
       v-model="model"
       class="join-item select text-xs"

@@ -30,93 +30,56 @@ onMounted(async () => encrypt());
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    SM2-ES
-  </h1>
-  <KitDivider class="divider-start">
-    # Step 0: Choose Curve
-  </KitDivider>
-  <div class="border-l pl-4">
-    <KitFormSelectCurve v-model="curve" title="" class="w-full" />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 1: Choose Hash Algorithm
-  </KitDivider>
-  <div class="border-l pl-4">
-    <KitFormSelectHash v-model="hash" title="" class="w-full" />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 2: Choose KDF Algorithm
-  </KitDivider>
-  <div class="border-l pl-4">
-    <KitFormSelectKDF v-model="kdf" title="" class="w-full" />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 3: Choose Ciphertext Order
-  </KitDivider>
-  <div class="border-l pl-4">
-    <KitFormSelect
-      v-model="order"
-      :options="order_options"
-      title=""
-      class="w-full"
-    />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 4: Key Generation
-  </KitDivider>
-  <div class="border-l pl-4">
-    <div class="flex justify-center gap-4 pb-4">
-      <KitButton @click="key.$reset()">
-        Clear
-      </KitButton>
-      <KitButton @click="key.gen()">
-        Generate
-      </KitButton>
-    </div>
-    <KitFormU8
-      v-model="key.d"
-      :codec="HEX"
-      :title="`Private Key dA (${key.d_bit} bit)`"
-    />
-    <KitFormECCPoint
-      v-model="key.Q"
-      :curve="curve"
-      name="Public Key QA"
-      :x-bit="key.x_bit"
-      :y-bit="key.y_bit"
-    />
-  </div>
-  <KitDivider class="divider-start">
-    # Step 5: Encryption
-  </KitDivider>
-  <div class="border-l pl-4">
-    <div class="flex justify-center gap-4 pb-4">
-      <KitButton @click="encrypt()">
-        Encrypt
-      </KitButton>
-      <KitButton @click="decrypt()">
-        Decrypt
-      </KitButton>
-    </div>
-    <KitFormU8
-      v-model="M"
-      :codec="UTF8"
-      :immediate="true"
-      :title="`Plaintext M (${M.length} bytes)`"
-      textarea
-    />
-    <KitFormU8
-      v-model="C"
-      :codec="HEX"
-      :title="`Ciphertext C (${C.length} bytes)`"
-      textarea
-    />
-  </div>
+  <ToolsLayout title="SM2-ES">
+    <KitFoldCard title="0: Elliptic Curve" :open="false">
+      <KitFormSelectCurve v-model="curve" class="w-full" />
+    </KitFoldCard>
+    <KitFoldCard title="1: Key Pair" :open="false">
+      <template #action>
+        <KitButton @click="key.$reset()">
+          Clear
+        </KitButton>
+        <KitButton @click="key.gen()">
+          Generate
+        </KitButton>
+      </template>
+      <KitFormU8
+        v-model="key.d" :codec="HEX"
+        :title="`Private Key dA (${key.d_bit} bit)`"
+      />
+      <KitFormECCPoint
+        v-model="key.Q" :curve="curve"
+        :x-bit="key.x_bit" :y-bit="key.y_bit"
+        name="Public Key QA"
+      />
+    </KitFoldCard>
+    <KitFoldCard title="2: ES Components" :open="false">
+      <KitFoldCard title="2.1: Hash Algorithm" :open="false">
+        <KitFormSelectHash v-model="hash" class="w-full" />
+      </KitFoldCard>
+      <KitFoldCard title="2.2: KDF Algorithm" class="mt-2" :open="false">
+        <KitFormSelectKDF v-model="kdf" title-prefix="2.2." class="w-full" />
+      </KitFoldCard>
+      <KitFoldCard title="2.3: Ciphertext Order" class="mt-2" :open="false">
+        <KitFormSelect v-model="order" :options="order_options" class="w-full" />
+      </KitFoldCard>
+    </KitFoldCard>
+    <KitFoldCard title="3: Encryption" :open="false">
+      <template #action>
+        <KitButton @click="encrypt()">
+          Encrypt
+        </KitButton>
+        <KitButton @click="decrypt()">
+          Decrypt
+        </KitButton>
+      </template>
+      <KitFormU8 v-model="M" :title="`Plaintext M (${M.length} bytes)`" textarea :immediate="true" :codec="UTF8" />
+      <KitFormU8 v-model="C" :title="`Ciphertext C (${C.length} bytes)`" textarea :codec="HEX" />
+    </KitFoldCard>
 
-  <!-- Curve Parameters -->
-  <KitDivider>
-    Curve Parameters
-  </KitDivider>
-  <KitCurveTable :curve="curve" :codec="HEX" />
+    <!-- Curve Parameters -->
+    <KitFoldCard title="Appendix: Curve Parameters" :open="false">
+      <KitCurveTable :curve="curve" :codec="HEX" />
+    </KitFoldCard>
+  </ToolsLayout>
 </template>

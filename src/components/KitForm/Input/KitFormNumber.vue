@@ -1,8 +1,15 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormNumber' });
 
-const { title, type = 'number' } = defineProps<{
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+  type = 'number',
+} = defineProps<{
+  titlePrefix?: string;
   title?: string;
+  titleSuffix?: string;
   type?: string;
 }>();
 const step = title?.endsWith('(bit)') ? 8 : 1;
@@ -10,7 +17,11 @@ const model = defineModel<string | number>();
 </script>
 
 <template>
-  <KitFormControl :title="title">
+  <KitFormControl
+    :title-prefix="titlePrefix"
+    :title="title"
+    :title-suffix="titleSuffix"
+  >
     <input
       v-model="model" :type="type" :step="step"
       class="input input-bordered text-xs"

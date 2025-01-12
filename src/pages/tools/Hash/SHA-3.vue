@@ -32,54 +32,35 @@ watchEffect(catchNotifySync(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    SHA-3
-  </h1>
-  <KitFormSelect
-    v-model="variant"
-    :options="variant_options"
-    title="Variant"
-  />
-  <KitFormU8
-    v-model="I" :codec="UTF8"
-    :immediate="true"
-    title="Input"
-    textarea
-  />
-  <KitFormU8
-    v-model="O"
-    :codec="HEX"
-    title="Output"
-    textarea
-  />
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['NIST', 'FIPS.202']"
-        icon="icon-[carbon--pdf-reference]"
-        href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      2016
-    </KitStat>
-
-    <KitStat title="Digest Size (byte)">
-      {{ hash?.DIGEST_SIZE }}
-    </KitStat>
-
-    <KitStat title="Block Size (byte)">
-      {{ hash?.BLOCK_SIZE }}
-    </KitStat>
-
-    <KitStat title="Structure">
-      Sponge & Keccak-p
-    </KitStat>
-
-    <KitStat title="Round">
-      24
-    </KitStat>
-  </div>
+  <ToolsLayout title="SHA-3">
+    <template #body>
+      <KitFormSelect v-model="variant" title="Variant" :options="variant_options" />
+      <KitFormU8 v-model="I" title="Input" :immediate="true" textarea :codec="UTF8" />
+      <KitFormU8 v-model="O" title="Output" textarea :codec="HEX" />
+    </template>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['NIST', 'FIPS.202']"
+          icon="icon-[carbon--pdf-reference]"
+          href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        2016
+      </KitStat>
+      <KitStat title="Digest Size (byte)">
+        {{ hash?.DIGEST_SIZE }}
+      </KitStat>
+      <KitStat title="Block Size (byte)">
+        {{ hash?.BLOCK_SIZE }}
+      </KitStat>
+      <KitStat title="Structure">
+        Sponge & Keccak-p
+      </KitStat>
+      <KitStat title="Round">
+        24
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>

@@ -75,92 +75,74 @@ onMounted(() => nextTick(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    ECIES
-  </h1>
-  <KitStep num="0" title="Choose Curve">
-    <KitFormSelectCurve v-model="curve" title="" class="w-full" />
-  </KitStep>
-  <KitStep num="1" title="Key Generation">
-    <KitFormU8 v-model="key.d" :codec="HEX" :title="`Private Key dA (${key.d_bit} bit)`" />
-    <KitFormECCPoint
-      v-model="key.Q" :curve="curve"
-      :x-bit="key.x_bit" :y-bit="key.y_bit"
-      name="Public Key QA"
-    />
-    <template #action>
-      <KitButton @click="key.$reset()">
-        Clear
-      </KitButton>
-      <KitButton @click="key.gen()">
-        Generate
-      </KitButton>
-    </template>
-  </KitStep>
-  <KitStep num="3" title="Components Config">
-    <KitFoldCard title="Block Cipher">
-      <KitFormSelectBlockCipher v-model="cipher_alg" class="w-full" />
-      <KitFormModeConfig v-model="cipher" :block-cipher="cipher_alg" />
+  <ToolsLayout title="ECIES">
+    <KitFoldCard title="0: Elliptic Curve" :open="false">
+      <KitFormSelectCurve v-model="curve" class="w-full" />
     </KitFoldCard>
-    <KitFoldCard title="MAC Algorithm" class="mt-2">
-      <KitFormSelectMAC v-model="mac" class="w-full" />
-    </KitFoldCard>
-    <KitFoldCard title="KDF Algorithm" class="mt-2">
-      <KitFormSelectKDF v-model="kdf" class="w-full" />
-    </KitFoldCard>
-    <KitFoldCard title="Additional Data" class="mt-2">
-      <KitFormU8
-        v-model="S1" :codec="UTF8"
-        title="S1"
-      />
-      <KitFormU8
-        v-model="S2" :codec="UTF8"
-        title="S2"
-      />
-      <KitFormU8
-        v-if="!cipher.ALGORITHM.startsWith('ECB')"
-        v-model="iv" :codec="UTF8"
-        title="IV"
-      />
-    </KitFoldCard>
-  </KitStep>
-  <KitStep num="4" title="Encryption">
-    <template #action-top>
-      <KitButton @click="decrypt()">
-        Decrypt
-      </KitButton>
-      <KitButton @click="encrypt()">
-        Encrypt
-      </KitButton>
-    </template>
-    <KitFormU8
-      v-model="M" :codec="UTF8"
-      title="Plaintext"
-      textarea
-    />
-    <KitFormU8
-      v-model="C" :codec="HEX"
-      title="Ciphertext"
-      textarea
-    />
-    <KitFormU8
-      v-model="D" :codec="HEX"
-      title="Tag"
-    />
-    <KitFoldCard open class="mt-2">
-      <template #header>
-        One-Time Public Key R
+    <KitFoldCard title="1: Key Pair" :open="false">
+      <template #action>
+        <KitButton @click="key.$reset()">
+          Clear
+        </KitButton>
+        <KitButton @click="key.gen()">
+          Generate
+        </KitButton>
       </template>
+      <ul class="mb-2 ml-6 list-disc text-xs">
+        <li>PrivateKey <b><u>d</u></b>.</li>
+        <li>PublicKey <b><u>Q</u></b>.</li>
+      </ul>
+      <KitFormU8
+        v-model="key.d" :codec="HEX"
+        :title="`d (${key.d_bit} bit)`"
+      />
       <KitFormECCPoint
-        v-model="r.Q" :curve="curve"
-        name="R"
+        v-model="key.Q" :curve="curve"
+        :x-bit="key.x_bit" :y-bit="key.y_bit"
+        name="Q"
       />
     </KitFoldCard>
-  </KitStep>
+    <KitFoldCard title="2: IES Components" :open="false">
+      <KitFoldCard title="2.1: Block Cipher" :open="false">
+        <KitFormSelectBlockCipher v-model="cipher_alg" class="w-full" />
+        <KitFormModeConfig v-model="cipher" :block-cipher="cipher_alg" />
+      </KitFoldCard>
+      <KitFoldCard title="2.2: MAC Algorithm" class="mt-2" :open="false">
+        <KitFormSelectMAC v-model="mac" class="w-full" title-prefix="2.2." />
+      </KitFoldCard>
+      <KitFoldCard title="2.3: KDF Algorithm" class="mt-2" :open="false">
+        <KitFormSelectKDF v-model="kdf" title-prefix="2.3." class="w-full" />
+      </KitFoldCard>
+      <KitFoldCard title="2.4: Additional Data" class="mt-2" :open="false">
+        <KitFormU8 v-model="S1" :codec="UTF8" title="S1" />
+        <KitFormU8 v-model="S2" :codec="UTF8" title="S2" />
+        <KitFormU8
+          v-if="!cipher.ALGORITHM.startsWith('ECB')"
+          v-model="iv" :codec="UTF8"
+          title="IV"
+        />
+      </KitFoldCard>
+    </KitFoldCard>
+    <KitFoldCard title="3: Encryption" :open="false">
+      <template #action>
+        <KitButton @click="decrypt()">
+          Decrypt
+        </KitButton>
+        <KitButton @click="encrypt()">
+          Encrypt
+        </KitButton>
+      </template>
+      <KitFormU8 v-model="M" title="Plaintext" textarea :codec="UTF8" />
+      <KitFormU8 v-model="C" title="Ciphertext" textarea :codec="HEX" />
+      <KitFormU8 v-model="D" title="Tag" :codec="HEX" />
+      <KitFoldCard title="One-Time Public Key R" open class="mt-2">
+        <KitFormECCPoint v-model="r.Q" name="R" :curve="curve" />
+      </KitFoldCard>
+    </KitFoldCard>
 
-  <!-- Curve Parameters -->
-  <KitDivider>
-    Curve Parameters
-  </KitDivider>
-  <KitCurveTable :curve="curve" :codec="HEX" />
+    <!-- Curve Parameters -->
+    <KitFoldCard title="Appendix: Curve Parameters" :open="false">
+      <KitCurveTable :curve="curve" :codec="HEX" />
+    </KitFoldCard>
+  </ToolsLayout>
 </template>

@@ -9,9 +9,14 @@ const {
     { label: 'B64URL', value: B64URL.FORMAT },
     { label: 'CSV', value: CSV.FORMAT },
   ],
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
 } = defineProps<{
-  title?: string;
   options?: SelectOption[];
+  titlePrefix?: string;
+  title?: string;
+  titleSuffix?: string;
 }>();
 const codec = defineModel<typeof UTF8>({ required: true });
 const format = computed({
@@ -44,6 +49,8 @@ const format = computed({
   <KitFormSelect
     v-model="format"
     :options="codec_options"
+    :title-prefix="titlePrefix"
     :title="title"
+    :title-suffix="titleSuffix"
   />
 </template>

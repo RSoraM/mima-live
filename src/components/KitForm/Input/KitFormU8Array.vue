@@ -1,8 +1,15 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFormU8Array' });
 
-const { immediate = false } = defineProps<{
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+  immediate = false,
+} = defineProps<{
+  titlePrefix?: string;
   title?: string;
+  titleSuffix?: string;
   immediate?: boolean;
 }>();
 const model = defineModel<{ value: InstanceType<typeof U8> }[]>();
@@ -20,7 +27,11 @@ function del(index: number) {
 </script>
 
 <template>
-  <KitFormControl :title="title">
+  <KitFormControl
+    :title-prefix="titlePrefix"
+    :title="title"
+    :title-suffix="titleSuffix"
+  >
     <div class="mb-2 flex flex-col gap-2">
       <KitFormU8
         v-for="(m, i) in model" :key="i"

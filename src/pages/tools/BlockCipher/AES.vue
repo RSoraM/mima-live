@@ -19,41 +19,27 @@ const init = {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    AES-{{ b }}
-  </h1>
+  <ToolsLayout :title="`AES-${b}`">
+    <KitFormSelect v-model="b" title="Key Size (bit)" :options="variant_options" />
+    <KitFormMode :block-cipher="alg" :init="init" />
 
-  <KitFormSelect
-    v-model="b"
-    :options="variant_options"
-    title="Key Size (bit)"
-  />
-
-  <KitDivider>
-    Operation Mode Config
-  </KitDivider>
-
-  <KitFormMode :block-cipher="alg" :init="init" />
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['NIST', 'FIPS.197']"
-        icon="icon-[carbon--pdf-reference]"
-        href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197-upd1.pdf"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      1998
-    </KitStat>
-
-    <KitStat title="Key Size (byte)">
-      {{ alg.KEY_SIZE }}
-    </KitStat>
-
-    <KitStat title="Block Size (byte)">
-      {{ alg.BLOCK_SIZE }}
-    </KitStat>
-  </div>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['NIST', 'FIPS.197']"
+          icon="icon-[carbon--pdf-reference]"
+          href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197-upd1.pdf"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        1998
+      </KitStat>
+      <KitStat title="Key Size (byte)">
+        {{ alg.KEY_SIZE }}
+      </KitStat>
+      <KitStat title="Block Size (byte)">
+        {{ alg.BLOCK_SIZE }}
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>

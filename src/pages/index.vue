@@ -28,7 +28,9 @@ const currentTheme = useLocalStorage('theme', 'dark');
           <span class="icon-[carbon--logo-github] size-8" />
         </a>
         <span>
-          Make with 💗 by
+          Make with
+          <span class="animate-pulse">💗</span>
+          by
           <a class="link" href="https://github.com/RSoraM" target="_blank">
             @RSoraM
           </a>

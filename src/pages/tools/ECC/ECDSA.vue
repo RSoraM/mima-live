@@ -43,48 +43,50 @@ onMounted(() => nextTick(() => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    ECDSA
-  </h1>
-  <KitStep num="0" title="Choose Curve">
-    <KitFormSelectCurve v-model="curve" title="" class="w-full" />
-  </KitStep>
-  <KitStep num="1" title="Choose Hash Algorithm">
-    <KitFormSelectHash v-model="hash" title="" class="w-full" />
-  </KitStep>
-  <KitStep num="2" title="Key Generation">
-    <KitFormU8 v-model="key.d" :codec="HEX" :title="`Private Key dA (${key.d_bit} bit)`" />
-    <KitFormECCPoint
-      v-model="key.Q" :curve="curve"
-      :x-bit="key.x_bit" :y-bit="key.y_bit"
-      name="Public Key QA"
-    />
-    <template #action>
-      <KitButton @click="key.$reset()">
-        Clear
-      </KitButton>
-      <KitButton @click="key.gen()">
-        Generate
-      </KitButton>
-    </template>
-  </KitStep>
-  <KitStep num="3" title="Signature">
-    <KitFormU8 v-model="M" :codec="UTF8" title="Input" textarea />
-    <KitFormU8 v-model="R" :codec="HEX" :title="`Signature r (${getBIBits(R.toBI())} bit)`" />
-    <KitFormU8 v-model="S" :codec="HEX" :title="`Signature s (${getBIBits(S.toBI())} bit)`" />
-    <template #action>
-      <KitButton @click="sign()">
-        Sign
-      </KitButton>
-      <KitButton @click="verify()">
-        Verify
-      </KitButton>
-    </template>
-  </KitStep>
+  <ToolsLayout title="ECDSA">
+    <KitFoldCard title="0: Elliptic Curve" :open="false">
+      <KitFormSelectCurve v-model="curve" class="w-full" />
+    </KitFoldCard>
+    <KitFoldCard title="1: Hash Algorithm" :open="false">
+      <KitFormSelectHash v-model="hash" class="w-full" />
+    </KitFoldCard>
+    <KitFoldCard title="2: Key Pair" :open="false">
+      <template #action>
+        <KitButton @click="key.$reset()">
+          Clear
+        </KitButton>
+        <KitButton @click="key.gen()">
+          Generate
+        </KitButton>
+      </template>
+      <ul class="mb-2 ml-6 list-disc text-xs">
+        <li>PrivateKey <b><u>d</u></b>.</li>
+        <li>PublicKey <b><u>Q</u></b>.</li>
+      </ul>
+      <KitFormU8 v-model="key.d" :title="`d (${key.d_bit} bit)`" :codec="HEX" />
+      <KitFormECCPoint
+        v-model="key.Q" :curve="curve"
+        :x-bit="key.x_bit" :y-bit="key.y_bit"
+        name="Q"
+      />
+    </KitFoldCard>
+    <KitFoldCard title="3: Signature" :open="false">
+      <template #action>
+        <KitButton @click="verify()">
+          Verify
+        </KitButton>
+        <KitButton @click="sign()">
+          Sign
+        </KitButton>
+      </template>
+      <KitFormU8 v-model="M" title="Input" textarea :codec="UTF8" />
+      <KitFormU8 v-model="R" :title="`Signature r (${getBIBits(R.toBI())} bit)`" :codec="HEX" />
+      <KitFormU8 v-model="S" :title="`Signature s (${getBIBits(S.toBI())} bit)`" :codec="HEX" />
+    </KitFoldCard>
 
-  <!-- Curve Parameters -->
-  <KitDivider>
-    Curve Parameters
-  </KitDivider>
-  <KitCurveTable :curve="curve" :codec="HEX" />
+    <!-- Curve Parameters -->
+    <KitFoldCard title="Appendix: Curve Parameters" :open="false">
+      <KitCurveTable :curve="curve" :codec="HEX" />
+    </KitFoldCard>
+  </ToolsLayout>
 </template>

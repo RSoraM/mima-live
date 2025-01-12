@@ -12,35 +12,26 @@ const init = {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-4 text-4xl font-bold md:my-8 md:mb-0">
-    DES
-  </h1>
+  <ToolsLayout title="DES">
+    <KitFormMode :block-cipher="des" :init="init" />
 
-  <KitDivider>
-    Operation Mode Config
-  </KitDivider>
-
-  <KitFormMode :block-cipher="des" :init="init" />
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['NIST', 'FIPS.46-3']"
-        icon="icon-[carbon--pdf-reference]"
-        href="https://csrc.nist.gov/files/pubs/fips/46-3/final/docs/fips46-3.pdf"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      1975
-    </KitStat>
-
-    <KitStat title="Key Size (byte)">
-      {{ des.KEY_SIZE }}
-    </KitStat>
-
-    <KitStat title="Block Size (byte)">
-      {{ des.BLOCK_SIZE }}
-    </KitStat>
-  </div>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['NIST', 'FIPS.46-3']"
+          icon="icon-[carbon--pdf-reference]"
+          href="https://csrc.nist.gov/files/pubs/fips/46-3/final/docs/fips46-3.pdf"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        1975
+      </KitStat>
+      <KitStat title="Key Size (byte)">
+        {{ des.KEY_SIZE }}
+      </KitStat>
+      <KitStat title="Block Size (byte)">
+        {{ des.BLOCK_SIZE }}
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>

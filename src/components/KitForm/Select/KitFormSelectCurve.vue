@@ -2,7 +2,6 @@
 defineOptions({ name: 'KitFormSelectCurve' });
 
 const {
-  title = 'Curve',
   options: curve_options = [
     { label: 'sm2p256v1', value: sm2p256v1 },
     { label: 'secp192k1', value: secp192k1 },
@@ -24,9 +23,14 @@ const {
     { label: 'Curve 25519', value: curve25519 },
     { label: 'Curve 448', value: curve448 },
   ],
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
 } = defineProps<{
-  title?: string;
   options?: SelectOption[];
+  titlePrefix?: string;
+  title?: string;
+  titleSuffix?: string;
 }>();
 const curve = defineModel<typeof secp256r1 | typeof curve25519>();
 </script>
@@ -35,6 +39,8 @@ const curve = defineModel<typeof secp256r1 | typeof curve25519>();
   <KitFormSelect
     v-model="curve"
     :options="curve_options"
+    :title-prefix="titlePrefix"
     :title="title"
+    :title-suffix="titleSuffix"
   />
 </template>

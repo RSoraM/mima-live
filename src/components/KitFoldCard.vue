@@ -1,36 +1,57 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFoldCard' });
-const { open = false } = defineProps<{
-  open?: boolean;
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+  open = true,
+} = defineProps<{
+  titlePrefix?: string;
   title?: string;
+  titleSuffix?: string;
+  open?: boolean;
 }>();
 
 const is_open = ref(open);
 </script>
 
 <template>
-  <div class="rounded-box bg-base-200 text-sm">
+  <div>
+    <!-- HEADER -->
     <div
-      class="flex cursor-pointer justify-between p-4"
-      @click="is_open = !is_open"
+      :class="{ 'rounded-t-box': is_open, 'rounded-box': !is_open, 'md:grid-cols-5': $slots.action }"
+      class="grid grid-flow-row items-center bg-base-300 transition-all duration-500"
     >
-      <slot name="header">
-        {{ title }}
-      </slot>
-      <label class="swap">
-        <input v-model="is_open" type="checkbox">
-        <span class="swap-on icon-[carbon--chevron-down] size-4" />
-        <span class="swap-off icon-[carbon--chevron-right] size-4" />
-      </label>
+      <!-- title -->
+      <div
+        :class="{ 'md:col-span-3': $slots.action }"
+        class="flex w-full cursor-pointer items-center gap-2 p-4 text-sm font-bold md:pr-0"
+        @click="is_open = !is_open"
+      >
+        <span class="swap swap-rotate" :class="{ 'swap-active': is_open }">
+          <span class="swap-on icon-[carbon--subtract] size-4" />
+          <span class="swap-off icon-[carbon--add] size-4" />
+        </span>
+        <slot name="title">
+          {{ titlePrefix + title + titleSuffix }}
+        </slot>
+      </div>
+      <!-- action -->
+      <div
+        v-if="$slots.action"
+        class="grid grid-cols-2 gap-2 p-4 pt-0 md:col-span-2 md:p-0 md:pr-4"
+      >
+        <slot name="action" />
+      </div>
     </div>
+    <!-- BODY -->
     <CollapseTransition>
-      <div v-show="is_open" class="p-4 pt-0">
-        <slot />
-        <div
-          v-if="$slots.action"
-          class="mt-4 flex justify-end gap-4"
-        >
-          <slot name="action" />
+      <div
+        v-show="is_open"
+        class="origin-top rounded-b-box bg-base-300 bg-opacity-35"
+      >
+        <div class="p-2 md:p-4">
+          <slot />
         </div>
       </div>
     </CollapseTransition>

@@ -1,13 +1,20 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitStat' });
-
-defineProps<{ title?: string }>();
+const {
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
+} = defineProps<{
+  titlePrefix?: string;
+  title?: string;
+  titleSuffix?: string;
+}>();
 </script>
 
 <template>
   <div class="stat">
     <div class="stat-title">
-      {{ title }}
+      {{ titlePrefix + title + titleSuffix }}
     </div>
     <div class="stat-value text-2xl">
       <slot />

@@ -28,9 +28,14 @@ const {
     { label: 'KangarooTwelve-128', value: 'KangarooTwelve-128' },
     { label: 'KangarooTwelve-256', value: 'KangarooTwelve-256' },
   ],
+  titlePrefix = '',
+  title = '',
+  titleSuffix = '',
 } = defineProps<{
-  title?: string;
   options?: SelectOption[];
+  titlePrefix?: string;
+  title?: string;
+  titleSuffix?: string;
 }>();
 const alg = ref(sm3.ALGORITHM);
 const hash = defineModel<typeof sha256>({ required: true });
@@ -183,14 +188,14 @@ watchEffect(catchNotifySync(() => {
 
 <template>
   <KitFormSelect
-    v-model="alg"
-    :options="hash_options"
-    :title="title"
-    :="$attrs"
+    v-model="alg" :options="hash_options"
+    :title="title" :="$attrs"
+    :title-prefix="titlePrefix"
+    :title-suffix="titleSuffix"
   />
   <KitFoldCard
-    v-if="show_config" title="Hash Config"
-    class="mt-2 bg-base-300"
+    v-show="show_config" title="Hash Config"
+    class="mt-2" :open="false"
   >
     <div class="flex flex-col md:flex-row md:gap-2">
       <KitFormNumber

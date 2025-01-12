@@ -12,35 +12,26 @@ const init = {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-4 text-4xl font-bold md:my-8 md:mb-0">
-    SM4
-  </h1>
+  <ToolsLayout title="SM4">
+    <KitFormMode :block-cipher="sm4" :init="init" />
 
-  <KitDivider>
-    Operation Mode Config
-  </KitDivider>
-
-  <KitFormMode :block-cipher="sm4" :init="init" />
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['GM/T', '0002-2012']"
-        icon="icon-[carbon--pdf-reference]"
-        href="http://www.gmbz.org.cn/upload/2018-04-04/1522788048733065051.pdf"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      2012
-    </KitStat>
-
-    <KitStat title="Key Size (byte)">
-      {{ sm4.KEY_SIZE }}
-    </KitStat>
-
-    <KitStat title="Block Size (byte)">
-      {{ sm4.BLOCK_SIZE }}
-    </KitStat>
-  </div>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['GM/T', '0002-2012']"
+          icon="icon-[carbon--pdf-reference]"
+          href="http://www.gmbz.org.cn/upload/2018-04-04/1522788048733065051.pdf"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        2012
+      </KitStat>
+      <KitStat title="Key Size (byte)">
+        {{ sm4.KEY_SIZE }}
+      </KitStat>
+      <KitStat title="Block Size (byte)">
+        {{ sm4.BLOCK_SIZE }}
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>

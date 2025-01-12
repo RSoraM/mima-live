@@ -1,22 +1,24 @@
 <script setup lang="ts">
 const transitionRef = ref<HTMLElement>();
 const transition = computed(() => {
-  const height = Number(
-    transitionRef.value?.style.height.replace('px', '') ?? 0,
-  );
-  const unit = Math.ceil(height / 16);
-  const duration = Math.max(unit * 20, 250);
-  return `${duration}ms height ease-in-out, ${duration}ms padding-top ease-in-out, ${duration}ms padding-bottom ease-in-out`;
+  // const height = Number(
+  //   transitionRef.value?.style.height.replace('px', '') ?? 0,
+  // );
+  // const unit = Math.ceil(height / 16);
+  const duration = 500;
+  return `${duration}ms opacity, ${duration}ms max-height`;
 });
 function beforeEnter(el?: HTMLElement) {
   if (!el)
     return;
   el.style.transition = transition.value;
+  // el.style.transitionTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
   el.dataset.oldPaddingTop = el.style.paddingTop;
   el.dataset.oldPaddingBottom = el.style.paddingBottom;
 
-  el.style.height = '0';
+  el.style.opacity = '0';
+  el.style.maxHeight = '0';
   el.style.paddingTop = '0';
   el.style.paddingBottom = '0';
 }
@@ -25,12 +27,14 @@ function enter(el?: HTMLElement) {
     return;
   el.dataset.oldOverflow = el.style.overflow;
   if (el.scrollHeight !== 0) {
-    el.style.height = `${el.scrollHeight}px`;
+    el.style.opacity = '1';
+    el.style.maxHeight = `${el.scrollHeight}px`;
     el.style.paddingTop = el.dataset.oldPaddingTop ?? '';
     el.style.paddingBottom = el.dataset.oldPaddingBottom ?? '';
   }
   else {
-    el.style.height = '';
+    el.style.opacity = '';
+    el.style.maxHeight = '';
     el.style.paddingTop = el.dataset.oldPaddingTop ?? '';
     el.style.paddingBottom = el.dataset.oldPaddingBottom ?? '';
   }
@@ -40,8 +44,10 @@ function enter(el?: HTMLElement) {
 function afterEnter(el?: HTMLElement) {
   if (!el)
     return;
+  el.style.opacity = '';
   el.style.transition = '';
-  el.style.height = '';
+  // el.style.transitionTimingFunction = '';
+  el.style.maxHeight = '';
   el.style.overflow = el.dataset.oldOverflow ?? '';
 }
 function beforeLeave(el?: HTMLElement) {
@@ -51,7 +57,8 @@ function beforeLeave(el?: HTMLElement) {
   el.dataset.oldPaddingTop = el.style.paddingTop;
   el.dataset.oldPaddingBottom = el.style.paddingBottom;
 
-  el.style.height = `${el.scrollHeight}px`;
+  el.style.opacity = '1';
+  el.style.maxHeight = `${el.scrollHeight}px`;
   el.style.overflow = 'hidden';
 }
 function leave(el?: HTMLElement) {
@@ -59,7 +66,9 @@ function leave(el?: HTMLElement) {
     return;
   if (el.scrollHeight !== 0) {
     el.style.transition = transition.value;
-    el.style.height = '0';
+    // el.style.transitionTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    el.style.opacity = '0';
+    el.style.maxHeight = '0';
     el.style.paddingTop = '0';
     el.style.paddingBottom = '0';
   }
@@ -68,7 +77,9 @@ function afterLeave(el?: HTMLElement) {
   if (!el)
     return;
   el.style.transition = '';
-  el.style.height = '';
+  // el.style.transitionTimingFunction = '';
+  el.style.opacity = '';
+  el.style.maxHeight = '';
   el.style.overflow = el.dataset.oldOverflow ?? '';
   el.style.paddingTop = el.dataset.oldPaddingTop ?? '';
   el.style.paddingBottom = el.dataset.oldPaddingBottom ?? '';

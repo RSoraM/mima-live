@@ -41,9 +41,14 @@ onMounted(() => nextTick(() => convert()));
     v-model="point.y" :codec="HEX"
     :title="`${name}.y (${yBit ?? getBIBits(point.y.toBI())} bit)`"
   />
-  <KitFoldCard class="my-2 bg-base-200">
-    <template #header>
-      {{ name }} Compression
+  <KitFoldCard class="mt-2" :title="`${name} Compression`" :open="false">
+    <template #action>
+      <KitButton @click="recover()">
+        Recover
+      </KitButton>
+      <KitButton @click="convert()">
+        Convert
+      </KitButton>
     </template>
     <KitFormToggle v-model="point.isInfinity" :title="`${name}.isInfinity`" />
     <KitFormU8
@@ -54,13 +59,5 @@ onMounted(() => nextTick(() => convert()));
       v-model="uncompressed_p" :codec="HEX"
       :title="`Uncompressed ${name} (${uncompressed_p.length} byte)`"
     />
-    <template #action>
-      <KitButton @click="recover()">
-        Recover
-      </KitButton>
-      <KitButton @click="convert()">
-        Convert
-      </KitButton>
-    </template>
   </KitFoldCard>
 </template>

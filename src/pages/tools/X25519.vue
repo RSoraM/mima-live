@@ -58,64 +58,66 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    {{ curve === curve25519 ? 'X25519' : 'X448' }}
-  </h1>
-  <KitStep num="0" title="Choose Curve">
-    <KitFormSelectCurve v-model="curve" :options="options" title="" class="w-full" />
-  </KitStep>
-  <KitStep num="1" title="Alice">
-    <ul class="mx-8 list-decimal text-sm">
-      <li>Generate PrivateKey <b><u>dA</u></b>.</li>
-      <li>Compute and Send PublicKey <b><u>QA</u></b> to <b><u>Bob</u></b>.</li>
-    </ul>
-    <KitFormU8 v-model="alice.key.d" :codec="HEX" title="dA" />
-    <KitFormU8 v-model="alice.key.Q" :codec="HEX" title="QA" />
-    <template #action>
-      <KitButton @click="alice.$reset()">
-        Clear
-      </KitButton>
-      <KitButton @click="alice.gen()">
-        Generate
-      </KitButton>
-    </template>
-  </KitStep>
-  <KitStep num="2" title="Bob">
-    <ul class="mx-8 list-decimal text-sm">
-      <li>Generate PrivateKey <b><u>dB</u></b>.</li>
-      <li>Compute and Send PublicKey <b><u>QB</u></b> to <b><u>Alice</u></b>.</li>
-    </ul>
-    <KitFormU8 v-model="bob.key.d" :codec="HEX" title="dB" />
-    <KitFormU8 v-model="bob.key.Q" :codec="HEX" title="QB" />
-    <template #action>
-      <KitButton @click="bob.$reset()">
-        Clear
-      </KitButton>
-      <KitButton @click="bob.gen()">
-        Generate
-      </KitButton>
-    </template>
-  </KitStep>
-  <KitStep num="3" title="Compute Shared Secret">
-    <KitFormU8 v-model="alice.secret" :codec="HEX" :title="`Alice's Secret = dA * QB (${alice.secretBit} bit)`" />
-    <KitFormU8 v-model="bob.secret" :codec="HEX" :title="`Bob's Secret = dB * QA (${bob.secretBit} bit)`" />
-    <template #action>
-      <KitButton @click="alice.dh(bob.key), bob.dh(alice.key)">
-        Compute Secret
-      </KitButton>
-    </template>
-  </KitStep>
+  <ToolsLayout :title="curve === curve25519 ? 'X25519' : 'X448'">
+    <KitFoldCard title="0: Elliptic Curve" :open="false">
+      <KitFormSelectCurve v-model="curve" :options="options" class="w-full" />
+    </KitFoldCard>
+    <KitFoldCard title="1: Alice's Key" :open="false">
+      <ul class="mb-2 ml-6 list-disc text-xs">
+        <li>Generate PrivateKey <b><u>dA</u></b>.</li>
+        <li>Compute and Send PublicKey <b><u>QA</u></b> to <b><u>Bob</u></b>.</li>
+      </ul>
+      <KitFormU8 v-model="alice.key.d" :codec="HEX" title="dA" />
+      <KitFormU8 v-model="alice.key.Q" :codec="HEX" title="QA" />
+      <template #action>
+        <KitButton @click="alice.$reset()">
+          Clear
+        </KitButton>
+        <KitButton @click="alice.gen()">
+          Generate
+        </KitButton>
+      </template>
+    </KitFoldCard>
+    <KitFoldCard title="2: Bob's Key" :open="false">
+      <template #action>
+        <KitButton @click="bob.$reset()">
+          Clear
+        </KitButton>
+        <KitButton @click="bob.gen()">
+          Generate
+        </KitButton>
+      </template>
+      <ul class="mb-2 ml-6 list-disc text-xs">
+        <li>Generate PrivateKey <b><u>dB</u></b>.</li>
+        <li>Compute and Send PublicKey <b><u>QB</u></b> to <b><u>Alice</u></b>.</li>
+      </ul>
+      <KitFormU8 v-model="bob.key.d" :codec="HEX" title="dB" />
+      <KitFormU8 v-model="bob.key.Q" :codec="HEX" title="QB" />
+    </KitFoldCard>
+    <KitFoldCard title="3: Shared Secret" :open="false">
+      <template #action>
+        <span class="hidden md:block" />
+        <KitButton
+          class="col-span-2 md:col-span-1"
+          @click="alice.dh(bob.key), bob.dh(alice.key)"
+        >
+          Compute
+        </KitButton>
+      </template>
+      <KitFormU8 v-model="alice.secret" :codec="HEX" :title="`Alice's Secret = dA * QB (${alice.secretBit} bit)`" />
+      <KitFormU8 v-model="bob.secret" :codec="HEX" :title="`Bob's Secret = dB * QA (${bob.secretBit} bit)`" />
+    </KitFoldCard>
 
-  <KitAlert class="mt-4">
-    <b><u>x25519</u></b> and <b><u>x448</u></b> provided by <b><u>mima-kit</u></b> may not be fully compatible with other implementations.
-    This is because <b><u>RFC 7748</u></b> specifies <b><u>little-endian</u></b> as the encoding method,
-    while <b><u>mima-kit</u></b> uses <b><u>big-endian</u></b> as the encoding method.
-    By converting the <b><u>endian</u></b>, it should be compatible with other implementations.
-  </KitAlert>
+    <KitAlert>
+      <b><u>x25519</u></b> and <b><u>x448</u></b> provided by <b><u>mima-kit</u></b> may not be fully compatible with other implementations.
+      This is because <b><u>RFC 7748</u></b> specifies <b><u>little-endian</u></b> as the encoding method,
+      while <b><u>mima-kit</u></b> uses <b><u>big-endian</u></b> as the encoding method.
+      By converting the <b><u>endian</u></b>, it should be compatible with other implementations.
+    </KitAlert>
 
-  <!-- Curve Parameters -->
-  <KitDivider>
-    Curve Parameters
-  </KitDivider>
-  <KitCurveTable :curve="curve" :codec="HEX" />
+    <!-- Curve Parameters -->
+    <KitFoldCard title="Appendix: Curve Parameters" :open="false">
+      <KitCurveTable :curve="curve" :codec="HEX" />
+    </KitFoldCard>
+  </ToolsLayout>
 </template>

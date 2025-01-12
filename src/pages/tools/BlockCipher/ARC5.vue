@@ -22,83 +22,67 @@ const init = {
 </script>
 
 <template>
-  <h1 class="mx-auto mb-8 text-4xl font-bold md:my-8">
-    ARC5-{{ b }}/{{ r }}
-  </h1>
+  <ToolsLayout :title="`ARC5-${b}/${r}`">
+    <div class="flex flex-col md:flex-row md:gap-2">
+      <KitFormSelect v-model="b" title="Word Size (bit)" :options="variant_options" />
+      <KitFormNumber v-model="r" title="Rounds" />
+    </div>
+    <KitFormMode :block-cipher="alg" :init="init" />
+    <KitFoldCard title="Suggestions Spec">
+      <table class="table table-zebra table-sm">
+        <thead>
+          <tr>
+            <th>Word Size (byte)</th>
+            <th>rounds</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>8</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>16</td>
+          </tr>
+          <tr>
+            <td>64</td>
+            <td>20</td>
+          </tr>
+          <tr>
+            <td>128</td>
+            <td>32</td>
+          </tr>
+        </tbody>
+      </table>
+    </KitFoldCard>
 
-  <div class="flex flex-col md:flex-row md:gap-2">
-    <KitFormSelect
-      v-model="b"
-      :options="variant_options"
-      title="Word Size (bit)"
-    />
-    <KitFormNumber v-model="r" title="Rounds" />
-  </div>
-
-  <KitDivider>
-    Operation Mode Config
-  </KitDivider>
-
-  <KitFormMode :block-cipher="alg" :init="init" />
-
-  <div class="mx-auto my-6 text-xl font-bold">
-    Suggestions Spec
-  </div>
-  <table class="table table-zebra table-lg">
-    <thead>
-      <tr>
-        <th>Word Size (byte)</th>
-        <th>rounds</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>8</td>
-        <td>8</td>
-      </tr>
-      <tr>
-        <td>16</td>
-        <td>12</td>
-      </tr>
-      <tr>
-        <td>32</td>
-        <td>16</td>
-      </tr>
-      <tr>
-        <td>64</td>
-        <td>20</td>
-      </tr>
-      <tr>
-        <td>128</td>
-        <td>32</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="stats stats-vertical my-6 shadow">
-    <KitStat title="Specification">
-      <KitRefLink
-        :texts="['RC5']"
-        icon="icon-[carbon--pdf-reference]"
-        href="https://people.csail.mit.edu/rivest/pubs/Riv94.revised-1997-03-20.pdf"
-      />
-      <KitRefLink
-        :texts="['RFC 2040']"
-        icon="icon-[carbon--txt-reference]"
-        href="https://www.rfc-editor.org/rfc/rfc2040.txt"
-      />
-    </KitStat>
-
-    <KitStat title="First published">
-      1994
-    </KitStat>
-
-    <KitStat title="Key Size (byte)">
-      1 - {{ alg.KEY_SIZE }}
-    </KitStat>
-
-    <KitStat title="Block Size (byte)">
-      {{ alg.BLOCK_SIZE }}
-    </KitStat>
-  </div>
+    <template #stat>
+      <KitStat title="Specification">
+        <KitRefLink
+          :texts="['RC5']"
+          icon="icon-[carbon--pdf-reference]"
+          href="https://people.csail.mit.edu/rivest/pubs/Riv94.revised-1997-03-20.pdf"
+        />
+        <KitRefLink
+          :texts="['RFC 2040']"
+          icon="icon-[carbon--txt-reference]"
+          href="https://www.rfc-editor.org/rfc/rfc2040.txt"
+        />
+      </KitStat>
+      <KitStat title="First published">
+        1994
+      </KitStat>
+      <KitStat title="Key Size (byte)">
+        {{ alg.MIN_KEY_SIZE }} - {{ alg.MAX_KEY_SIZE }}
+      </KitStat>
+      <KitStat title="Block Size (byte)">
+        {{ alg.BLOCK_SIZE }}
+      </KitStat>
+    </template>
+  </ToolsLayout>
 </template>
