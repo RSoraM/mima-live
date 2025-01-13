@@ -39,7 +39,7 @@ watchEffect(catchNotifySync(() => {
   <ToolsLayout title="ParallelHash">
     <template #body>
       <KitFormSelect v-model="variant" title="Variant" :options="variant_options" />
-      <div class="flex flex-col md:flex-row md:gap-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-2">
         <KitFormNumber v-model="t" title="Digest Size (bit)" />
         <KitFormNumber v-model="b" title="Block size (bit)" />
       </div>

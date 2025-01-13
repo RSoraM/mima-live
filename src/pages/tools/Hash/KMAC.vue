@@ -38,7 +38,7 @@ watchEffect(catchNotifySync(() => {
 <template>
   <ToolsLayout title="KMAC">
     <template #body>
-      <div class="flex flex-col md:flex-row md:gap-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-2">
         <KitFormSelect v-model="variant" title="Variant" :options="variant_options" />
         <KitFormNumber v-model="t" title="Digest Size (bit)" />
       </div>

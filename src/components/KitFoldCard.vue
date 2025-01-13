@@ -1,18 +1,32 @@
 <script setup lang="ts">
 defineOptions({ name: 'KitFoldCard' });
+
 const {
   titlePrefix = '',
   title = '',
   titleSuffix = '',
   open = true,
+  bodyClass = '',
 } = defineProps<{
   titlePrefix?: string;
   title?: string;
   titleSuffix?: string;
   open?: boolean;
+  bodyClass?: string;
 }>();
-
 const is_open = ref(open);
+const body = ref<HTMLElement | null>(null);
+onMounted(() => {
+  const first_el = body.value?.firstElementChild;
+  if (first_el?.tagName === 'LABEL' && first_el?.classList.contains('form-control')) {
+    const first_label = first_el?.querySelector('.label');
+    first_label?.classList.add('pt-0');
+  }
+  else if (first_el?.tagName === 'DIV' && first_el?.classList.contains('grid')) {
+    const labels = first_el?.querySelectorAll('.label');
+    labels?.forEach(label => label.classList.add('pt-0'));
+  }
+});
 </script>
 
 <template>
@@ -50,7 +64,7 @@ const is_open = ref(open);
         v-show="is_open"
         class="origin-top rounded-b-box bg-base-300 bg-opacity-35"
       >
-        <div class="p-2 md:p-4">
+        <div ref="body" class="p-2 md:p-4" :class="bodyClass">
           <slot />
         </div>
       </div>

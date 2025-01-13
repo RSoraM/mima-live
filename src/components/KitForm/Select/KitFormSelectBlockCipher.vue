@@ -100,8 +100,7 @@ watchEffect(catchNotifySync(() => {
 <template>
   <div>
     <KitFormSelect
-      v-model="alg"
-      :options="cipher_option"
+      v-model="alg" :options="cipher_option"
       :title-prefix="titlePrefix"
       :title="title"
       :title-suffix="titleSuffix"
@@ -113,7 +112,7 @@ watchEffect(catchNotifySync(() => {
       :options="key_size_option"
       title="Key Size (bit)"
     />
-    <div v-if="show_arc5_option" class="flex flex-col md:flex-row md:gap-2">
+    <div v-if="show_arc5_option" class="grid grid-cols-1 md:grid-cols-2 md:gap-x-2">
       <KitFormSelect
         v-model="arc5_ws"
         :options="arc5_ws_option"

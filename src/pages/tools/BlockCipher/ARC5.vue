@@ -23,7 +23,7 @@ const init = {
 
 <template>
   <ToolsLayout :title="`ARC5-${b}/${r}`">
-    <div class="flex flex-col md:flex-row md:gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-2">
       <KitFormSelect v-model="b" title="Word Size (bit)" :options="variant_options" />
       <KitFormNumber v-model="r" title="Rounds" />
     </div>

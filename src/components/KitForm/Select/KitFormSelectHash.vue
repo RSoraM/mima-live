@@ -31,11 +31,13 @@ const {
   titlePrefix = '',
   title = '',
   titleSuffix = '',
+  open = false,
 } = defineProps<{
   options?: SelectOption[];
   titlePrefix?: string;
   title?: string;
   titleSuffix?: string;
+  open?: boolean;
 }>();
 const alg = ref(sm3.ALGORITHM);
 const hash = defineModel<typeof sha256>({ required: true });
@@ -195,11 +197,12 @@ watchEffect(catchNotifySync(() => {
   />
   <KitFoldCard
     v-show="show_config" title="Hash Config"
-    class="mt-2" :open="false"
+    class="mt-2" :open="open"
   >
-    <div class="flex flex-col md:flex-row md:gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-2">
       <KitFormNumber
-        v-if="show_t" v-model="t"
+        v-if="show_t"
+        v-model="t" :class="{ 'md:col-span-2': !show_block_size && !show_ds }"
         title="Digest Size (bit)"
       />
       <KitFormNumber

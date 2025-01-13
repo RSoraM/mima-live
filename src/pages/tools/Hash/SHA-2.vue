@@ -38,8 +38,11 @@ watchEffect(catchNotifySync(() => {
 <template>
   <ToolsLayout title="SHA-2">
     <template #body>
-      <div class="flex flex-col md:flex-row md:gap-2">
-        <KitFormSelect v-model="variant" title="Variant" :options="variant_options" />
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-2">
+        <KitFormSelect
+          v-model="variant"
+          :class="{ 'md:col-span-2': variant !== 'SHA-512/t' }" title="Variant" :options="variant_options"
+        />
         <template v-if="variant === 'SHA-512/t'">
           <KitFormNumber v-model="t" title="Digest Size (bit)" />
         </template>
