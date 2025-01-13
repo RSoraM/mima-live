@@ -3,7 +3,7 @@ defineOptions({ name: 'KitMenu' });
 </script>
 
 <template>
-  <ul class="menu w-full">
+  <ul class="menu">
     <slot />
   </ul>
 </template>

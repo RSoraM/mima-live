@@ -16,6 +16,7 @@ watchEffect(() => {
 <template>
   <li>
     <span
+      :class="isOpenInside ? 'menu-dropdown-show' : ''"
       class="menu-dropdown-toggle"
       @click="isOpenInside = !isOpenInside"
     >
@@ -23,11 +24,13 @@ watchEffect(() => {
         {{ title }}
       </slot>
     </span>
-    <ul
-      class="menu-dropdown"
-      :class="isOpenInside ? 'menu-dropdown-show' : ''"
-    >
-      <slot />
-    </ul>
+    <CollapseTransition>
+      <ul
+        v-show="isOpenInside"
+        :class="isOpenInside ? 'menu-dropdown-show' : ''"
+      >
+        <slot />
+      </ul>
+    </CollapseTransition>
   </li>
 </template>
