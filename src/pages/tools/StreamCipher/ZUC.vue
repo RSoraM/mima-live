@@ -37,7 +37,7 @@ const cipher = catchNotify(() => {
 <template>
   <ToolsLayout title="ZUC">
     <KitFoldCard title="Config">
-      <div class="flex flex-col md:flex-row md:gap-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-2">
         <KitFormNumber v-model="BEARER" title="Bearer" />
         <KitFormSelect v-model="DIRECTION" title="Direction" :options="direction_options" />
       </div>
