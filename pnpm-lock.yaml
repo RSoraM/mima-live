@@ -58,8 +58,8 @@ importers:
         specifier: ^3.17.5
         version: 3.17.5(tailwindcss@3.4.17)
       mima-kit:
-        specifier: ^0.0.13
-        version: 0.0.13
+        specifier: ^0.0.16
+        version: 0.0.16
       pinia:
         specifier: ^2.3.0
         version: 2.3.0(typescript@5.6.2)(vue@3.5.13(typescript@5.6.2))
@@ -884,10 +884,6 @@ packages:
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
-
-  asn1js@3.0.5:
-    resolution: {integrity: sha512-FVnvrKJwpt9LP2lAMl8qZswRNm3T4q9CON+bxldk2iwk3FFpuwhx2FfinyitizWHsVYyaY+y5JzDR0rCMV5yTQ==}
-    engines: {node: '>=12.0.0'}
 
   autoprefixer@10.4.20:
     resolution: {integrity: sha512-XY25y5xSv/wEoqzDyXXME4AFfkZI0P23z6Fs3YgymDnKJkCGOnkL0iTxCa85UTqaSgfcqyf3UA6+c7wUvx/16g==}
@@ -1793,8 +1789,8 @@ packages:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
 
-  mima-kit@0.0.13:
-    resolution: {integrity: sha512-DqvJ2SDf3V4NUxyNPMKQUHnPYglKUY9hIoND56LBO1oljNfbXdyzQvjQM8jBAgrSDKMDz0lCFFAGfhbHpYihuA==}
+  mima-kit@0.0.16:
+    resolution: {integrity: sha512-15Rf29UOG8c9xlVgqziURDh9LEaSPIDbKmD33CwUYF+7Q7Q0FWn4wiV9GZ5RiMVdVaPDd+dlen3i6Johv6wKAA==}
 
   mimic-fn@4.0.0:
     resolution: {integrity: sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==}
@@ -2065,13 +2061,6 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
-
-  pvtsutils@1.3.6:
-    resolution: {integrity: sha512-PLgQXQ6H2FWCaeRak8vvk1GW462lMxB5s3Jm673N82zI4vqtVUPuZdffdZbPDFRoU8kAhItWFtPCWiPpp4/EDg==}
-
-  pvutils@1.1.3:
-    resolution: {integrity: sha512-pMpnA0qRdFp32b1sJl1wOJNxZLQ2cbQx+k6tjNtZ8CpvVhNqEPRgivZ2WOUev2YMajecdH7ctUPDvEe87nariQ==}
-    engines: {node: '>=6.0.0'}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -3359,12 +3348,6 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  asn1js@3.0.5:
-    dependencies:
-      pvtsutils: 1.3.6
-      pvutils: 1.1.3
-      tslib: 2.8.1
-
   autoprefixer@10.4.20(postcss@8.4.49):
     dependencies:
       browserslist: 4.24.3
@@ -4501,9 +4484,7 @@ snapshots:
       braces: 3.0.3
       picomatch: 2.3.1
 
-  mima-kit@0.0.13:
-    dependencies:
-      asn1js: 3.0.5
+  mima-kit@0.0.16: {}
 
   mimic-fn@4.0.0: {}
 
@@ -4743,12 +4724,6 @@ snapshots:
       sisteransi: 1.0.5
 
   punycode@2.3.1: {}
-
-  pvtsutils@1.3.6:
-    dependencies:
-      tslib: 2.8.1
-
-  pvutils@1.1.3: {}
 
   queue-microtask@1.2.3: {}
 

@@ -2,7 +2,7 @@
 defineOptions({ name: 'HMAC' });
 
 const hash = ref(sm3);
-const mac = computed(catchNotifySync(() => hmac(hash.value)));
+const mac = computed(() => hmac(hash.value));
 
 const K = ref(new U8());
 const I = ref(UTF8('mima-kit'));

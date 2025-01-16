@@ -38,6 +38,7 @@ declare module 'vue' {
     KitFormU8Array: typeof import('./src/components/KitForm/Input/KitFormU8Array.vue')['default']
     KitFormU8Base: typeof import('./src/components/KitForm/Input/KitFormU8Base.vue')['default']
     KitFormX25519Key: typeof import('./src/components/KitForm/KitFormX25519Key.vue')['default']
+    KitInfo: typeof import('./src/components/KitInfo.vue')['default']
     KitMenu: typeof import('./src/components/KitMenu/KitMenu.vue')['default']
     KitMenuGroup: typeof import('./src/components/KitMenu/KitMenuGroup.vue')['default']
     KitMenuItem: typeof import('./src/components/KitMenu/KitMenuItem.vue')['default']

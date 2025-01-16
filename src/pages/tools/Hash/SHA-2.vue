@@ -10,7 +10,7 @@ const variant_options: SelectOption[] = [
   { label: 'SHA-512', value: 'SHA-512' },
   { label: 'SHA-512/t', value: 'SHA-512/t' },
 ];
-const hash = computed(catchNotifySync(() => {
+const hash = computed(() => {
   switch (variant.value) {
     case 'SHA-224':
       return sha224;
@@ -25,7 +25,7 @@ const hash = computed(catchNotifySync(() => {
     default:
       return undefined;
   }
-}));
+});
 
 const I = ref(UTF8('mima-kit'));
 const O = ref(new U8());

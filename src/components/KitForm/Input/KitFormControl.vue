@@ -24,13 +24,17 @@ const {
   <template v-if="title">
     <label v-if="type === 'text'" :="$attrs" class="form-control w-full">
       <div class="label">
-        <span class="label-text text-xs">{{ titlePrefix + title + titleSuffix }}</span>
+        <span class="label-text text-xs">
+          <slot name="title">{{ titlePrefix + title + titleSuffix }}</slot>
+        </span>
       </div>
       <slot />
     </label>
     <div v-else :="$attrs" class="form-control">
       <label class="label cursor-pointer">
-        <span class="label-text text-xs">{{ titlePrefix + title + titleSuffix }}</span>
+        <span class="label-text text-xs">
+          <slot name="title">{{ titlePrefix + title + titleSuffix }}</slot>
+        </span>
         <slot />
       </label>
     </div>

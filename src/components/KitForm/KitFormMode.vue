@@ -26,15 +26,15 @@ const A = ref(HEX(init?.a || ''));
 // auth tag
 const T = ref(HEX(init?.t || ''));
 
-const encrypt = catchNotify(() => {
+const encrypt = catchNotifySync(() => {
   const cipher = mode_cipher.value(K.value, IV.value);
   C.value = cipher.encrypt(P.value);
 });
-const decrypt = catchNotify(() => {
+const decrypt = catchNotifySync(() => {
   const cipher = mode_cipher.value(K.value, IV.value);
   P.value = cipher.decrypt(C.value);
 });
-const sign = catchNotify(() => {
+const sign = catchNotifySync(() => {
   if (!mode_cipher.value.ALGORITHM.startsWith('GCM')) {
     throw new Error('Only GCM mode supports signing');
   }
@@ -42,7 +42,7 @@ const sign = catchNotify(() => {
   C.value = cipher.encrypt(P.value);
   T.value = cipher.sign(C.value, A.value);
 });
-const verify = catchNotify(() => {
+const verify = catchNotifySync(() => {
   if (!mode_cipher.value.ALGORITHM.startsWith('GCM')) {
     throw new Error('Only GCM mode supports verifying');
   }

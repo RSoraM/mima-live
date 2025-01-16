@@ -77,6 +77,7 @@ const routes = [
           { name: 'Twofish', path: 'Twofish', component: () => import('./pages/tools/BlockCipher/Twofish.vue') },
           { name: 'TEA', path: 'TEA', component: () => import('./pages/tools/BlockCipher/TEA.vue') },
           { name: 'XTEA', path: 'XTEA', component: () => import('./pages/tools/BlockCipher/XTEA.vue') },
+          { name: 'XXTEA', path: 'XXTEA', component: () => import('./pages/tools/BlockCipher/XXTEA.vue') },
         ],
       },
       {

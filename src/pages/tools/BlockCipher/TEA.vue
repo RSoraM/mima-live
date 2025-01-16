@@ -2,7 +2,7 @@
 defineOptions({ name: 'TEA' });
 
 const r = ref(32);
-const alg = computed(catchNotifySync(() => tea(r.value)));
+const alg = computed(() => tea(r.value));
 const init = {
   k: '0123456789ABCDEFFEDCBA9876543210',
   iv: '0123456789ABCDEF',

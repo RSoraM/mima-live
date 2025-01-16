@@ -14,30 +14,30 @@ const {
 }>();
 const disable_no_pad = computed(() => ![cfb, ofb, ctr, gcm].includes(mode));
 const options = computed<SelectOption[]>(() => ([
-  { label: 'PKCS#7', value: 'PKCS#7' },
-  { label: 'ANSI X9.23', value: 'ANSI X9.23' },
-  { label: 'ISO 7816-4', value: 'ISO 7816-4' },
-  { label: 'Zero Padding', value: 'Zero Padding' },
-  { label: 'None Padding', value: 'None Padding', disable: disable_no_pad.value },
+  { label: 'PKCS#7', value: PKCS7_PAD.ALGORITHM },
+  { label: 'ANSI X9.23', value: X923_PAD.ALGORITHM },
+  { label: 'ISO 7816-4', value: ISO7816_PAD.ALGORITHM },
+  { label: 'Zero Padding', value: ZERO_PAD.ALGORITHM },
+  { label: 'None Padding', value: NO_PAD.ALGORITHM, disable: disable_no_pad.value },
 ]));
 
-const alg = ref('PKCS#7');
 const padding = defineModel<typeof PKCS7_PAD>({ required: true });
+const alg = ref(padding.value.ALGORITHM);
 
 watchEffect(() => {
-  if (alg.value === 'PKCS#7') {
+  if (alg.value === PKCS7_PAD.ALGORITHM) {
     padding.value = PKCS7_PAD;
   }
-  else if (alg.value === 'ANSI X9.23') {
+  else if (alg.value === X923_PAD.ALGORITHM) {
     padding.value = X923_PAD;
   }
-  else if (alg.value === 'ISO 7816-4') {
+  else if (alg.value === ISO7816_PAD.ALGORITHM) {
     padding.value = ISO7816_PAD;
   }
-  else if (alg.value === 'Zero Padding') {
+  else if (alg.value === ZERO_PAD.ALGORITHM) {
     padding.value = ZERO_PAD;
   }
-  else if (alg.value === 'None Padding') {
+  else if (alg.value === NO_PAD.ALGORITHM) {
     padding.value = NO_PAD;
   }
 });

@@ -7,39 +7,39 @@
 export {}
 declare global {
   const $notify: typeof import('./src/composables/notify')['$notify']
-  const B64: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['B64']
-  const B64URL: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['B64URL']
-  const CSV: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['CSV']
+  const B64: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['B64']
+  const B64URL: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['B64URL']
+  const CSV: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['CSV']
   const EffectScope: typeof import('vue')['EffectScope']
-  const FpECC: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['FpECC']
-  const HEX: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['HEX']
-  const ISO7816_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ISO7816_PAD']
-  const NO_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['NO_PAD']
-  const PKCS7_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['PKCS7_PAD']
-  const U8: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['U8']
+  const FpECC: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['FpECC']
+  const HEX: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['HEX']
+  const ISO7816_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ISO7816_PAD']
+  const NO_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['NO_PAD']
+  const PKCS7_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['PKCS7_PAD']
+  const U8: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['U8']
   const U8Point: typeof import('./src/composables/utils')['U8Point']
-  const UTF8: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['UTF8']
-  const X923_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['X923_PAD']
-  const ZERO_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ZERO_PAD']
+  const UTF8: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['UTF8']
+  const X923_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['X923_PAD']
+  const ZERO_PAD: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ZERO_PAD']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
-  const aes: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['aes']
-  const arc4: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['arc4']
-  const arc5: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['arc5']
-  const aria: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['aria']
+  const aes: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['aes']
+  const arc4: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['arc4']
+  const arc5: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['arc5']
+  const aria: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['aria']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
-  const blowfish: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['blowfish']
-  const bp192r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp192r1']
-  const bp224r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp224r1']
-  const bp256r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp256r1']
-  const bp320r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp320r1']
-  const bp384r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp384r1']
-  const bp512r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp512r1']
-  const camellia: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['camellia']
+  const blowfish: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['blowfish']
+  const bp192r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp192r1']
+  const bp224r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp224r1']
+  const bp256r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp256r1']
+  const bp320r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp320r1']
+  const bp384r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp384r1']
+  const bp512r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp512r1']
+  const camellia: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['camellia']
   const catchNotify: typeof import('./src/composables/notify')['catchNotify']
   const catchNotifySync: typeof import('./src/composables/notify')['catchNotifySync']
-  const cbc: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['cbc']
-  const cfb: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['cfb']
+  const cbc: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['cbc']
+  const cfb: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['cfb']
   const computed: typeof import('vue')['computed']
   const computedAsync: typeof import('@vueuse/core')['computedAsync']
   const computedEager: typeof import('@vueuse/core')['computedEager']
@@ -48,61 +48,62 @@ declare global {
   const controlledComputed: typeof import('@vueuse/core')['controlledComputed']
   const controlledRef: typeof import('@vueuse/core')['controlledRef']
   const createApp: typeof import('vue')['createApp']
-  const createCipher: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['createCipher']
+  const createCipher: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['createCipher']
   const createEventHook: typeof import('@vueuse/core')['createEventHook']
   const createGlobalState: typeof import('@vueuse/core')['createGlobalState']
-  const createHash: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['createHash']
+  const createHash: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['createHash']
   const createInjectionState: typeof import('@vueuse/core')['createInjectionState']
   const createPinia: typeof import('pinia')['createPinia']
   const createReactiveFn: typeof import('@vueuse/core')['createReactiveFn']
   const createReusableTemplate: typeof import('@vueuse/core')['createReusableTemplate']
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createTemplatePromise: typeof import('@vueuse/core')['createTemplatePromise']
-  const createTupleHash: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['createTupleHash']
+  const createTupleHash: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['createTupleHash']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
-  const cshake128: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['cshake128']
-  const cshake256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['cshake256']
-  const ctr: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ctr']
-  const curve25519: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['curve25519']
-  const curve448: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['curve448']
+  const cshake128: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['cshake128']
+  const cshake256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['cshake256']
+  const ctr: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ctr']
+  const curve25519: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['curve25519']
+  const curve448: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['curve448']
   const customRef: typeof import('vue')['customRef']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
-  const des: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['des']
+  const des: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['des']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
-  const ecb: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ecb']
-  const eea3: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['eea3']
+  const ecb: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ecb']
+  const eea3: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['eea3']
   const effectScope: typeof import('vue')['effectScope']
-  const eia3: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['eia3']
+  const eia3: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['eia3']
   const extendRef: typeof import('@vueuse/core')['extendRef']
-  const gcm: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['gcm']
-  const genPrime: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['genPrime']
+  const gcm: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['gcm']
+  const genPrime: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['genPrime']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getBIBits: typeof import('./src/composables/utils')['getBIBits']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
-  const hkdf: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['hkdf']
-  const hmac: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['hmac']
+  const hkdf: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['hkdf']
+  const hmac: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['hmac']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDefined: typeof import('@vueuse/core')['isDefined']
+  const isProbablePrime: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['isProbablePrime']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
-  const joinBuffer: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['joinBuffer']
-  const keccak_p_1600: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['keccak_p_1600']
-  const kmac128: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kmac128']
-  const kmac128XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kmac128XOF']
-  const kmac256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kmac256']
-  const kmac256XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kmac256XOF']
-  const kt128: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kt128']
-  const kt256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kt256']
+  const joinBuffer: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['joinBuffer']
+  const keccak_p_1600: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['keccak_p_1600']
+  const kmac128: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kmac128']
+  const kmac128XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kmac128XOF']
+  const kmac256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kmac256']
+  const kmac256XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kmac256XOF']
+  const kt128: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kt128']
+  const kt256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kt256']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const mapActions: typeof import('pinia')['mapActions']
   const mapGetters: typeof import('pinia')['mapGetters']
@@ -110,11 +111,11 @@ declare global {
   const mapStores: typeof import('pinia')['mapStores']
   const mapWritableState: typeof import('pinia')['mapWritableState']
   const markRaw: typeof import('vue')['markRaw']
-  const md5: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['md5']
-  const mgf1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['mgf1']
+  const md5: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['md5']
+  const mgf1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['mgf1']
   const mima: typeof import('mima-kit')['mima']
   const nextTick: typeof import('vue')['nextTick']
-  const ofb: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ofb']
+  const ofb: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ofb']
   const onActivated: typeof import('vue')['onActivated']
   const onBeforeMount: typeof import('vue')['onBeforeMount']
   const onBeforeRouteLeave: typeof import('vue-router')['onBeforeRouteLeave']
@@ -135,27 +136,27 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
-  const p192: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p192']
-  const p224: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p224']
-  const p256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p256']
-  const p384: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p384']
-  const p521: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p521']
-  const parallelhash128: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['parallelhash128']
-  const parallelhash128XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['parallelhash128XOF']
-  const parallelhash256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['parallelhash256']
-  const parallelhash256XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['parallelhash256XOF']
+  const p192: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p192']
+  const p224: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p224']
+  const p256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p256']
+  const p384: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p384']
+  const p521: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p521']
+  const parallelhash128: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['parallelhash128']
+  const parallelhash128XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['parallelhash128XOF']
+  const parallelhash256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['parallelhash256']
+  const parallelhash256XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['parallelhash256XOF']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
-  const pbkdf2: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pbkdf2']
-  const pcbc: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pcbc']
-  const pkcs1_es_1_5: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pkcs1_es_1_5']
-  const pkcs1_es_oaep: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pkcs1_es_oaep']
-  const pkcs1_ssa_1_5: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pkcs1_ssa_1_5']
-  const pkcs1_ssa_pss: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pkcs1_ssa_pss']
-  const prime192v1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['prime192v1']
-  const prime256v1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['prime256v1']
+  const pbkdf2: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pbkdf2']
+  const pcbc: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pcbc']
+  const pkcs1_es_1_5: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pkcs1_es_1_5']
+  const pkcs1_es_oaep: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pkcs1_es_oaep']
+  const pkcs1_ssa_1_5: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pkcs1_ssa_1_5']
+  const pkcs1_ssa_pss: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pkcs1_ssa_pss']
+  const prime192v1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['prime192v1']
+  const prime256v1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['prime256v1']
   const provide: typeof import('vue')['provide']
   const provideLocal: typeof import('@vueuse/core')['provideLocal']
-  const rabbit: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['rabbit']
+  const rabbit: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['rabbit']
   const reactify: typeof import('@vueuse/core')['reactify']
   const reactifyObject: typeof import('@vueuse/core')['reactifyObject']
   const reactive: typeof import('vue')['reactive']
@@ -172,43 +173,43 @@ declare global {
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
-  const rsa: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['rsa']
-  const salsa20: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['salsa20']
-  const secp192k1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp192k1']
-  const secp192r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp192r1']
-  const secp224k1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp224k1']
-  const secp224r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp224r1']
-  const secp256k1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp256k1']
-  const secp256r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp256r1']
-  const secp384r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp384r1']
-  const secp521r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp521r1']
+  const rsa: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['rsa']
+  const salsa20: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['salsa20']
+  const secp192k1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp192k1']
+  const secp192r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp192r1']
+  const secp224k1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp224k1']
+  const secp224r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp224r1']
+  const secp256k1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp256k1']
+  const secp256r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp256r1']
+  const secp384r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp384r1']
+  const secp521r1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp521r1']
   const setActivePinia: typeof import('pinia')['setActivePinia']
   const setMapStoreSuffix: typeof import('pinia')['setMapStoreSuffix']
-  const sha1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha1']
-  const sha224: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha224']
-  const sha256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha256']
-  const sha384: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha384']
-  const sha3_224: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha3_224']
-  const sha3_256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha3_256']
-  const sha3_384: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha3_384']
-  const sha3_512: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha3_512']
-  const sha512: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha512']
-  const sha512t: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha512t']
-  const shake128: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['shake128']
-  const shake256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['shake256']
+  const sha1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha1']
+  const sha224: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha224']
+  const sha256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha256']
+  const sha384: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha384']
+  const sha3_224: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha3_224']
+  const sha3_256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha3_256']
+  const sha3_384: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha3_384']
+  const sha3_512: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha3_512']
+  const sha512: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha512']
+  const sha512t: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha512t']
+  const shake128: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['shake128']
+  const shake256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['shake256']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
-  const sm2: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sm2']
-  const sm2p256v1: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sm2p256v1']
-  const sm3: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sm3']
-  const sm4: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sm4']
-  const sponge_1600: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sponge_1600']
+  const sm2: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sm2']
+  const sm2p256v1: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sm2p256v1']
+  const sm3: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sm3']
+  const sm4: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sm4']
+  const sponge_1600: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sponge_1600']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const syncRef: typeof import('@vueuse/core')['syncRef']
   const syncRefs: typeof import('@vueuse/core')['syncRefs']
-  const t_des: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['t_des']
-  const tea: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tea']
+  const t_des: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['t_des']
+  const tea: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tea']
   const templateRef: typeof import('@vueuse/core')['templateRef']
   const themes: typeof import('./src/composables/utils')['themes']
   const throttledRef: typeof import('@vueuse/core')['throttledRef']
@@ -224,13 +225,13 @@ declare global {
   const tryOnMounted: typeof import('@vueuse/core')['tryOnMounted']
   const tryOnScopeDispose: typeof import('@vueuse/core')['tryOnScopeDispose']
   const tryOnUnmounted: typeof import('@vueuse/core')['tryOnUnmounted']
-  const tuplehash128: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tuplehash128']
-  const tuplehash128XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tuplehash128XOF']
-  const tuplehash256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tuplehash256']
-  const tuplehash256XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tuplehash256XOF']
-  const turboshake128: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['turboshake128']
-  const turboshake256: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['turboshake256']
-  const twofish: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['twofish']
+  const tuplehash128: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tuplehash128']
+  const tuplehash128XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tuplehash128XOF']
+  const tuplehash256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tuplehash256']
+  const tuplehash256XOF: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tuplehash256XOF']
+  const turboshake128: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['turboshake128']
+  const turboshake256: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['turboshake256']
+  const twofish: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['twofish']
   const unref: typeof import('vue')['unref']
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
   const until: typeof import('@vueuse/core')['until']
@@ -400,8 +401,8 @@ declare global {
   const useWindowFocus: typeof import('@vueuse/core')['useWindowFocus']
   const useWindowScroll: typeof import('@vueuse/core')['useWindowScroll']
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
-  const w25519: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['w25519']
-  const w448: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['w448']
+  const w25519: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['w25519']
+  const w448: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['w448']
   const watch: typeof import('vue')['watch']
   const watchArray: typeof import('@vueuse/core')['watchArray']
   const watchAtMost: typeof import('@vueuse/core')['watchAtMost']
@@ -418,11 +419,12 @@ declare global {
   const watchTriggerable: typeof import('@vueuse/core')['watchTriggerable']
   const watchWithFilter: typeof import('@vueuse/core')['watchWithFilter']
   const whenever: typeof import('@vueuse/core')['whenever']
-  const x25519: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['x25519']
-  const x448: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['x448']
-  const x963kdf: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['x963kdf']
-  const xtea: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['xtea']
-  const zuc: typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['zuc']
+  const x25519: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['x25519']
+  const x448: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['x448']
+  const x963kdf: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['x963kdf']
+  const xtea: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['xtea']
+  const xxtea: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['xxtea']
+  const zuc: typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['zuc']
 }
 // for type re-export
 declare global {
@@ -443,39 +445,39 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly $notify: UnwrapRef<typeof import('./src/composables/notify')['$notify']>
-    readonly B64: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['B64']>
-    readonly B64URL: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['B64URL']>
-    readonly CSV: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['CSV']>
+    readonly B64: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['B64']>
+    readonly B64URL: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['B64URL']>
+    readonly CSV: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['CSV']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly FpECC: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['FpECC']>
-    readonly HEX: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['HEX']>
-    readonly ISO7816_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ISO7816_PAD']>
-    readonly NO_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['NO_PAD']>
-    readonly PKCS7_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['PKCS7_PAD']>
-    readonly U8: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['U8']>
+    readonly FpECC: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['FpECC']>
+    readonly HEX: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['HEX']>
+    readonly ISO7816_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ISO7816_PAD']>
+    readonly NO_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['NO_PAD']>
+    readonly PKCS7_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['PKCS7_PAD']>
+    readonly U8: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['U8']>
     readonly U8Point: UnwrapRef<typeof import('./src/composables/utils')['U8Point']>
-    readonly UTF8: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['UTF8']>
-    readonly X923_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['X923_PAD']>
-    readonly ZERO_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ZERO_PAD']>
+    readonly UTF8: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['UTF8']>
+    readonly X923_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['X923_PAD']>
+    readonly ZERO_PAD: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ZERO_PAD']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
-    readonly aes: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['aes']>
-    readonly arc4: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['arc4']>
-    readonly arc5: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['arc5']>
-    readonly aria: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['aria']>
+    readonly aes: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['aes']>
+    readonly arc4: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['arc4']>
+    readonly arc5: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['arc5']>
+    readonly aria: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['aria']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
-    readonly blowfish: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['blowfish']>
-    readonly bp192r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp192r1']>
-    readonly bp224r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp224r1']>
-    readonly bp256r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp256r1']>
-    readonly bp320r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp320r1']>
-    readonly bp384r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp384r1']>
-    readonly bp512r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['bp512r1']>
-    readonly camellia: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['camellia']>
+    readonly blowfish: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['blowfish']>
+    readonly bp192r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp192r1']>
+    readonly bp224r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp224r1']>
+    readonly bp256r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp256r1']>
+    readonly bp320r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp320r1']>
+    readonly bp384r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp384r1']>
+    readonly bp512r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['bp512r1']>
+    readonly camellia: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['camellia']>
     readonly catchNotify: UnwrapRef<typeof import('./src/composables/notify')['catchNotify']>
     readonly catchNotifySync: UnwrapRef<typeof import('./src/composables/notify')['catchNotifySync']>
-    readonly cbc: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['cbc']>
-    readonly cfb: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['cfb']>
+    readonly cbc: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['cbc']>
+    readonly cfb: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['cfb']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
     readonly computedEager: UnwrapRef<typeof import('@vueuse/core')['computedEager']>
@@ -484,61 +486,62 @@ declare module 'vue' {
     readonly controlledComputed: UnwrapRef<typeof import('@vueuse/core')['controlledComputed']>
     readonly controlledRef: UnwrapRef<typeof import('@vueuse/core')['controlledRef']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
-    readonly createCipher: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['createCipher']>
+    readonly createCipher: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['createCipher']>
     readonly createEventHook: UnwrapRef<typeof import('@vueuse/core')['createEventHook']>
     readonly createGlobalState: UnwrapRef<typeof import('@vueuse/core')['createGlobalState']>
-    readonly createHash: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['createHash']>
+    readonly createHash: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['createHash']>
     readonly createInjectionState: UnwrapRef<typeof import('@vueuse/core')['createInjectionState']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly createReactiveFn: UnwrapRef<typeof import('@vueuse/core')['createReactiveFn']>
     readonly createReusableTemplate: UnwrapRef<typeof import('@vueuse/core')['createReusableTemplate']>
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
-    readonly createTupleHash: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['createTupleHash']>
+    readonly createTupleHash: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['createTupleHash']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
-    readonly cshake128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['cshake128']>
-    readonly cshake256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['cshake256']>
-    readonly ctr: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ctr']>
-    readonly curve25519: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['curve25519']>
-    readonly curve448: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['curve448']>
+    readonly cshake128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['cshake128']>
+    readonly cshake256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['cshake256']>
+    readonly ctr: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ctr']>
+    readonly curve25519: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['curve25519']>
+    readonly curve448: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['curve448']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
-    readonly des: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['des']>
+    readonly des: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['des']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
-    readonly ecb: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ecb']>
-    readonly eea3: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['eea3']>
+    readonly ecb: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ecb']>
+    readonly eea3: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['eea3']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
-    readonly eia3: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['eia3']>
+    readonly eia3: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['eia3']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
-    readonly gcm: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['gcm']>
-    readonly genPrime: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['genPrime']>
+    readonly gcm: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['gcm']>
+    readonly genPrime: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['genPrime']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getBIBits: UnwrapRef<typeof import('./src/composables/utils')['getBIBits']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
-    readonly hkdf: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['hkdf']>
-    readonly hmac: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['hmac']>
+    readonly hkdf: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['hkdf']>
+    readonly hmac: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['hmac']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isProbablePrime: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['isProbablePrime']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
-    readonly joinBuffer: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['joinBuffer']>
-    readonly keccak_p_1600: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['keccak_p_1600']>
-    readonly kmac128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kmac128']>
-    readonly kmac128XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kmac128XOF']>
-    readonly kmac256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kmac256']>
-    readonly kmac256XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kmac256XOF']>
-    readonly kt128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kt128']>
-    readonly kt256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['kt256']>
+    readonly joinBuffer: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['joinBuffer']>
+    readonly keccak_p_1600: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['keccak_p_1600']>
+    readonly kmac128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kmac128']>
+    readonly kmac128XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kmac128XOF']>
+    readonly kmac256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kmac256']>
+    readonly kmac256XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kmac256XOF']>
+    readonly kt128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kt128']>
+    readonly kt256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['kt256']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
     readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
@@ -546,10 +549,10 @@ declare module 'vue' {
     readonly mapStores: UnwrapRef<typeof import('pinia')['mapStores']>
     readonly mapWritableState: UnwrapRef<typeof import('pinia')['mapWritableState']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
-    readonly md5: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['md5']>
-    readonly mgf1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['mgf1']>
+    readonly md5: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['md5']>
+    readonly mgf1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['mgf1']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
-    readonly ofb: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['ofb']>
+    readonly ofb: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['ofb']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
     readonly onBeforeRouteLeave: UnwrapRef<typeof import('vue-router')['onBeforeRouteLeave']>
@@ -570,27 +573,27 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
-    readonly p192: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p192']>
-    readonly p224: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p224']>
-    readonly p256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p256']>
-    readonly p384: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p384']>
-    readonly p521: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['p521']>
-    readonly parallelhash128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['parallelhash128']>
-    readonly parallelhash128XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['parallelhash128XOF']>
-    readonly parallelhash256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['parallelhash256']>
-    readonly parallelhash256XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['parallelhash256XOF']>
+    readonly p192: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p192']>
+    readonly p224: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p224']>
+    readonly p256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p256']>
+    readonly p384: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p384']>
+    readonly p521: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['p521']>
+    readonly parallelhash128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['parallelhash128']>
+    readonly parallelhash128XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['parallelhash128XOF']>
+    readonly parallelhash256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['parallelhash256']>
+    readonly parallelhash256XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['parallelhash256XOF']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
-    readonly pbkdf2: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pbkdf2']>
-    readonly pcbc: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pcbc']>
-    readonly pkcs1_es_1_5: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pkcs1_es_1_5']>
-    readonly pkcs1_es_oaep: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pkcs1_es_oaep']>
-    readonly pkcs1_ssa_1_5: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pkcs1_ssa_1_5']>
-    readonly pkcs1_ssa_pss: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['pkcs1_ssa_pss']>
-    readonly prime192v1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['prime192v1']>
-    readonly prime256v1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['prime256v1']>
+    readonly pbkdf2: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pbkdf2']>
+    readonly pcbc: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pcbc']>
+    readonly pkcs1_es_1_5: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pkcs1_es_1_5']>
+    readonly pkcs1_es_oaep: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pkcs1_es_oaep']>
+    readonly pkcs1_ssa_1_5: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pkcs1_ssa_1_5']>
+    readonly pkcs1_ssa_pss: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['pkcs1_ssa_pss']>
+    readonly prime192v1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['prime192v1']>
+    readonly prime256v1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['prime256v1']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
-    readonly rabbit: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['rabbit']>
+    readonly rabbit: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['rabbit']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -607,43 +610,43 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
-    readonly rsa: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['rsa']>
-    readonly salsa20: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['salsa20']>
-    readonly secp192k1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp192k1']>
-    readonly secp192r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp192r1']>
-    readonly secp224k1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp224k1']>
-    readonly secp224r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp224r1']>
-    readonly secp256k1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp256k1']>
-    readonly secp256r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp256r1']>
-    readonly secp384r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp384r1']>
-    readonly secp521r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['secp521r1']>
+    readonly rsa: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['rsa']>
+    readonly salsa20: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['salsa20']>
+    readonly secp192k1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp192k1']>
+    readonly secp192r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp192r1']>
+    readonly secp224k1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp224k1']>
+    readonly secp224r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp224r1']>
+    readonly secp256k1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp256k1']>
+    readonly secp256r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp256r1']>
+    readonly secp384r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp384r1']>
+    readonly secp521r1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['secp521r1']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
     readonly setMapStoreSuffix: UnwrapRef<typeof import('pinia')['setMapStoreSuffix']>
-    readonly sha1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha1']>
-    readonly sha224: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha224']>
-    readonly sha256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha256']>
-    readonly sha384: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha384']>
-    readonly sha3_224: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha3_224']>
-    readonly sha3_256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha3_256']>
-    readonly sha3_384: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha3_384']>
-    readonly sha3_512: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha3_512']>
-    readonly sha512: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha512']>
-    readonly sha512t: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sha512t']>
-    readonly shake128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['shake128']>
-    readonly shake256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['shake256']>
+    readonly sha1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha1']>
+    readonly sha224: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha224']>
+    readonly sha256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha256']>
+    readonly sha384: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha384']>
+    readonly sha3_224: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha3_224']>
+    readonly sha3_256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha3_256']>
+    readonly sha3_384: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha3_384']>
+    readonly sha3_512: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha3_512']>
+    readonly sha512: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha512']>
+    readonly sha512t: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sha512t']>
+    readonly shake128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['shake128']>
+    readonly shake256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['shake256']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
-    readonly sm2: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sm2']>
-    readonly sm2p256v1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sm2p256v1']>
-    readonly sm3: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sm3']>
-    readonly sm4: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sm4']>
-    readonly sponge_1600: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['sponge_1600']>
+    readonly sm2: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sm2']>
+    readonly sm2p256v1: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sm2p256v1']>
+    readonly sm3: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sm3']>
+    readonly sm4: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sm4']>
+    readonly sponge_1600: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['sponge_1600']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
-    readonly t_des: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['t_des']>
-    readonly tea: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tea']>
+    readonly t_des: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['t_des']>
+    readonly tea: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tea']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly themes: UnwrapRef<typeof import('./src/composables/utils')['themes']>
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>
@@ -659,13 +662,13 @@ declare module 'vue' {
     readonly tryOnMounted: UnwrapRef<typeof import('@vueuse/core')['tryOnMounted']>
     readonly tryOnScopeDispose: UnwrapRef<typeof import('@vueuse/core')['tryOnScopeDispose']>
     readonly tryOnUnmounted: UnwrapRef<typeof import('@vueuse/core')['tryOnUnmounted']>
-    readonly tuplehash128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tuplehash128']>
-    readonly tuplehash128XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tuplehash128XOF']>
-    readonly tuplehash256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tuplehash256']>
-    readonly tuplehash256XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['tuplehash256XOF']>
-    readonly turboshake128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['turboshake128']>
-    readonly turboshake256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['turboshake256']>
-    readonly twofish: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['twofish']>
+    readonly tuplehash128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tuplehash128']>
+    readonly tuplehash128XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tuplehash128XOF']>
+    readonly tuplehash256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tuplehash256']>
+    readonly tuplehash256XOF: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['tuplehash256XOF']>
+    readonly turboshake128: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['turboshake128']>
+    readonly turboshake256: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['turboshake256']>
+    readonly twofish: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['twofish']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
@@ -835,8 +838,8 @@ declare module 'vue' {
     readonly useWindowFocus: UnwrapRef<typeof import('@vueuse/core')['useWindowFocus']>
     readonly useWindowScroll: UnwrapRef<typeof import('@vueuse/core')['useWindowScroll']>
     readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>
-    readonly w25519: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['w25519']>
-    readonly w448: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['w448']>
+    readonly w25519: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['w25519']>
+    readonly w448: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['w448']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchArray: UnwrapRef<typeof import('@vueuse/core')['watchArray']>
     readonly watchAtMost: UnwrapRef<typeof import('@vueuse/core')['watchAtMost']>
@@ -853,10 +856,11 @@ declare module 'vue' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
-    readonly x25519: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['x25519']>
-    readonly x448: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['x448']>
-    readonly x963kdf: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['x963kdf']>
-    readonly xtea: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['xtea']>
-    readonly zuc: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.13/node_modules/mima-kit/dist/index.mjs')['zuc']>
+    readonly x25519: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['x25519']>
+    readonly x448: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['x448']>
+    readonly x963kdf: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['x963kdf']>
+    readonly xtea: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['xtea']>
+    readonly xxtea: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['xxtea']>
+    readonly zuc: UnwrapRef<typeof import('./node_modules/.pnpm/mima-kit@0.0.16/node_modules/mima-kit/dist/index.mjs')['zuc']>
   }
 }

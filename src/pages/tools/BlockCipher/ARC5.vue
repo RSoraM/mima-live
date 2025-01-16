@@ -3,7 +3,7 @@ defineOptions({ name: 'ARC5' });
 
 const b = ref<8 | 16 | 32 | 64 | 128>(64);
 const r = ref(20);
-const alg = computed(catchNotifySync(() => arc5(b.value, r.value)));
+const alg = computed(() => arc5(b.value, r.value));
 const variant_options: SelectOption[] = [
   { label: '8', value: 8 },
   { label: '16', value: 16 },

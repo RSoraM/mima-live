@@ -9,7 +9,7 @@ const variant_options: SelectOption[] = [
   { label: 'TurboSHAKE-256', value: 'TurboSHAKE-256' },
 ];
 watchImmediate(variant, () => t.value = variant.value === 'TurboSHAKE-128' ? 256 : 512);
-const hash = computed(catchNotifySync(() => {
+const hash = computed(() => {
   switch (variant.value) {
     case 'TurboSHAKE-128':
       return turboshake128(t.value, d.value);
@@ -18,7 +18,7 @@ const hash = computed(catchNotifySync(() => {
     default:
       return undefined;
   }
-}));
+});
 
 const I = ref(UTF8('mima-kit'));
 const O = ref(new U8());

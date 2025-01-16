@@ -2,7 +2,7 @@
 defineOptions({ name: 'ARIA' });
 
 const b = ref<128 | 192 | 256>(128);
-const alg = computed(catchNotifySync(() => aria(b.value)));
+const alg = computed(() => aria(b.value));
 const variant_options: SelectOption[] = [
   { label: '128', value: 128 },
   { label: '192', value: 192 },

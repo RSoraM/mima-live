@@ -26,6 +26,9 @@ const model = defineModel<string | number>();
     :title="title"
     :title-suffix="titleSuffix"
   >
+    <template #title>
+      <slot name="title" />
+    </template>
     <input
       v-model="model" :type="type" :step="step"
       class="input input-bordered text-xs"
