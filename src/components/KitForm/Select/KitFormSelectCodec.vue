@@ -7,6 +7,9 @@ const {
     { label: 'HEX', value: HEX.FORMAT },
     { label: 'B64', value: B64.FORMAT },
     { label: 'B64URL', value: B64URL.FORMAT },
+    { label: 'B32', value: B32.FORMAT },
+    { label: 'B32HEX', value: 'B32HEX' },
+    { label: 'B32Crockford', value: 'B32Crockford' },
     { label: 'CSV', value: CSV.FORMAT },
   ],
   titlePrefix = '',
@@ -35,6 +38,15 @@ const format = computed({
       case B64URL.FORMAT:
         codec.value = B64URL;
         return;
+      case B32.FORMAT:
+        codec.value = B32;
+        return;
+      case 'B32HEX':
+        codec.value = B32({ variant: 'rfc4648-hex' });
+        return;
+      case 'B32Crockford':
+        codec.value = B32({ variant: 'crockford' });
+        return;
       case CSV.FORMAT:
         codec.value = CSV;
         return;
@@ -46,11 +58,6 @@ const format = computed({
 </script>
 
 <template>
-  <KitFormSelect
-    v-model="format"
-    :options="codec_options"
-    :title-prefix="titlePrefix"
-    :title="title"
-    :title-suffix="titleSuffix"
-  />
+  <KitFormSelect v-model="format" :options="codec_options" :title-prefix="titlePrefix" :title="title"
+    :title-suffix="titleSuffix" />
 </template>

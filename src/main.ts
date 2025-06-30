@@ -61,6 +61,7 @@ const routes = [
           { name: 'KangarooTwelve', path: 'KangarooTwelve', component: () => import('./pages/tools/Hash/K12.vue') },
           { name: 'KMAC', path: 'KMAC', component: () => import('./pages/tools/Hash/KMAC.vue') },
           { name: 'HMAC', path: 'HMAC', component: () => import('./pages/tools/Hash/HMAC.vue') },
+          { name: 'TOTP', path: 'TOTP', component: () => import('./pages/tools/Hash/TOTP.vue') },
         ],
       },
       {

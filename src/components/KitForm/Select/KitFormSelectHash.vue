@@ -39,8 +39,8 @@ const {
   titleSuffix?: string;
   open?: boolean;
 }>();
-const alg = ref(sm3.ALGORITHM);
 const hash = defineModel<typeof sha256>({ required: true });
+const alg = ref(hash.value.ALGORITHM);
 
 // DIGEST SIZE
 const t = ref(256);
