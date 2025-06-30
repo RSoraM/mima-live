@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      mima-kit:
+        specifier: ^0.0.17
+        version: 0.0.17
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.6.2)
@@ -57,9 +60,6 @@ importers:
       eslint-plugin-tailwindcss:
         specifier: ^3.17.5
         version: 3.17.5(tailwindcss@3.4.17)
-      mima-kit:
-        specifier: ^0.0.16
-        version: 0.0.16
       pinia:
         specifier: ^2.3.0
         version: 2.3.0(typescript@5.6.2)(vue@3.5.13(typescript@5.6.2))
@@ -1789,8 +1789,8 @@ packages:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
 
-  mima-kit@0.0.16:
-    resolution: {integrity: sha512-15Rf29UOG8c9xlVgqziURDh9LEaSPIDbKmD33CwUYF+7Q7Q0FWn4wiV9GZ5RiMVdVaPDd+dlen3i6Johv6wKAA==}
+  mima-kit@0.0.17:
+    resolution: {integrity: sha512-3r/+s2CnITPHOKt88pi+WzY5MaTRD+Vf9RsIqU3lXdNRjfXLf2PTVkICSfkP5hV7LJfhXKuNloXWd10RqMFcXg==}
 
   mimic-fn@4.0.0:
     resolution: {integrity: sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==}
@@ -4484,7 +4484,7 @@ snapshots:
       braces: 3.0.3
       picomatch: 2.3.1
 
-  mima-kit@0.0.16: {}
+  mima-kit@0.0.17: {}
 
   mimic-fn@4.0.0: {}
 
