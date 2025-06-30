@@ -7,22 +7,22 @@ const mac = computed(() => hmac(hash.value));
 const K = ref(UTF8('mima-kit'));
 const OTP = ref('');
 
-const Es = ref(0)
+const Es = ref(0);
 
 const T = useTimestamp({ interval: 100 });
 const Ts = computed(() => Math.floor(T.value / 1000));
 const using_CTs = ref(false);
-const CTs = ref(0)
+const CTs = ref(0);
 
-const Xs = ref(30)
-const d = ref(6)
+const Xs = ref(30);
+const d = ref(6);
 
 const CDs = computed(() => {
   const t = using_CTs.value
     ? CTs.value - Es.value
-    : Ts.value - Es.value
+    : Ts.value - Es.value;
   return Xs.value - (t % Xs.value);
-})
+});
 
 watchEffect(() => {
   OTP.value = totp({
@@ -31,10 +31,8 @@ watchEffect(() => {
     epoch: Es.value,
     step: Xs.value,
     digits: d.value,
-  })(K.value)
-})
-
-onMounted(() => hash.value = sha1); // Default to SHA-1 for TOTP
+  })(K.value);
+});
 </script>
 
 <template>
@@ -50,7 +48,7 @@ onMounted(() => hash.value = sha1); // Default to SHA-1 for TOTP
           </label>
         </div>
         <template v-if="using_CTs">
-          <KitFormNumber v-model="CTs" title="Custom Timestamp (s)" :min="0" v-if="using_CTs" />
+          <KitFormNumber v-model="CTs" title="Custom Timestamp (s)" :min="0" />
         </template>
         <br>
         <KitFormNumber v-model="Xs" title="Time Step (s)" :min="1" />
@@ -75,8 +73,7 @@ onMounted(() => hash.value = sha1); // Default to SHA-1 for TOTP
     </template>
     <template #stat>
       <KitStat title="Specification">
-        <KitRefLink :texts="['RFC 6238']" icon="icon-[carbon--txt-reference]"
-          href="https://www.rfc-editor.org/rfc/rfc6238.txt" />
+        <KitRefLink :texts="['RFC 6238']" icon="icon-[carbon--txt-reference]" href="https://www.rfc-editor.org/rfc/rfc6238.txt" />
       </KitStat>
       <KitStat title="First published">
         2011
